@@ -1,0 +1,36 @@
+.checkbox { /* hiding of the default checkbox */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.label {
+    padding-left: 20px;
+}
+
+.checkBoxSpan {
+    position: absolute;
+    margin-left: -20px;
+    margin-top: 2px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid black;
+}
+
+/* Checked */
+
+.checkbox:checked + .checkBoxSpan:before {
+    content: '\2714';
+    color: #098a1d;
+    position: absolute;
+    top: -3px;
+    left: 2px;
+}
+
+.spanClassName {
+    color: #163f8a;
+    text-shadow: 1px 0 1px #ffffff;
+    font-weight: 500;
+    padding-left: 5px;
+    cursor: pointer;
+}
