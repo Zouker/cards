@@ -7,6 +7,7 @@ import {recoverPasswordReducer} from './reducers/recover-password-reducer';
 import {enterNewPasswordReducer} from './reducers/enter-new-password-reducer';
 import {testReducer} from './reducers/test-reducer';
 import {loginReducer} from "./reducers/login-reducer";
+import {isLoaderReducer} from "./reducers/loader-reducer";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     error404: error404Reducer,
     recoverPassword: recoverPasswordReducer,
     enterNewPassword: enterNewPasswordReducer,
-    test: testReducer
+    test: testReducer,
+    isLoader:isLoaderReducer,
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
