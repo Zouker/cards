@@ -7,10 +7,14 @@ import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useDispatch, useSelector} from "react-redux";
+import {Navigate} from "react-router-dom";
 import {AppRootStateType} from "../../n1-main/m2-bll/store";
 import {useFormik} from "formik";
 import s from './Login.module.css'
-import {Card, Paper} from "@mui/material";
+import { Paper} from "@mui/material";
+import {loginTC} from "../../n1-main/m2-bll/reducers/login-reducer";
+import {AnyAction} from "redux";
+
 type FormikErrorType = {
     email?: string
     password?: string
@@ -18,8 +22,8 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
-    // const dispatch=useDispatch();
-    // const isLogin=useSelector<AppRootStateType,boolean>(state => state.login.isLogin);
+    const dispatch=useDispatch();
+    const isLogin=useSelector<AppRootStateType,boolean>(state => state.login.isLogin);
     const validate = (values:any) => {
         const errors: FormikErrorType= {};
 
@@ -30,8 +34,8 @@ export const Login = () => {
         }
         if (!values.password) {
             errors.password = 'Required';
-        } else if (values.password.length <=3) {
-            errors.password = 'symbol of password should > 3';
+        } else if (values.password.length <=7) {
+            errors.password = 'symbol of password should > 7';
         }
 
         return errors;
@@ -44,17 +48,17 @@ export const Login = () => {
             rememberMe: false
         },
         validate,
-        //@ts-ignore
         onSubmit: values => {
-             alert(JSON.stringify(values)); //это для теста что все работает)
-            // dispatch(loginTC(values));
+            // alert(JSON.stringify(values)); //это для теста что все работает)
+            //@ts-ignore
+            dispatch(loginTC(values));
             formik.resetForm();
         },
 
     })
-    // if (isLogin){ //если тру-то сделай редирект на страницу с тодолистами
-    //     return <Navigate to ={'/'}/>
-    // }
+    if (isLogin){
+        return <Navigate to ={'/profile'}/>
+    }
 
 
     return <Grid container justifyContent={'center'}>

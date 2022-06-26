@@ -6,7 +6,7 @@ import {profileReducer} from './reducers/profile-reducer';
 import {recoverPasswordReducer} from './reducers/recover-password-reducer';
 import {enterNewPasswordReducer} from './reducers/enter-new-password-reducer';
 import {testReducer} from './reducers/test-reducer';
-import {loginReducer} from "./reducers/login-reducer";
+import { loginReducer} from "./reducers/login-reducer";
 import {isLoaderReducer} from "./reducers/loader-reducer";
 
 const rootReducer = combineReducers({

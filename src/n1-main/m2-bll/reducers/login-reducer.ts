@@ -1,3 +1,6 @@
+import {DataLoginType, loginApi} from "../../m3-dal/authAPI";
+import {Dispatch} from "redux";
+import {isLoaderAC} from "./loader-reducer";
 
 
 const initialState = {
@@ -5,7 +8,7 @@ const initialState = {
 }
 type InitialStateType = typeof initialState
 
-export const loginReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+export const loginReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLogin: action.value}
@@ -17,49 +20,28 @@ export const loginReducer = (state: InitialStateType = initialState, action: any
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
+
+type ActionType = ReturnType<typeof isLoaderAC>
+    | ReturnType<typeof setIsLoggedInAC>
+
+
 // thunks
-// export const loginTC = (data:LoginParamsType) => {
-//     return (dispatch: Dispatch) => {
-//         dispatch(setAppStatusAC('loading')) //крутилка вкл
-//         authAPI.login(data)
-//             .then((res) => {
-//                 if (res.data.resultCode === 0) {
-//                     dispatch(setAppStatusAC('failed')) //крутилка выкл
-//                     dispatch(setIsLoggedInAC(true));
-//                 } else {
-//                     dispatch(setAppStatusAC('failed'))
-//                     dispatch(errorAppMessageAC(res.data.messages[0])); //достаем из массива сообщение об ошибке
-//                 }
-//             })
-//             .catch((err: AxiosError) => {
-//                 handleServerNetworkError(err, dispatch)
-//             })
-//     };
-// }
-//
-// export const logautTC = () => {  //санка вылогинивания
-//     return (dispatch: Dispatch) => {
-//         dispatch(setAppStatusAC('loading')) //крутилка вкл
-//         authAPI.logaut()
-//             .then((res) => {
-//                 if (res.data.resultCode === 0) {
-//                     dispatch(setAppStatusAC('failed')) //крутилка выкл
-//                     dispatch(setIsLoggedInAC(false));
-//                 } else {
-//                     dispatch(setAppStatusAC('failed'))
-//                     dispatch(errorAppMessageAC(res.data.messages[0])); //достаем из массива сообщение об ошибке
-//                 }
-//             })
-//             .catch((err: AxiosError) => {
-//                 handleServerNetworkError(err, dispatch)
-//             })
-//     };
-// }
-//
-//
-// // types
-// type ActionsType
-// ReturnType<typeof setIsLoggedInAC>
-//     | ReturnType<typeof setAppStatusAC> //крутилка
-//     | ReturnType<typeof errorAppMessageAC> //ошибка
-//
+export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
+    dispatch(isLoaderAC(true)) //крутилка вкл
+    loginApi.postLogin(data).then(data=>{
+        debugger
+        dispatch(isLoaderAC(false)) //крутилка выкл
+        alert('login');
+     })
+        .catch((err) => {
+            // handleServerNetworkError(err, dispatch)
+            alert(err);
+        })
+}
+
+
+
+
+
+
+
