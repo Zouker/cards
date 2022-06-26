@@ -8,7 +8,6 @@ import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from
 import {useSelector} from 'react-redux';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 
-
 export const Register = () => {
     const dispatch = useAppDispatch()
     const isRegistered = useSelector<AppRootStateType, boolean>(state => state.register.isRegistered)
@@ -45,15 +44,27 @@ export const Register = () => {
     })
 
 
-    const [values, setValues] = React.useState<State>({
+    const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
         password: '',
         showPassword: false,
     });
 
+    const [valuesConfirmPassword, setValuesConfirmPassword] = React.useState<StateConfirmPassword>({
+        confirmPassword: '',
+        showConfirmPassword: false,
+    });
+
     const handleClickShowPassword = () => {
-        setValues({
-            ...values,
-            showPassword: !values.showPassword,
+        setValuesPassword({
+            ...valuesPassword,
+            showPassword: !valuesPassword.showPassword,
+        });
+    };
+
+    const handleClickShowConfirmPassword = () => {
+        setValuesConfirmPassword({
+            ...valuesConfirmPassword,
+            showConfirmPassword: !valuesConfirmPassword.showConfirmPassword,
         });
     };
 
@@ -67,7 +78,7 @@ export const Register = () => {
 
     return (
         <div className={styles.wrapper}>
-            <form className={styles.register} onSubmit={formik.handleSubmit}>
+            <form className={styles.form} onSubmit={formik.handleSubmit}>
                 <div className={styles.title}>Sign Up</div>
                 <FormControl variant="standard">
                     <InputLabel htmlFor="component-simple">Email</InputLabel>
@@ -89,7 +100,7 @@ export const Register = () => {
                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                     <Input
                         id="password"
-                        type={values.showPassword ? 'text' : 'password'}
+                        type={valuesPassword.showPassword ? 'text' : 'password'}
                         name="password"
                         placeholder={'Password'}
                         onChange={formik.handleChange}
@@ -103,7 +114,7 @@ export const Register = () => {
                                     onClick={handleClickShowPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
-                                    {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                    {valuesPassword.showPassword ? <VisibilityOff/> : <Visibility/>}
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -116,7 +127,7 @@ export const Register = () => {
                     <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
                     <Input
                         id="confirmPassword"
-                        type={values.showPassword ? 'text' : 'password'}
+                        type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
                         name="confirmPassword"
                         placeholder={'Confirm password'}
                         onChange={formik.handleChange}
@@ -128,10 +139,10 @@ export const Register = () => {
                             <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={handleClickShowConfirmPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
-                                    {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                    {valuesConfirmPassword.showConfirmPassword ? <VisibilityOff/> : <Visibility/>}
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -141,7 +152,7 @@ export const Register = () => {
                     <div style={{color: 'red'}}>{formik.errors.confirmPassword}</div>}
                 <Button variant={'contained'} type="submit">Register</Button>
                 Already have an account?
-                <Link to={'login'}>Sign In</Link>
+                <Link to={'/login'}>Sign In</Link>
             </form>
         </div>
     );
@@ -155,7 +166,12 @@ type FormikErrorType = {
     confirmPassword?: string
 }
 
-type State = {
+type StatePassword = {
     password: string;
     showPassword: boolean;
+}
+
+type StateConfirmPassword = {
+    confirmPassword: string;
+    showConfirmPassword: boolean;
 }
