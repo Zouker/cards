@@ -1,4 +1,4 @@
-import {AppDispatch} from '../store';
+import {AppDispatch, AppThunk} from '../store';
 import {recoverAPI} from '../../m3-dal/recoverAPI';
 
 const initialState: InitialStateType = {
@@ -17,8 +17,8 @@ export const recoverPasswordReducer = (state: InitialStateType = initialState, a
     }
 }
 
-// thunk
-export const recoverTC = (email: string) => {
+// thunks
+export const recoverTC = (email: string): AppThunk => {
     return (dispatch: AppDispatch) => {
         recoverAPI.sendEmail(email)
             .then((res) => {
