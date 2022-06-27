@@ -8,7 +8,7 @@ export const Pages = () => {
             <Route path={'/'} element={<div>Main</div>}></Route>
             <Route path={'/login'} element={<div>Login</div>}></Route>
             <Route path={'/register'} element={<div>Register</div>}></Route>
-            <Route path={'/profile'} element={<div>Profile</div>}></Route>
+            <Route path={'/profile'} element={<div>Profile</div>}></Route> <Route path={'/profile1'} element={<div>Profile</div>}></Route>
             <Route path={'/error404'} element={<div>Error404</div>}></Route>
             <Route path={'/recoverPassword'} element={<div>Recover Password</div>}></Route>
             <Route path={'/enterNewPassword'} element={<div>Enter New Password</div>}></Route>
