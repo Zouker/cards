@@ -5,9 +5,9 @@ import {registerReducer} from './reducers/register-reducer';
 import {error404Reducer} from './reducers/error404-reducer';
 import {profileReducer} from './reducers/profile-reducer';
 import {recoverPasswordReducer} from './reducers/recover-password-reducer';
-import {enterNewPasswordReducer} from './reducers/enter-new-password-reducer';
+import {setNewPasswordReducer} from './reducers/set-new-password-reducer';
 import {testReducer} from './reducers/test-reducer';
-import {useDispatch} from 'react-redux';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     error404: error404Reducer,
     recoverPassword: recoverPasswordReducer,
-    enterNewPassword: enterNewPasswordReducer,
+    setNewPassword: setNewPasswordReducer,
     test: testReducer,
 })
 
@@ -28,3 +28,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateTy
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
+
+// @ts-ignore
+window.store = store;

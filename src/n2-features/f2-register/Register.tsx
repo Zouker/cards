@@ -2,15 +2,14 @@ import React from 'react';
 import styles from './Register.module.css'
 import {Link, Navigate} from 'react-router-dom';
 import {registerTC} from '../../n1-main/m2-bll/reducers/register-reducer';
-import {AppRootStateType, useAppDispatch} from '../../n1-main/m2-bll/store';
+import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {useFormik} from 'formik';
 import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
-import {useSelector} from 'react-redux';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 export const Register = () => {
     const dispatch = useAppDispatch()
-    const isRegistered = useSelector<AppRootStateType, boolean>(state => state.register.isRegistered)
+    const isRegistered = useAppSelector(state => state.register.isRegistered)
 
     const formik = useFormik({
         initialValues: {
@@ -42,7 +41,6 @@ export const Register = () => {
             formik.resetForm()
         },
     })
-
 
     const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
         password: '',
@@ -159,7 +157,6 @@ export const Register = () => {
 };
 
 // types
-
 type FormikErrorType = {
     email?: string
     password?: string
