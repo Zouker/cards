@@ -18,7 +18,6 @@ export const recoverPasswordReducer = (state: InitialStateType = initialState, a
 }
 
 // thunk
-
 export const recoverTC = (email: string) => {
     return (dispatch: AppDispatch) => {
         recoverAPI.sendEmail(email)
@@ -26,18 +25,18 @@ export const recoverTC = (email: string) => {
                 dispatch(recoverAC(res.data.info))
             })
             .catch((error) => {
-                dispatch(setErrorAC(error))
+                if (error.response) {
+                    dispatch(setErrorAC(error.response.data.error))
+                }
             })
     }
 }
 
 // actions
-
 export const recoverAC = (info: string) => ({type: 'CONFIRM-STATUS', info} as const)
 export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
 
 // types
-
 type ActionsType = ReturnType<typeof recoverAC> | ReturnType<typeof setErrorAC>
 
 type InitialStateType = {
