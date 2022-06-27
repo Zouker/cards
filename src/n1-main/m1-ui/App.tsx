@@ -3,6 +3,7 @@ import './App.css';
 import {Header} from './header/Header';
 import {Pages} from './routes/Pages';
 import {HashRouter} from 'react-router-dom';
+import {ErrorSnackbar} from './common/ErrorSnackbar/ErrorSnackbar';
 
 const App = () => {
     return (
@@ -11,6 +12,7 @@ const App = () => {
                 <Header/>
                 <Pages/>
             </HashRouter>
+            <ErrorSnackbar/>
         </div>
     );
 }
