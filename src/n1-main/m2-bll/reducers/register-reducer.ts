@@ -1,5 +1,5 @@
 import {RegDataType, registerAPI} from '../../m3-dal/registerAPI';
-import {AppDispatch} from '../store';
+import {AppDispatch, AppThunk} from '../store';
 
 const initialState: InitialStateType = {
     isRegistered: false,
@@ -22,7 +22,7 @@ export const registerAC = (isRegistered: boolean) => ({type: 'SIGN-UP', isRegist
 export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
 
 // thunks
-export const registerTC = (regData: RegDataType) => {
+export const registerTC = (regData: RegDataType): AppThunk => {
     return (dispatch: AppDispatch) => {
         registerAPI.register(regData)
             .then(() => {
