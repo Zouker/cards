@@ -7,6 +7,7 @@ import {profileReducer} from './reducers/profile-reducer';
 import {recoverPasswordReducer} from './reducers/recover-password-reducer';
 import {setNewPasswordReducer} from './reducers/set-new-password-reducer';
 import {testReducer} from './reducers/test-reducer';
+import {isLoaderReducer} from "./reducers/loader-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     recoverPassword: recoverPasswordReducer,
     setNewPassword: setNewPasswordReducer,
     test: testReducer,
+    isLoader:isLoaderReducer,
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))

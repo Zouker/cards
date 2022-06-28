@@ -3,13 +3,14 @@ import React from 'react';
 import {Register} from '../../../n2-features/f2-register/Register';
 import {RecoverPassword} from '../../../n2-features/f4-recover-password/RecoverPassword';
 import {SetNewPassword} from '../../../n2-features/f5-enter-new-password/SetNewPassword';
+import {Login} from "../../../n2-features/fi-auth/Login";
 
 export const Pages = () => {
 
     return (
         <Routes>
             <Route path={'/'} element={<Navigate to={'/login'}/>}/>
-            <Route path={'/login'} element={<div>Login</div>}/>
+            <Route path={'/login'} element={<Login/>}/>
             <Route path={'/register'} element={<div><Register/></div>}/>
             <Route path={'/profile'} element={<div>Profile</div>}/>
             <Route path={'/recover-password'} element={<div><RecoverPassword/></div>}/>
