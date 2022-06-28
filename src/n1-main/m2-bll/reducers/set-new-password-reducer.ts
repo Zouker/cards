@@ -1,9 +1,9 @@
-import {AppDispatch} from '../store';
+import {AppDispatch, AppThunk} from '../store';
 import {newPasswordAPI, newPasswordType} from '../../m3-dal/newPasswordAPI';
+import {setAppErrorAC, setAppStatusAC} from './app-reducer';
 
 const initialState: InitialStateType = {
     info: '',
-    error: null,
     isPassChanged: false
 }
 
@@ -11,8 +11,6 @@ export const setNewPasswordReducer = (state: InitialStateType = initialState, ac
     switch (action.type) {
         case 'NEW-PASSWORD-SUCCESS':
             return {...state, info: action.info}
-        case 'SET-ERROR':
-            return {...state, error: action.error}
         case 'IS-PASS-CHANGED':
             return {...state, isPassChanged: action.isPassChanged}
         default:
@@ -20,10 +18,10 @@ export const setNewPasswordReducer = (state: InitialStateType = initialState, ac
     }
 }
 
-// thunk
-
-export const setInfoTC = (newPasswordData: newPasswordType) => {
+// thunks
+export const setInfoTC = (newPasswordData: newPasswordType): AppThunk => {
     return (dispatch: AppDispatch) => {
+        dispatch(setAppStatusAC('loading'))
         newPasswordAPI.sendNewPassword(newPasswordData)
             .then((res) => {
                 dispatch(setInfoAC(res.data.info))
@@ -31,8 +29,11 @@ export const setInfoTC = (newPasswordData: newPasswordType) => {
             })
             .catch((error) => {
                 if (error.response) {
-                    dispatch(setErrorAC(error.response.data.error))
+                    dispatch(setAppErrorAC(error.response.data.error))
                 }
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -40,14 +41,12 @@ export const setInfoTC = (newPasswordData: newPasswordType) => {
 
 // actions
 export const setInfoAC = (info: string) => ({type: 'NEW-PASSWORD-SUCCESS', info} as const)
-export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
 export const setPassChangedAC = (isPassChanged: boolean) => ({type: 'IS-PASS-CHANGED', isPassChanged} as const)
 
 // types
 type InitialStateType = {
     info: string
-    error: string | null
     isPassChanged: boolean
 }
 
-type ActionsType = ReturnType<typeof setInfoAC> | ReturnType<typeof setErrorAC> | ReturnType<typeof setPassChangedAC>
+type ActionsType = ReturnType<typeof setInfoAC> | ReturnType<typeof setPassChangedAC>
