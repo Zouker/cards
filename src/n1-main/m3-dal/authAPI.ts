@@ -1,35 +1,32 @@
-import axios from "axios";
+import axios from 'axios';
 
-const instance=axios.create({
+const instance = axios.create({
     withCredentials: true,
-    baseURL:`http://localhost:7542/2.0/`  //базовый урл автоматически приклеивается к строке
+    baseURL: `http://localhost:7542/2.0/`
 })
 
-export const loginApi={
-    postLogin(data:DataLoginType){   //в data обьект с полей формы
+export const loginApi = {
+    postLogin(data: DataLoginType) {   //в data обьект с полей формы
         return instance.post<PostStatus>(`auth/login`, data)
-            .then(res=>res.data)
-
-    }}
-
-export type DataLoginType={
-    email:string,
-    password:string,
-    rememberMe:boolean,
-
+    }
 }
 
-export type PostStatus={ //что ожидаем с сервера
+export type DataLoginType = {
+    email: string,
+    password: string,
+    rememberMe: boolean,
+}
+
+export type PostStatus = {
     _id: string,
     email: string,
     name: string,
     avatar?: string,
     publicCardPacksCount: number,
-// количество колод
     created: Date,
     updated: Date,
     isAdmin: boolean,
-    verified: boolean, // подтвердил ли почту
+    verified: boolean,
     rememberMe: boolean,
     error?: string,
 }
