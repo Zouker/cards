@@ -1,22 +1,24 @@
 import React from 'react';
-import styles from './Register.module.css'
+import styles from './Login.module.css'
 import {Link, Navigate} from 'react-router-dom';
-import {registerTC} from '../../n1-main/m2-bll/reducers/register-reducer';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {useFormik} from 'formik';
 import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+import {loginTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import error from '../Error.module.css'
 
-export const Register = () => {
+export const Login = () => {
     const dispatch = useAppDispatch()
-    const isRegistered = useAppSelector(state => state.register.isRegistered)
+    const isLogin = useAppSelector(state => state.auth.isLogin)
 
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
-            confirmPassword: '',
+            rememberMe: false
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -30,27 +32,18 @@ export const Register = () => {
             } else if (values.password.length <= 7) {
                 errors.password = 'Password must be more than 7 characters...'
             }
-            if (!values.confirmPassword) {
-                errors.confirmPassword = 'Required';
-            } else if (values.confirmPassword !== values.password) {
-                errors.confirmPassword = 'The password and confirmation password do not match'
-            }
+
             return errors;
         },
         onSubmit: values => {
-            dispatch(registerTC(values))
-            formik.resetForm()
+            dispatch(loginTC(values));
+            formik.resetForm();
         },
     })
 
     const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
         password: '',
         showPassword: false,
-    });
-
-    const [valuesConfirmPassword, setValuesConfirmPassword] = React.useState<StateConfirmPassword>({
-        confirmPassword: '',
-        showConfirmPassword: false,
     });
 
     const handleClickShowPassword = () => {
@@ -60,25 +53,18 @@ export const Register = () => {
         });
     };
 
-    const handleClickShowConfirmPassword = () => {
-        setValuesConfirmPassword({
-            ...valuesConfirmPassword,
-            showConfirmPassword: !valuesConfirmPassword.showConfirmPassword,
-        });
-    };
-
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
-    if (isRegistered) {
-        return <Navigate to={'/login'}/>
+    if (isLogin) {
+        return <Navigate to={'/profile'}/>
     }
 
     return (
         <div className={styles.wrapper}>
             <form className={styles.form} onSubmit={formik.handleSubmit}>
-                <div className={styles.title}>Sign Up</div>
+                <div className={styles.title}>Sign In</div>
                 <FormControl variant="standard">
                     <InputLabel htmlFor="component-simple">Email</InputLabel>
                     <Input
@@ -122,36 +108,14 @@ export const Register = () => {
                 {formik.errors.password && formik.touched.password &&
                     <div className={error.error}>{formik.errors.password}</div>}
 
-                <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
-                    <Input
-                        id="confirmPassword"
-                        type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
-                        name="confirmPassword"
-                        placeholder={'Confirm password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.confirmPassword}
-                        className={styles.input}
-                        autoComplete="on"
 
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowConfirmPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                >
-                                    {valuesConfirmPassword.showConfirmPassword ? <VisibilityOff/> : <Visibility/>}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
-                {formik.errors.confirmPassword && formik.touched.confirmPassword &&
-                    <div className={error.error}>{formik.errors.confirmPassword}</div>}
-                <Button variant={'contained'} type="submit">Register</Button>
-                Already have an account?
-                <Link to={'/login'}>Sign In</Link>
+                <FormControlLabel label={'Remember me'}
+                                  control={<Checkbox  {...formik.getFieldProps('rememberMe')}
+                                                      checked={formik.values.rememberMe}/>
+                                  }/>
+                <Button variant={'contained'} type="submit">Login</Button>
+                Don’t have an account?
+                <Link className={styles.textLink} to={'/register'}>Sign Up</Link>
             </form>
         </div>
     );
@@ -161,15 +125,10 @@ export const Register = () => {
 type FormikErrorType = {
     email?: string
     password?: string
-    confirmPassword?: string
+    rememberMe?: false
 }
 
 type StatePassword = {
     password: string;
     showPassword: boolean;
-}
-
-type StateConfirmPassword = {
-    confirmPassword: string;
-    showConfirmPassword: boolean;
 }

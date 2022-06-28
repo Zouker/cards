@@ -1,24 +1,22 @@
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from 'redux';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
-import {loginReducer} from './reducers/login-reducer';
+import {authReducer} from './reducers/auth-reducer';
 import {registerReducer} from './reducers/register-reducer';
-import {error404Reducer} from './reducers/error404-reducer';
 import {profileReducer} from './reducers/profile-reducer';
 import {recoverPasswordReducer} from './reducers/recover-password-reducer';
 import {setNewPasswordReducer} from './reducers/set-new-password-reducer';
 import {testReducer} from './reducers/test-reducer';
-import {isLoaderReducer} from "./reducers/loader-reducer";
+import {appReducer} from './reducers/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 const rootReducer = combineReducers({
-    login: loginReducer,
+    app: appReducer,
+    auth: authReducer,
     register: registerReducer,
     profile: profileReducer,
-    error404: error404Reducer,
     recoverPassword: recoverPasswordReducer,
     setNewPassword: setNewPasswordReducer,
     test: testReducer,
-    isLoader:isLoaderReducer,
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))

@@ -6,6 +6,7 @@ import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {setInfoTC} from '../../n1-main/m2-bll/reducers/set-new-password-reducer';
 import {Navigate, useParams} from 'react-router-dom';
+import error from '../Error.module.css'
 
 export const SetNewPassword = () => {
     const dispatch = useAppDispatch()
@@ -32,7 +33,7 @@ export const SetNewPassword = () => {
             return errors;
         },
         onSubmit: values => {
-           token &&  dispatch(setInfoTC({password:values.password, resetPasswordToken: token}))
+            token && dispatch(setInfoTC({password: values.password, resetPasswordToken: token}))
             formik.resetForm()
         },
     })
@@ -99,7 +100,7 @@ export const SetNewPassword = () => {
                     />
                 </FormControl>
                 {formik.errors.password && formik.touched.password &&
-                    <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                    <div className={error.error}>{formik.errors.password}</div>}
 
                 <FormControl variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Confirm new password</InputLabel>
@@ -127,7 +128,7 @@ export const SetNewPassword = () => {
                     />
                 </FormControl>
                 {formik.errors.confirmPassword && formik.touched.confirmPassword &&
-                    <div style={{color: 'red'}}>{formik.errors.confirmPassword}</div>}
+                    <div className={error.error}>{formik.errors.confirmPassword}</div>}
                 <div className={styles.instructions}>Create new password and we will send you further instructions to
                     email
                 </div>

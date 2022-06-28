@@ -1,10 +1,10 @@
 import React from 'react';
-import loader from "./img/loader.svg";
+import loader from './img/loader.svg';
 
 export const Preloader = () => {
     return (
-        <div style={{position:'absolute',left:'50%',top:'50%'}}>
-            <img src={loader}/>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <img src={loader} alt={'preloader'}/>
         </div>
     );
 };
