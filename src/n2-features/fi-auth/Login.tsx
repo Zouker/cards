@@ -6,14 +6,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useDispatch, useSelector} from "react-redux";
-import {Navigate} from "react-router-dom";
-import {AppRootStateType} from "../../n1-main/m2-bll/store";
+import {useSelector} from "react-redux";
+import {Link, Navigate} from "react-router-dom";
+import {AppRootStateType, useAppDispatch} from "../../n1-main/m2-bll/store";
 import {useFormik} from "formik";
 import s from './Login.module.css'
-import { Paper} from "@mui/material";
+import {Paper} from "@mui/material";
 import {loginTC} from "../../n1-main/m2-bll/reducers/login-reducer";
-import {AnyAction} from "redux";
+import {ErrorSnackbar} from "../../n1-main/m1-ui/common/ErrorSnackbar/ErrorSnackbar";
 
 type FormikErrorType = {
     email?: string
@@ -22,9 +22,10 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
-    const dispatch=useDispatch();
+    const dispatch=useAppDispatch();
     const isLogin=useSelector<AppRootStateType,boolean>(state => state.login.isLogin);
-    const validate = (values:any) => {
+
+    const validate = (values:FormikErrorType) => {
         const errors: FormikErrorType= {};
 
         if (!values.email) {
@@ -50,7 +51,6 @@ export const Login = () => {
         validate,
         onSubmit: values => {
             // alert(JSON.stringify(values)); //это для теста что все работает)
-            //@ts-ignore
             dispatch(loginTC(values));
             formik.resetForm();
         },
@@ -86,8 +86,9 @@ export const Login = () => {
                         Login
                     </Button>
                     <p className={s.text}>Don’t have an account?</p>
-                    <p className={s.textLink}>Sign Up</p>
-                    {/*<ErrorSnackbar/>*/}
+                    <Link  className={s.textLink} to={'/register'}>Sign Up</Link>
+
+                    <ErrorSnackbar/>
                 </FormGroup>
             </FormControl>
              </Paper>

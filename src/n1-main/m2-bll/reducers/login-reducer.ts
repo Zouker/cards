@@ -31,7 +31,7 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
     loginApi.postLogin(data).then(data=>{
         debugger
         dispatch(isLoaderAC(false)) //крутилка выкл
-        alert('login');
+       dispatch(setIsLoggedInAC(true));//если тру-переход в profile
      })
         .catch((err) => {
             // handleServerNetworkError(err, dispatch)
