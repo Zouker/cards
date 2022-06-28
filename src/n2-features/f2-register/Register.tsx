@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {useFormik} from 'formik';
 import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
+import error from '../Error.module.css'
 
 export const Register = () => {
     const dispatch = useAppDispatch()
@@ -92,7 +93,7 @@ export const Register = () => {
                     />
                 </FormControl>
                 {formik.errors.email && formik.touched.email &&
-                    <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                    <div className={error.error}>{formik.errors.email}</div>}
 
                 <FormControl variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
@@ -119,7 +120,7 @@ export const Register = () => {
                     />
                 </FormControl>
                 {formik.errors.password && formik.touched.password &&
-                    <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                    <div className={error.error}>{formik.errors.password}</div>}
 
                 <FormControl variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
@@ -147,7 +148,7 @@ export const Register = () => {
                     />
                 </FormControl>
                 {formik.errors.confirmPassword && formik.touched.confirmPassword &&
-                    <div style={{color: 'red'}}>{formik.errors.confirmPassword}</div>}
+                    <div className={error.error}>{formik.errors.confirmPassword}</div>}
                 <Button variant={'contained'} type="submit">Register</Button>
                 Already have an account?
                 <Link to={'/login'}>Sign In</Link>
