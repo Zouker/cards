@@ -16,10 +16,10 @@ export const recoverPasswordReducer = (state: InitialStateType = initialState, a
 }
 
 // thunks
-export const recoverTC = (email: string): AppThunk => {
+export const recoverTC = (email: string, message: string): AppThunk => {
     return (dispatch: AppDispatch) => {
         dispatch(setAppStatusAC('loading'))
-        recoverAPI.sendEmail(email)
+        recoverAPI.sendEmail(email, message)
             .then((res) => {
                 dispatch(recoverAC(res.data.info))
             })

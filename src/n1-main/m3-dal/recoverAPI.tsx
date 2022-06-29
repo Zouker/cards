@@ -6,14 +6,14 @@ const instance = axios.create({
 })
 
 export const recoverAPI = {
-    sendEmail: (email: string) => {
-        return instance.post<ResponseType>('/auth/forgot', {email})
+    sendEmail: (email: string, message: string) => {
+        return instance.post<ResponseType>('/auth/forgot', {email, message})
     }
 }
 
 // types
 type ResponseType = {
     info: string
-    error: string;
+    error: string
 }
 
