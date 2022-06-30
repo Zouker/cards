@@ -1,45 +1,34 @@
-import {registerAC, setErrorAC} from "./register-reducer";
-import {RegDataType, registerAPI} from "../../m3-dal/registerAPI";
-import {AppDispatch} from "../store";
-
-
+/*
 type InitialStateType = {
-    isRegistered: boolean
-    error: string | null
+   /!* name: string,
+    avatar: string,*!/
 }
 
 const initialState: InitialStateType = {
-    isRegistered: false,
-    error: null
+/!*    name: '',
+    avatar: '',
+   *!/
 }
 
-export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionType): InitialStateType => {
     switch (action.type) {
-        case "IS-SIGNED-UP":
-            return {...state, isRegistered: action.isRegistered}
+        case :
+            return {...state, ...action.data}
+        case :
+            return {...state, ...action.data}
         default:
             return state
     }
 }
 
+
 // actions
-export const profileAC = (isRegistered: boolean) => ({type: 'IS-SIGNED-UP', isRegistered} as const)
+
 
 // thunks
-export const profileTC = (regData: RegDataType) => {
-    return (dispatch: AppDispatch) => {
-        registerAPI.register(regData)
-            .then(() => {
-                dispatch(registerAC(true))
-            })
-            .catch((error) => {
-                if (error.response) {
-                    dispatch(setErrorAC(error.response.data.error))
-                }
-            })
-    }
-}
 
 
 // types
-type ActionsType = ReturnType<typeof profileAC> | ReturnType<typeof setErrorAC>
+export type ProfileActionType =
+*/
+export {}

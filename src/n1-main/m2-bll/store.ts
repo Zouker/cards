@@ -2,7 +2,6 @@ import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from 'r
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {authReducer} from './reducers/auth-reducer';
 import {registerReducer} from './reducers/register-reducer';
-import {profileReducer} from './reducers/profile-reducer';
 import {recoverPasswordReducer} from './reducers/recover-password-reducer';
 import {setNewPasswordReducer} from './reducers/set-new-password-reducer';
 import {testReducer} from './reducers/test-reducer';
@@ -13,7 +12,7 @@ const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     register: registerReducer,
-    profile: profileReducer,
+  //  profile: profileReducer,
     recoverPassword: recoverPasswordReducer,
     setNewPassword: setNewPasswordReducer,
     test: testReducer,

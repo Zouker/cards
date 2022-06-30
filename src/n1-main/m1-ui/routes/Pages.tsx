@@ -4,6 +4,7 @@ import {Register} from '../../../n2-features/f2-register/Register';
 import {RecoverPassword} from '../../../n2-features/f4-recover-password/RecoverPassword';
 import {SetNewPassword} from '../../../n2-features/f5-enter-new-password/SetNewPassword';
 import {Login} from '../../../n2-features/f1-auth/Login';
+import Profile from "../../../n2-features/f3-profile/Profile";
 
 export const Pages = () => {
 
@@ -12,7 +13,7 @@ export const Pages = () => {
             <Route path={'/'} element={<Navigate to={'/login'}/>}/>
             <Route path={'/login'} element={<Login/>}/>
             <Route path={'/register'} element={<div><Register/></div>}/>
-            <Route path={'/profile'} element={<div>Profile</div>}/>
+            <Route path={'/profile'} element={<Profile/>}/>
             <Route path={'/recover-password'} element={<div><RecoverPassword/></div>}/>
             <Route path={'/set-new-password/'}>
                 <Route index element={<div><SetNewPassword/></div>}/>
