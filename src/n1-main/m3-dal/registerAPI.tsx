@@ -13,7 +13,6 @@ export const registerAPI = {
 }
 
 // types
-
 export type RegDataType = {
     email: string
     password: string

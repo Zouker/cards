@@ -1,45 +1,45 @@
 import {AppDispatch, AppThunk} from '../store';
 import {recoverAPI} from '../../m3-dal/recoverAPI';
+import {setAppErrorAC, setAppStatusAC} from './app-reducer';
 
 const initialState: InitialStateType = {
-    info: '',
-    error: null
+    info: ''
 }
 
 export const recoverPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'CONFIRM-STATUS':
             return {...state, info: action.info}
-        case 'SET-ERROR':
-            return {...state, error: action.error}
         default:
             return state
     }
 }
 
 // thunks
-export const recoverTC = (email: string): AppThunk => {
+export const recoverTC = (email: string, message: string): AppThunk => {
     return (dispatch: AppDispatch) => {
-        recoverAPI.sendEmail(email)
+        dispatch(setAppStatusAC('loading'))
+        recoverAPI.sendEmail(email, message)
             .then((res) => {
                 dispatch(recoverAC(res.data.info))
             })
             .catch((error) => {
                 if (error.response) {
-                    dispatch(setErrorAC(error.response.data.error))
+                    dispatch(setAppErrorAC(error.response.data.error))
                 }
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 
 // actions
 export const recoverAC = (info: string) => ({type: 'CONFIRM-STATUS', info} as const)
-export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
 
 // types
-type ActionsType = ReturnType<typeof recoverAC> | ReturnType<typeof setErrorAC>
+type ActionsType = ReturnType<typeof recoverAC>
 
 type InitialStateType = {
     info: string
-    error: string | null
 }
