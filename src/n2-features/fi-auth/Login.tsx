@@ -56,6 +56,37 @@ export const Login = () => {
         },
 
     })
+
+    const [valuesPassword, setValuesPassword] = React.useState({
+        password: '',
+        showPassword: false,
+    });
+
+    const [valuesEmail, setValuesEmail] = React.useState({
+        email: '',
+        showEmail: false,
+    });
+
+    const handleClickShowPassword = () => {
+        setValuesPassword({
+            ...valuesPassword,
+            showPassword: !valuesPassword.showPassword,
+        });
+    };
+
+    const handleClickShowConfirmPassword = () => {
+        setValuesEmail({
+            ...valuesEmail,
+            showEmail: !valuesEmail.showEmail,
+        });
+    };
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
+
+
     if (isLogin){
         return <Navigate to ={'/profile'}/>
     }
@@ -69,12 +100,14 @@ export const Login = () => {
             <FormControl>
                 <p className={s.titleForm}>Sign In</p>
                 <FormGroup>
-                    <TextField label="Email" margin="normal" {...formik.getFieldProps('email')} />
+                    <TextField type={valuesEmail.showEmail ? 'text' : 'email'} label="Email" margin="normal" {...formik.getFieldProps('email')} />
 
                     {formik.touched.email && formik.errors.email &&  <div style={{color:"red"}}>{formik.errors.email}</div> }
 
-                    <TextField type="password" label="Password" {...formik.getFieldProps('password')}
+                    <TextField type={valuesPassword.showPassword ? 'text' : 'password'}
+                               label="Password" {...formik.getFieldProps('password')}
                                margin="normal"
+
                     />
                     {formik.touched.password && formik.errors.password &&  <div style={{color:"red"}}>{formik.errors.password}</div> }
                     <FormControlLabel label={'Remember me'} control={<Checkbox  {...formik.getFieldProps('rememberMe')}
