@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useCallback, useState} from "react";
-import TextField from "@mui/material/TextField";
 
 type PropsType = {
     title: string
@@ -20,22 +19,24 @@ export const EditableSpan = React.memo(({title, changeTitle, disabled}: PropsTyp
             setEditMode(true)
         }
     }
+
+
     const activateViewMode = useCallback(() => {
         changeTitle(localTitle)
         setEditMode(false)
     }, [changeTitle, localTitle])
-    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+
+
+    const onChangeHandler =  useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setLocalTitle(e.currentTarget.value)
-    }, [])
+    },[])
 
     return editMode
-        ? <TextField
-            variant={"filled"}
-            value={localTitle}
-            onChange={onChangeHandler}
-            onBlur={activateViewMode}
-            autoFocus
-        />
+
+    ? <input value={localTitle}
+        onChange={onChangeHandler}
+        onBlur={activateViewMode}
+        autoFocus/>
         : <span onDoubleClick={activateEditMode}>{title}</span>
 
 })

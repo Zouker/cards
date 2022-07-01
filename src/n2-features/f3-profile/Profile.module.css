@@ -28,6 +28,15 @@
     border-radius: 50%;
     align-self: flex-start;
 }
+
+.titleWrap{
+    max-width: 200px;
+}
 .titleWrap input{
-    width: 100%;
+    max-width: 200px;
+    padding: 5px;
+
+}
+.titleWrap span{
+    max-width: 200px;
 }
