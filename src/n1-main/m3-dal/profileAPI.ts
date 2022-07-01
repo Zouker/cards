@@ -7,6 +7,9 @@ const instance = axios.create({
 })
 
 export const profileAPI = {
+    authMe(){
+        return instance.post<UpdateUserDataResponseType>('/auth/me')
+    },
     updateUserData(params:UpdateUserParamsType) {
         return instance.put<UpdateUserDataResponseType>('/auth/me',params)
     },

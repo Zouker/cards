@@ -1,7 +1,7 @@
 import {DataLoginType, loginApi} from "../../m3-dal/authAPI";
 import {Dispatch} from "redux";
-import {isLoaderAC} from "./loader-reducer";
 import {setErrorAC} from "./register-reducer";
+import {setAppStatusAC} from "./app-reducer";
 
 
 const initialState = {
@@ -21,14 +21,14 @@ export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
 // types
-type ActionType = ReturnType<typeof isLoaderAC>
+type ActionType = ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setErrorAC>
 
 
 // thunks
 export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
-    dispatch(isLoaderAC(true)) //крутилка вкл
+    dispatch(setAppStatusAC( 'loading')) //крутилка вкл
     loginApi.postLogin(data).then(data => {
         dispatch(setIsLoggedInAC(true));//если тру-переход в profile
     })
@@ -38,7 +38,7 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
             }
         })
         .finally(()=>{
-            dispatch(isLoaderAC(false)) //крутилка выкл
+            dispatch(setAppStatusAC('succeeded')) //крутилка выкл
         })
 }
 

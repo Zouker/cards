@@ -6,12 +6,14 @@ import {profileAPI, UpdateUserParamsType} from "../../m3-dal/profileAPI";
 const initialState = {
     isLogin: false,
     userName: 'name' as string,
-    userAvatar: '' as string
+    userAvatar: '' as string,
+
 
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
+
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLogin: action.value}
         case "login/SET-USER-NAME": {
@@ -43,10 +45,26 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
         })
 }
 
+export const authMeTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    profileAPI.authMe()
+        .then(res => {
+            dispatch(setIsLoggedInAC(true))
+        })
+        .catch((error) => {
+            if (error.response) {
+                dispatch(setAppErrorAC(error.response.data.error))
+            }
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
+}
+
 export const updateUserDataTC = (userData: UpdateUserParamsType) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.updateUserData(userData)
-        .then((res)=>{
+        .then((res) => {
             dispatch(setUserNameAC(res.data.updatedUser.name))
             dispatch(setUserAvatarAC(res.data.updatedUser.avatar))
         })
@@ -60,10 +78,10 @@ export const updateUserDataTC = (userData: UpdateUserParamsType) => (dispatch: D
         })
 }
 
-export const logoutTC =()=>(dispatch:Dispatch)=>{
+export const logoutTC = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.logout()
-        .then(()=>{
+        .then(() => {
             dispatch(setIsLoggedInAC(false))
         })
         .catch((error) => {
@@ -82,6 +100,7 @@ export const setUserNameAC = (userName: string) => ({type: 'login/SET-USER-NAME'
 export const setUserAvatarAC = (userAvatar: string) => ({type: 'login/SET-USER-AVATAR', userAvatar} as const)
 
 
+
 // types
 type InitialStateType = typeof initialState
 
@@ -89,6 +108,7 @@ type ActionType =
     ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setUserNameAC>
     | ReturnType<typeof setUserAvatarAC>
+
 
 
 

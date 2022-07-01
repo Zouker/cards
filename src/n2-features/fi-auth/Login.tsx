@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useSelector} from "react-redux";
 import {Link, Navigate} from "react-router-dom";
-import {AppRootStateType, useAppDispatch} from "../../n1-main/m2-bll/store";
+import {AppRootStateType, useAppDispatch, useAppSelector} from "../../n1-main/m2-bll/store";
 import {useFormik} from "formik";
 import s from './Login.module.css'
 import {Paper} from "@mui/material";
@@ -23,7 +23,7 @@ type FormikErrorType = {
 
 export const Login = () => {
     const dispatch=useAppDispatch();
-    const isLogin=useSelector<AppRootStateType,boolean>(state => state.login.isLogin);
+    const isLogin=useAppSelector<boolean>(state => state.auth.isLogin);
 
     const validate = (values:FormikErrorType) => {
         const errors: FormikErrorType= {};
@@ -104,7 +104,7 @@ export const Login = () => {
 
                     {formik.touched.email && formik.errors.email &&  <div style={{color:"red"}}>{formik.errors.email}</div> }
 
-                    <TextField type={valuesPassword.showPassword ? 'text' : 'password'}
+                    <TextField type={!valuesPassword.showPassword ? 'text' : 'password'}
                                label="Password" {...formik.getFieldProps('password')}
                                margin="normal"
 
