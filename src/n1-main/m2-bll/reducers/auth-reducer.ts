@@ -45,7 +45,7 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
         })
 }
 
-export const authMeTC = () => (dispatch: Dispatch) => {
+export const git  = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.authMe()
         .then(res => {
