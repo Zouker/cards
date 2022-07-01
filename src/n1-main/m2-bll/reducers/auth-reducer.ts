@@ -1,14 +1,12 @@
 import {DataLoginType, loginApi} from '../../m3-dal/authAPI';
-import {Dispatch} from 'redux';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
-import {profileAPI, UpdateUserParamsType} from "../../m3-dal/profileAPI";
+import {profileAPI, UpdateUserParamsType} from '../../m3-dal/profileAPI';
+import {AppThunk} from '../store';
 
 const initialState = {
     isLogin: false,
     userName: 'name' as string,
     userAvatar: '' as string,
-
-
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -16,10 +14,10 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLogin: action.value}
-        case "login/SET-USER-NAME": {
+        case 'login/SET-USER-NAME': {
             return {...state, userName: action.userName}
         }
-        case "login/SET-USER-AVATAR":
+        case 'login/SET-USER-AVATAR':
             return {...state, userAvatar: action.userAvatar}
         default:
             return state
@@ -27,7 +25,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 // thunks
-export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
+export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     loginApi.postLogin(data)
         .then((res) => {
@@ -45,10 +43,10 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
         })
 }
 
-export const git  = () => (dispatch: Dispatch) => {
+export const authMeTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.authMe()
-        .then(res => {
+        .then(() => {
             dispatch(setIsLoggedInAC(true))
         })
         .catch((error) => {
@@ -61,7 +59,7 @@ export const git  = () => (dispatch: Dispatch) => {
         })
 }
 
-export const updateUserDataTC = (userData: UpdateUserParamsType) => (dispatch: Dispatch) => {
+export const updateUserDataTC = (userData: UpdateUserParamsType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.updateUserData(userData)
         .then((res) => {
@@ -78,7 +76,7 @@ export const updateUserDataTC = (userData: UpdateUserParamsType) => (dispatch: D
         })
 }
 
-export const logoutTC = () => (dispatch: Dispatch) => {
+export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.logout()
         .then(() => {
@@ -98,7 +96,6 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 export const setUserNameAC = (userName: string) => ({type: 'login/SET-USER-NAME', userName} as const)
 export const setUserAvatarAC = (userAvatar: string) => ({type: 'login/SET-USER-AVATAR', userAvatar} as const)
-
 
 
 // types

@@ -1,4 +1,4 @@
-import {AppDispatch, AppThunk} from '../store';
+import {AppThunk} from '../store';
 import {newPasswordAPI, newPasswordType} from '../../m3-dal/newPasswordAPI';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
 
@@ -20,7 +20,7 @@ export const setNewPasswordReducer = (state: InitialStateType = initialState, ac
 
 // thunks
 export const setInfoTC = (newPasswordData: newPasswordType): AppThunk => {
-    return (dispatch: AppDispatch) => {
+    return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         newPasswordAPI.sendNewPassword(newPasswordData)
             .then((res) => {

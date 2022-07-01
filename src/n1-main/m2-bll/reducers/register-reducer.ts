@@ -1,5 +1,5 @@
 import {RegDataType, registerAPI} from '../../m3-dal/registerAPI';
-import {AppDispatch, AppThunk} from '../store';
+import {AppThunk} from '../store';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
 
 const initialState: InitialStateType = {
@@ -15,13 +15,9 @@ export const registerReducer = (state: InitialStateType = initialState, action: 
     }
 }
 
-// actions
-export const registerAC = (isRegistered: boolean) => ({type: 'SIGN-UP', isRegistered} as const)
-export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
-
 // thunks
 export const registerTC = (regData: RegDataType): AppThunk => {
-    return (dispatch: AppDispatch) => {
+    return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         registerAPI.register(regData)
             .then(() => {
@@ -37,6 +33,10 @@ export const registerTC = (regData: RegDataType): AppThunk => {
             })
     }
 }
+
+// actions
+export const registerAC = (isRegistered: boolean) => ({type: 'SIGN-UP', isRegistered} as const)
+export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
 
 // types
 type ActionsType = ReturnType<typeof registerAC> | ReturnType<typeof setErrorAC>

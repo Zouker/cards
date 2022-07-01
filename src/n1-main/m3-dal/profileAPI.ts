@@ -7,11 +7,11 @@ const instance = axios.create({
 })
 
 export const profileAPI = {
-    authMe(){
+    authMe() {
         return instance.post<UpdateUserDataResponseType>('/auth/me')
     },
-    updateUserData(params:UpdateUserParamsType) {
-        return instance.put<UpdateUserDataResponseType>('/auth/me',params)
+    updateUserData(params: UpdateUserParamsType) {
+        return instance.put<UpdateUserDataResponseType>('/auth/me', params)
     },
     logout() {
         return instance.delete<LogoutResponseType>('/auth/me')
@@ -19,9 +19,9 @@ export const profileAPI = {
 }
 
 // types
-export type UpdateUserParamsType={
+export type UpdateUserParamsType = {
     name: string
-    avatar:string
+    avatar: string
 }
 
 type UpdateUserDataResponseType = {
@@ -43,7 +43,7 @@ type UpdateUserDataResponseType = {
     tokenDeathTime: number
 }
 
-type LogoutResponseType={
-    info:string
-    error:string
+type LogoutResponseType = {
+    info: string
+    error: string
 }

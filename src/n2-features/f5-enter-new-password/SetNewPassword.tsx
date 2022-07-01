@@ -34,7 +34,6 @@ export const SetNewPassword = () => {
         },
         onSubmit: values => {
             token && dispatch(setInfoTC({password: values.password, resetPasswordToken: token}))
-            formik.resetForm()
         },
     })
 

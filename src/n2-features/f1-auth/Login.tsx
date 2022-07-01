@@ -33,12 +33,10 @@ export const Login = () => {
             } else if (values.password.length <= 7) {
                 errors.password = 'Password must be more than 7 characters...'
             }
-
             return errors;
         },
         onSubmit: values => {
             dispatch(loginTC(values));
-            formik.resetForm();
         },
     })
 

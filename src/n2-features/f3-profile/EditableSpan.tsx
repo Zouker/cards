@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, useCallback, useState} from 'react';
 
 type PropsType = {
     title: string
@@ -20,23 +20,22 @@ export const EditableSpan = React.memo(({title, changeTitle, disabled}: PropsTyp
         }
     }
 
-
     const activateViewMode = useCallback(() => {
         changeTitle(localTitle)
         setEditMode(false)
     }, [changeTitle, localTitle])
 
 
-    const onChangeHandler =  useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setLocalTitle(e.currentTarget.value)
-    },[])
+    }, [])
 
     return editMode
 
-    ? <input value={localTitle}
-        onChange={onChangeHandler}
-        onBlur={activateViewMode}
-        autoFocus/>
+        ? <input value={localTitle}
+                 onChange={onChangeHandler}
+                 onBlur={activateViewMode}
+                 autoFocus/>
         : <span onDoubleClick={activateEditMode}>{title}</span>
 
 })
