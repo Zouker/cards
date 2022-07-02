@@ -51,9 +51,6 @@ export const authMeTC = (): AppThunk => (dispatch) => {
         .then(() => {
             dispatch(setIsLoggedInAC(true))
         })
-        .catch((error: AxiosError<{ error: string }>) => {
-            errorUtils(error, dispatch)
-        })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))
         })
