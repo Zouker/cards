@@ -1,4 +1,4 @@
-import {DataLoginType, loginApi} from '../../m3-dal/authAPI';
+import {DataLoginType, authApi} from '../../m3-dal/authAPI';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
 import {profileAPI, UpdateUserParamsType} from '../../m3-dal/profileAPI';
 import {AppThunk} from '../store';
@@ -29,7 +29,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 // thunks
 export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    loginApi.postLogin(data)
+    authApi.postLogin(data)
         .then((res) => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserNameAC(res.data.name))
@@ -89,7 +89,6 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 export const setUserNameAC = (userName: string) => ({type: 'login/SET-USER-NAME', userName} as const)
 export const setUserAvatarAC = (userAvatar: string) => ({type: 'login/SET-USER-AVATAR', userAvatar} as const)
-
 
 // types
 type InitialStateType = typeof initialState
