@@ -6,7 +6,7 @@ import {HashRouter} from 'react-router-dom';
 import {ErrorSnackbar} from './common/ErrorSnackbar/ErrorSnackbar';
 import {Preloader} from './common/loader/Loader';
 import {useAppDispatch, useAppSelector} from '../m2-bll/store';
-import {authMeTC, authReducer} from "../m2-bll/reducers/auth-reducer";
+import {authMeTC} from "../m2-bll/reducers/auth-reducer";
 
 const App = () => {
     const status = useAppSelector((state) => state.app.status)

@@ -45,11 +45,13 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
         })
 }
 
-export const git  = () => (dispatch: Dispatch) => {
+export const authMeTC = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.authMe()
-        .then(res => {
+        .then((res) => {
+            debugger
             dispatch(setIsLoggedInAC(true))
+
         })
         .catch((error) => {
             if (error.response) {
