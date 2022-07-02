@@ -1,14 +1,14 @@
-import {DataLoginType, loginApi} from '../../m3-dal/authAPI';
-import {Dispatch} from 'redux';
+import {DataLoginType, authApi} from '../../m3-dal/authAPI';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
-import {profileAPI, UpdateUserParamsType} from "../../m3-dal/profileAPI";
+import {profileAPI, UpdateUserParamsType} from '../../m3-dal/profileAPI';
+import {AppThunk} from '../store';
+import {AxiosError} from 'axios';
+import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
     isLogin: false,
     userName: 'name' as string,
     userAvatar: '' as string,
-
-
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -16,10 +16,10 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLogin: action.value}
-        case "login/SET-USER-NAME": {
+        case 'login/SET-USER-NAME': {
             return {...state, userName: action.userName}
         }
-        case "login/SET-USER-AVATAR":
+        case 'login/SET-USER-AVATAR':
             return {...state, userAvatar: action.userAvatar}
         default:
             return state
@@ -27,9 +27,9 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 // thunks
-export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
+export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    loginApi.postLogin(data)
+    authApi.postLogin(data)
         .then((res) => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserNameAC(res.data.name))
@@ -45,49 +45,40 @@ export const loginTC = (data: DataLoginType) => (dispatch: Dispatch) => {
         })
 }
 
-export const git  = () => (dispatch: Dispatch) => {
+export const authMeTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.authMe()
-        .then(res => {
+        .then(() => {
             dispatch(setIsLoggedInAC(true))
-        })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))
         })
 }
 
-export const updateUserDataTC = (userData: UpdateUserParamsType) => (dispatch: Dispatch) => {
+export const updateUserDataTC = (userData: UpdateUserParamsType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.updateUserData(userData)
         .then((res) => {
             dispatch(setUserNameAC(res.data.updatedUser.name))
             dispatch(setUserAvatarAC(res.data.updatedUser.avatar))
         })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))
         })
 }
 
-export const logoutTC = () => (dispatch: Dispatch) => {
+export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.logout()
         .then(() => {
             dispatch(setIsLoggedInAC(false))
         })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))
@@ -98,8 +89,6 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 export const setUserNameAC = (userName: string) => ({type: 'login/SET-USER-NAME', userName} as const)
 export const setUserAvatarAC = (userAvatar: string) => ({type: 'login/SET-USER-AVATAR', userAvatar} as const)
-
-
 
 // types
 type InitialStateType = typeof initialState

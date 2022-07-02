@@ -5,8 +5,8 @@ const instance = axios.create({
     baseURL: `http://localhost:7542/2.0/`,
 })
 
-export const loginApi = {
-    postLogin(data: DataLoginType) {   //в data обьект с полей формы
+export const authApi = {
+    postLogin(data: DataLoginType) {
         return instance.post<PostStatus>(`auth/login`, data)
     }
 };

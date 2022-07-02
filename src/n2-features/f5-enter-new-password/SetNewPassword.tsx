@@ -6,7 +6,7 @@ import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {setInfoTC} from '../../n1-main/m2-bll/reducers/set-new-password-reducer';
 import {Navigate, useParams} from 'react-router-dom';
-import error from '../Error.module.css'
+import error from '../../utils/Error.module.css'
 
 export const SetNewPassword = () => {
     const dispatch = useAppDispatch()
@@ -34,7 +34,6 @@ export const SetNewPassword = () => {
         },
         onSubmit: values => {
             token && dispatch(setInfoTC({password: values.password, resetPasswordToken: token}))
-            formik.resetForm()
         },
     })
 

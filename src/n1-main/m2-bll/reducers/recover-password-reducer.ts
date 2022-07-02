@@ -1,6 +1,8 @@
-import {AppDispatch, AppThunk} from '../store';
+import {AppThunk} from '../store';
 import {recoverAPI} from '../../m3-dal/recoverAPI';
-import {setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {setAppStatusAC} from './app-reducer';
+import {AxiosError} from 'axios';
+import {errorUtils} from '../../../utils/error-utils';
 
 const initialState: InitialStateType = {
     info: ''
@@ -17,16 +19,14 @@ export const recoverPasswordReducer = (state: InitialStateType = initialState, a
 
 // thunks
 export const recoverTC = (email: string, message: string): AppThunk => {
-    return (dispatch: AppDispatch) => {
+    return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         recoverAPI.sendEmail(email, message)
             .then((res) => {
                 dispatch(recoverAC(res.data.info))
             })
-            .catch((error) => {
-                if (error.response) {
-                    dispatch(setAppErrorAC(error.response.data.error))
-                }
+            .catch((error: AxiosError<{ error: string }>) => {
+                errorUtils(error, dispatch)
             })
             .finally(() => {
                 dispatch(setAppStatusAC('succeeded'))
