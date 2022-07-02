@@ -1,6 +1,8 @@
 import {RegDataType, registerAPI} from '../../m3-dal/registerAPI';
 import {AppThunk} from '../store';
-import {setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {setAppStatusAC} from './app-reducer';
+import {AxiosError} from 'axios';
+import {errorUtils} from '../../../utils/error-utils';
 
 const initialState: InitialStateType = {
     isRegistered: false
@@ -23,10 +25,8 @@ export const registerTC = (regData: RegDataType): AppThunk => {
             .then(() => {
                 dispatch(registerAC(true))
             })
-            .catch((error) => {
-                if (error.response) {
-                    dispatch(setAppErrorAC(error.response.data.error))
-                }
+            .catch((error: AxiosError<{ error: string }>) => {
+                errorUtils(error, dispatch)
             })
             .finally(() => {
                 dispatch(setAppStatusAC('succeeded'))

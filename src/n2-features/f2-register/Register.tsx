@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {useFormik} from 'formik';
 import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import error from '../Error.module.css'
+import error from '../../utils/Error.module.css'
 
 export const Register = () => {
     const dispatch = useAppDispatch()

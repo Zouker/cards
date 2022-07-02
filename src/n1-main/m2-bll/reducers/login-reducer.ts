@@ -2,6 +2,8 @@ import {DataLoginType, loginApi} from '../../m3-dal/authAPI';
 import {setErrorAC} from './register-reducer';
 import {setAppStatusAC} from './app-reducer';
 import {AppThunk} from '../store';
+import {AxiosError} from 'axios';
+import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
     isLogin: false //сразу мы не залогинены
@@ -23,10 +25,8 @@ export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
         .then(() => {
             dispatch(setIsLoggedInAC(true));
         })
-        .catch((error) => { //error из initialState
-            if (error.response) {
-                dispatch(setErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))

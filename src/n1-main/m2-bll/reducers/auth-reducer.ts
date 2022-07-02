@@ -2,6 +2,8 @@ import {DataLoginType, loginApi} from '../../m3-dal/authAPI';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
 import {profileAPI, UpdateUserParamsType} from '../../m3-dal/profileAPI';
 import {AppThunk} from '../store';
+import {AxiosError} from 'axios';
+import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
     isLogin: false,
@@ -49,10 +51,8 @@ export const authMeTC = (): AppThunk => (dispatch) => {
         .then(() => {
             dispatch(setIsLoggedInAC(true))
         })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))
@@ -66,10 +66,8 @@ export const updateUserDataTC = (userData: UpdateUserParamsType): AppThunk => (d
             dispatch(setUserNameAC(res.data.updatedUser.name))
             dispatch(setUserAvatarAC(res.data.updatedUser.avatar))
         })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))
@@ -82,10 +80,8 @@ export const logoutTC = (): AppThunk => (dispatch) => {
         .then(() => {
             dispatch(setIsLoggedInAC(false))
         })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))

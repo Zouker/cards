@@ -20,6 +20,8 @@ export const Pages = () => {
                 <Route path={':token'} element={<div><SetNewPassword/></div>}/>
             </Route>
             <Route path={'/test'} element={<div>Test</div>}/>
+            <Route path={'/packs'} element={<div>Packs</div>}/>
+            <Route path={'/cards'} element={<div>Cards</div>}/>
             <Route path={'/404'} element={<h1 style={{display: 'flex', justifyContent: 'center'}}>
                 404: PAGE NOT FOUND
             </h1>}/>

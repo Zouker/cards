@@ -8,7 +8,7 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {loginTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import error from '../Error.module.css'
+import error from '../../utils/Error.module.css'
 
 export const Login = () => {
     const dispatch = useAppDispatch()

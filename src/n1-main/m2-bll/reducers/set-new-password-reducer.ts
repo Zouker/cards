@@ -1,6 +1,8 @@
 import {AppThunk} from '../store';
 import {newPasswordAPI, newPasswordType} from '../../m3-dal/newPasswordAPI';
-import {setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {setAppStatusAC} from './app-reducer';
+import {AxiosError} from 'axios';
+import {errorUtils} from '../../../utils/error-utils';
 
 const initialState: InitialStateType = {
     info: '',
@@ -27,10 +29,8 @@ export const setInfoTC = (newPasswordData: newPasswordType): AppThunk => {
                 dispatch(setInfoAC(res.data.info))
                 dispatch(setPassChangedAC(true))
             })
-            .catch((error) => {
-                if (error.response) {
-                    dispatch(setAppErrorAC(error.response.data.error))
-                }
+            .catch((error: AxiosError<{ error: string }>) => {
+                errorUtils(error, dispatch)
             })
             .finally(() => {
                 dispatch(setAppStatusAC('succeeded'))
