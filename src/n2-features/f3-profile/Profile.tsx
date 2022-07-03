@@ -3,12 +3,13 @@ import styles from './Profile.module.css'
 import {Navigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {EditableSpan} from './EditableSpan';
-import {logoutTC, updateUserDataTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
+import {logoutTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
 import {Button} from '@mui/material';
+import {updateUserDataTC} from '../../n1-main/m2-bll/reducers/profile-reducer';
 
-const Profile = () => {
+export const Profile = () => {
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.auth.isLogin)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const userName = useAppSelector(state => state.auth.userName)
 
     const changeUserName = (title: string) => {
@@ -40,17 +41,3 @@ const Profile = () => {
 
     )
 }
-export default Profile;
-
-/*
-<div className={styles.wrapper}>
-    <div className={styles.profileImg}>
-        <img
-            src={"https://dthezntil550i.cloudfront.net/kg/latest/kg1802132010216500004834729/1280_960/557d644f-12f3-49e1-bb66-23c16400540d.png"}
-            alt={'Profile Img'}/>
-    </div>
-    <SuperInputText value={nickName}
-                    onChangeText={setNickName}/>
-    <div>Cards count:</div>
-    <button>Logout</button>
-</div>*/

@@ -4,21 +4,20 @@ import {authReducer} from './reducers/auth-reducer';
 import {registerReducer} from './reducers/register-reducer';
 import {recoverPasswordReducer} from './reducers/recover-password-reducer';
 import {setNewPasswordReducer} from './reducers/set-new-password-reducer';
-import {testReducer} from './reducers/test-reducer';
 import {appReducer} from './reducers/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {packsReducer} from './reducers/packs-reducer';
+import {profileReducer} from './reducers/profile-reducer';
 
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     register: registerReducer,
-    //  profile: profileReducer,
+    profile: profileReducer,
     recoverPassword: recoverPasswordReducer,
     setNewPassword: setNewPasswordReducer,
     packs: packsReducer,
     // cards: cardsReducer,
-    test: testReducer,
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))

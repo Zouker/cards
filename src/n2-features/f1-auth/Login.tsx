@@ -12,7 +12,7 @@ import error from '../../utils/Error.module.css'
 
 export const Login = () => {
     const dispatch = useAppDispatch()
-    const isLogin = useAppSelector(state => state.auth.isLogin)
+    const isLogin = useAppSelector(state => state.auth.isLoggedIn)
 
     const formik = useFormik({
         initialValues: {

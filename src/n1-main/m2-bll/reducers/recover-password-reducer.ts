@@ -10,7 +10,7 @@ const initialState: InitialStateType = {
 
 export const recoverPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'CONFIRM-STATUS':
+        case 'recover/CONFIRM-STATUS':
             return {...state, info: action.info}
         default:
             return state
@@ -35,7 +35,7 @@ export const recoverTC = (email: string, message: string): AppThunk => {
 }
 
 // actions
-export const recoverAC = (info: string) => ({type: 'CONFIRM-STATUS', info} as const)
+export const recoverAC = (info: string) => ({type: 'recover/CONFIRM-STATUS', info} as const)
 
 // types
 type ActionsType = ReturnType<typeof recoverAC>

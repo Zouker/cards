@@ -1,22 +1,15 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0',
-    // baseURL: 'https://neko-back.herokuapp.com/2.0',
-    withCredentials: true
+    withCredentials: true,
+    baseURL: `http://localhost:7542/2.0/`,
 })
 
 export const profileAPI = {
-    authMe() {
-        return instance.post<UpdateUserDataResponseType>('/auth/me')
-    },
     updateUserData(params: UpdateUserParamsType) {
         return instance.put<UpdateUserDataResponseType>('/auth/me', params)
     },
-    logout() {
-        return instance.delete<LogoutResponseType>('/auth/me')
-    }
-}
+};
 
 // types
 export type UpdateUserParamsType = {
@@ -41,9 +34,4 @@ type UpdateUserDataResponseType = {
     error?: string
     token: string,
     tokenDeathTime: number
-}
-
-type LogoutResponseType = {
-    info: string
-    error: string
 }
