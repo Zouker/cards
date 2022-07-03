@@ -1,0 +1,44 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    margin: 20px 0;
+    background-color: white;
+    width: 940px;
+}
+
+.sidebar {
+    width: 240px;
+    background-color: #E5E5E5;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.buttonBlock {
+    margin: 20px;
+}
+
+.rangeSlider {
+    margin: 20px;
+}
+
+.cardsTable {
+    height: 580px;
+    width: 700px;
+}
+
+.paginatorBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selector {
+    display: flex;
+    align-items: center;
+}
