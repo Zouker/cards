@@ -6,6 +6,7 @@ import {SetNewPassword} from '../../../n2-features/f5-enter-new-password/SetNewP
 import {Login} from '../../../n2-features/f1-auth/Login';
 import Profile from '../../../n2-features/f3-profile/Profile';
 import {Packs} from '../../../n2-features/packs/Packs';
+import {Error404} from '../common/Error404/Error404';
 
 export const Pages = () => {
 
@@ -23,9 +24,7 @@ export const Pages = () => {
             <Route path={'/test'} element={<div>Test</div>}/>
             <Route path={'/packs'} element={<div><Packs/></div>}/>
             <Route path={'/cards'} element={<div>Cards</div>}/>
-            <Route path={'/404'} element={<h1 style={{display: 'flex', justifyContent: 'center'}}>
-                404: PAGE NOT FOUND
-            </h1>}/>
+            <Route path={'/404'} element={<div><Error404/></div>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>
     )
