@@ -1,12 +1,11 @@
-import {DataLoginType, authApi} from '../../m3-dal/authAPI';
 import {setAppErrorAC, setAppStatusAC} from './app-reducer';
-import {profileAPI, UpdateUserParamsType} from '../../m3-dal/profileAPI';
+import {authAPI, DataLoginType} from '../../m3-dal/authAPI';
 import {AppThunk} from '../store';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
-    isLogin: false,
+    isLoggedIn: false,
     userName: 'name' as string,
     userAvatar: '' as string,
 }
@@ -15,12 +14,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
     switch (action.type) {
 
         case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLogin: action.value}
-        case 'login/SET-USER-NAME': {
-            return {...state, userName: action.userName}
-        }
-        case 'login/SET-USER-AVATAR':
-            return {...state, userAvatar: action.userAvatar}
+            return {...state, isLoggedIn: action.value}
         default:
             return state
     }
@@ -29,11 +23,9 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 // thunks
 export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    authApi.postLogin(data)
-        .then((res) => {
+    authAPI.login(data)
+        .then(() => {
             dispatch(setIsLoggedInAC(true))
-            dispatch(setUserNameAC(res.data.name))
-            dispatch(setUserAvatarAC(res.data.avatar ? res.data.avatar : ''))
         })
         .catch((error) => {
             if (error.response) {
@@ -45,35 +37,9 @@ export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
         })
 }
 
-export const authMeTC = (): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    profileAPI.authMe()
-        .then(() => {
-            dispatch(setIsLoggedInAC(true))
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('succeeded'))
-        })
-}
-
-export const updateUserDataTC = (userData: UpdateUserParamsType): AppThunk => (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    profileAPI.updateUserData(userData)
-        .then((res) => {
-            dispatch(setUserNameAC(res.data.updatedUser.name))
-            dispatch(setUserAvatarAC(res.data.updatedUser.avatar))
-        })
-        .catch((error: AxiosError<{ error: string }>) => {
-            errorUtils(error, dispatch)
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('succeeded'))
-        })
-}
-
 export const logoutTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    profileAPI.logout()
+    authAPI.logout()
         .then(() => {
             dispatch(setIsLoggedInAC(false))
         })
@@ -87,16 +53,12 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 
 // actions
 export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-export const setUserNameAC = (userName: string) => ({type: 'login/SET-USER-NAME', userName} as const)
-export const setUserAvatarAC = (userAvatar: string) => ({type: 'login/SET-USER-AVATAR', userAvatar} as const)
 
 // types
 type InitialStateType = typeof initialState
 
-type ActionType =
-    ReturnType<typeof setIsLoggedInAC>
-    | ReturnType<typeof setUserNameAC>
-    | ReturnType<typeof setUserAvatarAC>
+type ActionType = ReturnType<typeof setIsLoggedInAC>
+
 
 
 

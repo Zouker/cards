@@ -11,9 +11,9 @@ const initialState: InitialStateType = {
 
 export const setNewPasswordReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'NEW-PASSWORD-SUCCESS':
+        case 'set-new-password/NEW-PASSWORD-SUCCESS':
             return {...state, info: action.info}
-        case 'IS-PASS-CHANGED':
+        case 'set-new-password/IS-PASS-CHANGED':
             return {...state, isPassChanged: action.isPassChanged}
         default:
             return state
@@ -40,8 +40,8 @@ export const setInfoTC = (newPasswordData: newPasswordType): AppThunk => {
 
 
 // actions
-export const setInfoAC = (info: string) => ({type: 'NEW-PASSWORD-SUCCESS', info} as const)
-export const setPassChangedAC = (isPassChanged: boolean) => ({type: 'IS-PASS-CHANGED', isPassChanged} as const)
+export const setInfoAC = (info: string) => ({type: 'set-new-password/NEW-PASSWORD-SUCCESS', info} as const)
+export const setPassChangedAC = (isPassChanged: boolean) => ({type: 'set-new-password/IS-PASS-CHANGED', isPassChanged} as const)
 
 // types
 type InitialStateType = {

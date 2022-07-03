@@ -10,7 +10,7 @@ const initialState: InitialStateType = {
 
 export const registerReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'SIGN-UP':
+        case 'register/SIGN-UP':
             return {...state, isRegistered: action.isRegistered}
         default:
             return state
@@ -35,11 +35,10 @@ export const registerTC = (regData: RegDataType): AppThunk => {
 }
 
 // actions
-export const registerAC = (isRegistered: boolean) => ({type: 'SIGN-UP', isRegistered} as const)
-export const setErrorAC = (error: string | null) => ({type: 'SET-ERROR', error} as const)
+export const registerAC = (isRegistered: boolean) => ({type: 'register/SIGN-UP', isRegistered} as const)
 
 // types
-type ActionsType = ReturnType<typeof registerAC> | ReturnType<typeof setErrorAC>
+type ActionsType = ReturnType<typeof registerAC>
 
 type InitialStateType = {
     isRegistered: boolean
