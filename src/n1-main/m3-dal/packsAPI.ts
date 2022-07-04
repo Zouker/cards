@@ -7,10 +7,27 @@ const instance = axios.create({
 })
 
 export const packsAPI = {
-    setPacks() {
-        return instance.get<{ cardPacks: PackType[] }>(`cards/pack`)
+    setPacks(page?: number | string, pageCount?: number, packName?: string,
+             sortPacks?: string, user_id?: string, min?: number, max?: number) {
+        return instance.get<PacksResponseType>(`cards/pack`, {
+            params: {page, pageCount, packName, sortPacks, user_id, min, max}
+        })
+    },
+    addPacks(){
+        return instance.post(`cards/pack`, )
     }
 };
+
+export type PacksResponseType = {
+    cardsPacks: PackType[],
+    page: number,
+    pageCount: number,
+    cardsPacksTotalCount: number,
+    minCardsCount: number,
+    maxCardsCount: number,
+    token: string,
+    tokenDeathTime: number
+}
 
 export type PackType = {
     _id: string,
