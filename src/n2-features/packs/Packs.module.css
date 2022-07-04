@@ -5,9 +5,10 @@
 
 .container {
     display: flex;
+    justify-content: center;
     margin: 20px 0;
     background-color: white;
-    width: 940px;
+    width: 60%;
 }
 
 .sidebar {
@@ -20,6 +21,7 @@
 }
 
 .buttonBlock {
+    display: flex;
     margin: 20px;
 }
 
