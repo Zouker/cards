@@ -12,7 +12,7 @@ export const Pages = () => {
 
     return (
         <Routes>
-            <Route path={'/'} element={<Navigate to={'/login'}/>}/>
+            <Route path={'/'} element={<Navigate to={'/profile'}/>}/>
             <Route path={'/login'} element={<Login/>}/>
             <Route path={'/register'} element={<div><Register/></div>}/>
             <Route path={'/profile'} element={<Profile/>}/>

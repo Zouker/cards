@@ -12,14 +12,13 @@ import error from '../../utils/Error.module.css'
 
 export const Login = () => {
     const dispatch = useAppDispatch()
-    const isLogin = useAppSelector(state => state.auth.isLoggedIn)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
             rememberMe: false
-
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
@@ -56,7 +55,7 @@ export const Login = () => {
         event.preventDefault();
     };
 
-    if (isLogin) {
+    if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }
 

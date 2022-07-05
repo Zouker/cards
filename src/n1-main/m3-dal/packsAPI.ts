@@ -7,26 +7,29 @@ const instance = axios.create({
 })
 
 export const packsAPI = {
-    setPacks(page?: number | string, pageCount?: number, packName?: string,
-             sortPacks?: string, user_id?: string, min?: number, max?: number) {
-        return instance.get<PacksResponseType>(`cards/pack`, {
-            params: {page, pageCount, packName, sortPacks, user_id, min, max}
-        })
+    getPacks(params?: RequestGetPacksType) {
+        return instance.get<ResponseGetPacksType>(`cards/pack`, {params})
     },
-    addPacks(){
-        return instance.post(`cards/pack`, )
+    addPack(name: string, deckCover?: string, isPrivate?: boolean) {
+        return instance.post<PackType>(`cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})
+    },
+    deletePack(id: string | null) {
+        return instance.delete<PackType>(`cards/pack?id=${id}`)
+    },
+    updatePack(_id: string, name: string) {
+        return instance.put<PackType>(`cards/pack`, {cardsPack:{_id, name}})
     }
 };
 
-export type PacksResponseType = {
-    cardsPacks: PackType[],
-    page: number,
-    pageCount: number,
-    cardsPacksTotalCount: number,
-    minCardsCount: number,
-    maxCardsCount: number,
-    token: string,
-    tokenDeathTime: number
+// types
+export type RequestGetPacksType = {
+    packName: string
+    min: number
+    max: number
+    sortPacks: string
+    pageCount: number
+    page: number
+    userId: string | null
 }
 
 export type PackType = {
@@ -46,4 +49,15 @@ export type PackType = {
     more_id: string,
     __v: number,
     deckCover: null
+}
+
+export type ResponseGetPacksType = {
+    cardPacks: PackType[]
+    page: number,
+    pageCount: number,
+    cardPacksTotalCount: number,
+    minCardsCount: number,
+    maxCardsCount: number,
+    token: string,
+    tokenDeathTime: number
 }

@@ -6,6 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {Button} from '@mui/material';
+import {addPackTC} from '../../../m2-bll/reducers/packs-reducer';
+import {useAppDispatch} from '../../../m2-bll/store';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -50,6 +52,11 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 
 export const SearchAppBar = () => {
+    const dispatch = useAppDispatch()
+
+    const addNewCardsPack = () => {
+        dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
+    }
     return (
         <Box sx={{flexGrow: 1}} >
             <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
@@ -67,7 +74,7 @@ export const SearchAppBar = () => {
                         </Search>
                     </div>
                     <div>
-                        <Button variant="contained" color="secondary">
+                        <Button onClick={addNewCardsPack} variant="contained" color="secondary">
                             Add new pack
                         </Button>
                     </div>
