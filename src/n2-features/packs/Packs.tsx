@@ -19,11 +19,14 @@ import {Navigate} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {Preloader} from "../../n1-main/m1-ui/common/loader/Loader";
 
 export const Packs = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const packs = useAppSelector(state => state.packs.cardPacks)
+    const status = useAppSelector(state => state.app.status)
+    const page = useAppSelector(state => state.packs.page)
 
     const deletePack = (id: string) => {
         dispatch(deletePackTC(id))
@@ -42,12 +45,22 @@ export const Packs = () => {
         dispatch(getPacksTC())
     }, [dispatch])
 
+
+    const allHandler = () => {
+        dispatch(getPacksTC())
+    };
+
+    // const myHandler=()=>{
+    //     dispatch(setPacksTC())
+    // }
+
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
     return (
         <div className={styles.wrapper}>
+            {status === 'loading' && <Preloader/>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <div>
@@ -56,7 +69,7 @@ export const Packs = () => {
                             <Button variant="outlined" color="secondary">
                                 My
                             </Button>
-                            <Button variant="contained" color="secondary">
+                            <Button variant="contained" color="secondary" onClick={allHandler}>
                                 All
                             </Button>
                         </div>
@@ -100,7 +113,7 @@ export const Packs = () => {
                                                     startIcon={<DeleteIcon/>}>
                                                 Delete
                                             </Button>
-                                            <Button onClick={()=>updatePack(pack._id)} color="secondary" size="small"
+                                            <Button onClick={() => updatePack(pack._id)} color="secondary" size="small"
                                                     startIcon={<BorderColorIcon/>}>
                                                 Edit
                                             </Button>
@@ -127,5 +140,4 @@ export const Packs = () => {
                 </div>
             </div>
         </div>
-    );
-}
+    )}

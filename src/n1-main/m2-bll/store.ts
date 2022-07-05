@@ -8,6 +8,7 @@ import {appReducer} from './reducers/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {packsReducer} from './reducers/packs-reducer';
 import {profileReducer} from './reducers/profile-reducer';
+import {cardsReducer} from "./reducers/card-reducer";
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -17,7 +18,7 @@ const rootReducer = combineReducers({
     recoverPassword: recoverPasswordReducer,
     setNewPassword: setNewPasswordReducer,
     packs: packsReducer,
-    // cards: cardsReducer,
+    cards: cardsReducer,
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
