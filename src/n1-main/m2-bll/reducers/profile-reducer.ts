@@ -5,8 +5,8 @@ import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
-    userName: 'name' as string,
-    userAvatar: '' as string,
+    userName: 'Enter your name',
+    userAvatar: '',
 }
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {

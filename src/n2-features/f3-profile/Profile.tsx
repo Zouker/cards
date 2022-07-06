@@ -1,20 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Profile.module.css'
 import {Navigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {EditableSpan} from './EditableSpan';
 import {logoutTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
 import {Button} from '@mui/material';
 import {updateUserDataTC} from '../../n1-main/m2-bll/reducers/profile-reducer';
+import {EditableSpan} from './EditableSpan';
 
 export const Profile = () => {
+    const [avatarEditMode, setAvatarEditMode] = useState(false)
+    const [avatar, setAvatar] = useState<string>('')
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const userName = useAppSelector(state => state.auth.userName)
+    const userName = useAppSelector(state => state.profile.userName)
+    const userAvatar = useAppSelector(state => state.profile.userAvatar)
 
     const changeUserName = (title: string) => {
-        dispatch(updateUserDataTC({name: title, avatar: ''}))
+        dispatch(updateUserDataTC({name: title, avatar: userAvatar}))
     }
+
+    const changeUserAvatar = () => {
+        if (avatar !== '') {
+            dispatch(updateUserDataTC({name: userName, avatar}))
+        }
+        setAvatarEditMode(false)
+    }
+
     const handleLogout = () => {
         dispatch(logoutTC())
     }
@@ -24,20 +35,34 @@ export const Profile = () => {
     }
     return (
         <div className={styles.wrapper}>
-            <div className={styles.profile}>
+            <div className={styles.form}>
                 <span className={styles.title}>Profile Info</span>
-                <div className={styles.img}>
-                    <img
-                        src={'https://acomics.ru/upload/avatar/id50526-vkixi31fmm.png'}
-                        alt={'Profile Img'}/>
-                    <div className={styles.titleWrap}>
-                        <EditableSpan title={userName} changeTitle={changeUserName}/>
-                    </div>
+                <div className={styles.container}>
+                <div className={styles.avatar}>
+                    {
+                        avatarEditMode
+                            ? <input className={styles.avatarInput}
+                                     onChange={(e) => {
+                                         setAvatar(e.currentTarget.value)
+                                     }}
+                                     autoFocus
+                                     placeholder={'Enter url for avatar'}
+                                     onBlur={changeUserAvatar}/>
+
+                            : <img
+                                onDoubleClick={() => setAvatarEditMode(true)}
+                                src={userAvatar}
+                                alt="avatar"
+                                className={styles.avatar}
+                            />
+                    }
                 </div>
-                <Button variant={'contained'} onClick={handleLogout}>Logout</Button>
+                <div className={styles.nickname}>
+                    <EditableSpan title={userName} changeTitle={changeUserName}/>
+                </div>
+                </div>
+                <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>
             </div>
         </div>
-
-
     )
 }
