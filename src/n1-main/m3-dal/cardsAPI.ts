@@ -1,6 +1,6 @@
 import {cardsType} from "../m2-bll/reducers/card-reducer";
 import axios from "axios";
-import {PackType} from "./packsAPI";
+
 
 const instance = axios.create({
     withCredentials: true,
@@ -16,9 +16,9 @@ export const cardsAPI = {
         return instance.delete<cardsType>(`/cards/card/?id=${id}`)
     },
     addCard(cardsPack_id: string) {
-        return instance.post<cardsType>(`cards/card`, {cardsPack: cardsPack_id})
+        return instance.post<cardsType>(`cards/card`, {card:{cardsPack_id}})
     },
     updateCard(_id:string) {
-        return instance.put<cardsType>(`cards/card`, {id:{_id}})
+        return instance.put<cardsType>(`cards/card`, {card:{_id}})
     }
 }

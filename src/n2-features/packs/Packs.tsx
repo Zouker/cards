@@ -15,7 +15,7 @@ import {RangeSlider} from '../../n1-main/m1-ui/common/c4-RangeSlider/RangeSlider
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
 import {CardsSelect} from '../../n1-main/m1-ui/common/c7-Select/CardsSelect';
-import {Navigate} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -83,7 +83,7 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar/>
+                    <SearchAppBar  title={'add new pack'}/>
                     <TableContainer component={Paper} className={styles.cardsTable}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -102,7 +102,7 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                            {pack.name}
+                                           <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>

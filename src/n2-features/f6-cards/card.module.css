@@ -1,0 +1,15 @@
+.tableWrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.cards{
+    padding: 20px;
+}
+
+.buttonBlock {
+    display: flex;
+    justify-content: right;
+    margin: 20px;
+}
