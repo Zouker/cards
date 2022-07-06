@@ -46,4 +46,3 @@ type InitialStateType = typeof initialState
 
 type ActionType = ReturnType<typeof setUserNameAC>
     | ReturnType<typeof setUserAvatarAC>
-

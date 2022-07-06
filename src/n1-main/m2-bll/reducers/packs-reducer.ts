@@ -20,27 +20,28 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // thunks
-export const getPacksTC = (): AppThunk => {
-    return (dispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        packsAPI.getPacks()
-            .then((res) => {
-                dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
-            })
-            .catch((error: AxiosError<{ error: string }>) => {
-                errorUtils(error, dispatch)
-            })
-            .finally(() => {
-                dispatch(setAppStatusAC('succeeded'))
-            })
-    }
+export const getPacksTC = (): AppThunk => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    packsAPI.getPacks()
+        .then((res) => {
+
+            dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
+        })
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC('succeeded'))
+        })
 }
+
 
 export const addPackTC = (name: string, deckCover?: string, isPrivate?: boolean): AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         packsAPI.addPack(name, deckCover, isPrivate)
             .then(() => {
+                debugger
                 dispatch(getPacksTC())
             })
             .catch((error: AxiosError<{ error: string }>) => {

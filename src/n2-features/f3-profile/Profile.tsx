@@ -5,7 +5,8 @@ import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {EditableSpan} from './EditableSpan';
 import {logoutTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
 import {Button} from '@mui/material';
-import {updateUserDataTC} from '../../n1-main/m2-bll/reducers/profile-reducer';
+import {updateUserDataTC} from "../../n1-main/m2-bll/reducers/profile-reducer";
+
 
 export const Profile = () => {
     const dispatch = useAppDispatch()
