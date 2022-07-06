@@ -19,12 +19,13 @@ const App = () => {
     return (
 
         <div className="App">
+            {status === 'loading' && <Preloader/>}
             <HashRouter>
                 <Header/>
                 <Pages/>
             </HashRouter>
             <ErrorSnackbar/>
-            {status === 'loading' && <Preloader/>}
+
         </div>
     );
 }
