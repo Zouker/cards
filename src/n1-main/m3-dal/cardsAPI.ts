@@ -10,15 +10,15 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(cardsPack_id:string) {
-        return instance.get<cardsType>(`/cards/card/?cardsPack_id=${cardsPack_id}`)
+        return instance.get<Array<cardsType>>(`/cards/card/?cardsPack_id=${cardsPack_id}`)
     },
     deleteCard(id:string){
-        return instance.delete<cardsType>(`/cards/card/?id=${id}`)
+        return instance.delete<Array<cardsType>>(`/cards/card/?id=${id}`)
     },
     addCard(cardsPack_id: string) {
-        return instance.post<cardsType>(`cards/card`, {card:{cardsPack_id}})
+        return instance.post<Array<cardsType>>(`cards/card`, {card:{cardsPack_id}})
     },
     updateCard(_id:string) {
-        return instance.put<cardsType>(`cards/card`, {card:{_id}})
+        return instance.put<Array<cardsType>>(`cards/card`, {card:{_id}})
     }
 }

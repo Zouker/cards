@@ -50,7 +50,7 @@ export const getCardsTC = (cardsPack_id:string): AppThunk => {
         dispatch(setAppStatusAC('loading'))
         cardsAPI.getCards(cardsPack_id)
             .then((res) => {
-//@ts-ignore
+        //@ts-ignore
               dispatch(getCardsAC(res.data.cards))
             })
             .catch((error: AxiosError<{ error: string }>) => {
