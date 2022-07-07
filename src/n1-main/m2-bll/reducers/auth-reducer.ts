@@ -3,6 +3,7 @@ import {authAPI, DataLoginType} from '../../m3-dal/authAPI';
 import {AppThunk} from '../store';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
+import {setUserAvatarAC, setUserNameAC} from './profile-reducer';
 
 const initialState = {
     isLoggedIn: false,
@@ -22,8 +23,10 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
-        .then(() => {
+        .then((res) => {
             dispatch(setIsLoggedInAC(true))
+            dispatch(setUserNameAC(res.data.name))
+            dispatch(setUserAvatarAC(res.data.avatar))
         })
         .catch((error) => {
             if (error.response) {
