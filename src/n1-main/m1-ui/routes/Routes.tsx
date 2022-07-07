@@ -5,9 +5,9 @@ import {RecoverPassword} from '../../../n2-features/f4-recover-password/RecoverP
 import {SetNewPassword} from '../../../n2-features/f5-enter-new-password/SetNewPassword';
 import {Login} from '../../../n2-features/f1-auth/Login';
 import {Profile} from '../../../n2-features/f3-profile/Profile';
-import {Packs} from '../../../n2-features/packs/Packs';
+import {Packs} from '../../../n2-features/f6-packs/Packs';
 import {Error404} from '../common/Error404/Error404';
-import {Cards} from "../../../n2-features/f6-cards/Cards";
+import {Cards} from "../../../n2-features/f7-cards/Cards";
 
 
 export const Pages = () => {

@@ -19,7 +19,6 @@ import {Navigate, NavLink} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Preloader} from "../../n1-main/m1-ui/common/loader/Loader";
 
 export const Packs = () => {
     const dispatch = useAppDispatch()
@@ -60,7 +59,6 @@ export const Packs = () => {
 
     return (
         <div className={styles.wrapper}>
-            {status === 'loading' && <Preloader/>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <div>
@@ -83,7 +81,7 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar  title={'add new pack'}/>
+                    <SearchAppBar title={'add new pack'}/>
                     <TableContainer component={Paper} className={styles.cardsTable}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -102,7 +100,7 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                           <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
+                                            <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>
@@ -140,4 +138,5 @@ export const Packs = () => {
                 </div>
             </div>
         </div>
-    )}
+    )
+}

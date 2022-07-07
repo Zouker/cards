@@ -33,33 +33,34 @@ export const Profile = () => {
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.form}>
                 <span className={styles.title}>Profile Info</span>
                 <div className={styles.container}>
-                <div className={styles.avatar}>
-                    {
-                        avatarEditMode
-                            ? <input className={styles.avatarInput}
-                                     onChange={(e) => {
-                                         setAvatar(e.currentTarget.value)
-                                     }}
-                                     autoFocus
-                                     placeholder={'Enter url for avatar'}
-                                     onBlur={changeUserAvatar}/>
+                    <div className={styles.avatar}>
+                        {
+                            avatarEditMode
+                                ? <input className={styles.avatarInput}
+                                         onChange={(e) => {
+                                             setAvatar(e.currentTarget.value)
+                                         }}
+                                         autoFocus
+                                         placeholder={'Enter url for avatar'}
+                                         onBlur={changeUserAvatar}/>
 
-                            : <img
-                                onDoubleClick={() => setAvatarEditMode(true)}
-                                src={userAvatar}
-                                alt="avatar"
-                                className={styles.avatar}
-                            />
-                    }
-                </div>
-                <div className={styles.nickname}>
-                    <EditableSpan title={userName} changeTitle={changeUserName}/>
-                </div>
+                                : <img
+                                    onDoubleClick={() => setAvatarEditMode(true)}
+                                    src={userAvatar}
+                                    alt="avatar"
+                                    className={styles.avatar}
+                                />
+                        }
+                    </div>
+                    <div className={styles.nickname}>
+                        <EditableSpan title={userName} changeTitle={changeUserName}/>
+                    </div>
                 </div>
                 <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>
             </div>
