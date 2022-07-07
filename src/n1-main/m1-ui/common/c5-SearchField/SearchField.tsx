@@ -9,8 +9,6 @@ import {Button} from '@mui/material';
 import {addPackTC} from '../../../m2-bll/reducers/packs-reducer';
 import {useAppDispatch} from '../../../m2-bll/store';
 
-
-
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -52,17 +50,17 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
         },
     },
 }));
- type SearchFieldType={
-     title:string
- }
-export const SearchAppBar = (props:SearchFieldType) => {
+type SearchFieldType = {
+    title: string
+}
+export const SearchAppBar = (props: SearchFieldType) => {
     const dispatch = useAppDispatch()
 
     const addNewCardsPack = () => {
         dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
     }
     return (
-        <Box sx={{flexGrow: 1}} >
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
                 <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>

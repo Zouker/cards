@@ -24,7 +24,6 @@ export const getPacksTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     packsAPI.getPacks()
         .then((res) => {
-
             dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
         })
         .catch((error: AxiosError<{ error: string }>) => {
@@ -41,7 +40,6 @@ export const addPackTC = (name: string, deckCover?: string, isPrivate?: boolean)
         dispatch(setAppStatusAC('loading'))
         packsAPI.addPack(name, deckCover, isPrivate)
             .then(() => {
-                debugger
                 dispatch(getPacksTC())
             })
             .catch((error: AxiosError<{ error: string }>) => {

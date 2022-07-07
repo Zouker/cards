@@ -6,7 +6,7 @@ import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
     userName: 'Enter your name',
-    userAvatar: '',
+    userAvatar: 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
 }
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: `http://localhost:7542/2.0/`,
+    baseURL: `http://localhost:7542/2.0`,
     // baseURL: 'https://neko-back.herokuapp.com/2.0',
 })
 
@@ -11,13 +11,13 @@ export const packsAPI = {
         return instance.get<ResponseGetPacksType>(`cards/pack`, {params})
     },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
-        return instance.post<PackType>(`cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})
+        return instance.post<PackType>(`/cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})
     },
     deletePack(id: string | null) {
-        return instance.delete<PackType>(`cards/pack?id=${id}`)
+        return instance.delete<PackType>(`/cards/pack?id=${id}`)
     },
     updatePack(_id: string, name: string) {
-        return instance.put<PackType>(`cards/pack`, {cardsPack:{_id, name}})
+        return instance.put<PackType>(`/cards/pack`, {cardsPack: {_id, name}})
     }
 };
 
