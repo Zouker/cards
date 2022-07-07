@@ -15,15 +15,18 @@ import {RangeSlider} from '../../n1-main/m1-ui/common/c4-RangeSlider/RangeSlider
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
 import {CardsSelect} from '../../n1-main/m1-ui/common/c7-Select/CardsSelect';
-import {Navigate} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {Preloader} from "../../n1-main/m1-ui/common/loader/Loader";
 
 export const Packs = () => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const packs = useAppSelector(state => state.packs.cardPacks)
+    const status = useAppSelector(state => state.app.status)
+    const page = useAppSelector(state => state.packs.page)
 
     const deletePack = (id: string) => {
         dispatch(deletePackTC(id))
@@ -42,12 +45,22 @@ export const Packs = () => {
         dispatch(getPacksTC())
     }, [dispatch])
 
+
+    const allHandler = () => {
+        dispatch(getPacksTC())
+    };
+
+    // const myHandler=()=>{
+    //     dispatch(setPacksTC())
+    // }
+
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
     return (
         <div className={styles.wrapper}>
+            {status === 'loading' && <Preloader/>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <div>
@@ -56,7 +69,7 @@ export const Packs = () => {
                             <Button variant="outlined" color="secondary">
                                 My
                             </Button>
-                            <Button variant="contained" color="secondary">
+                            <Button variant="contained" color="secondary" onClick={allHandler}>
                                 All
                             </Button>
                         </div>
@@ -70,7 +83,7 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar/>
+                    <SearchAppBar  title={'add new pack'}/>
                     <TableContainer component={Paper} className={styles.cardsTable}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -89,7 +102,7 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                            {pack.name}
+                                           <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>
@@ -100,7 +113,7 @@ export const Packs = () => {
                                                     startIcon={<DeleteIcon/>}>
                                                 Delete
                                             </Button>
-                                            <Button onClick={()=>updatePack(pack._id)} color="secondary" size="small"
+                                            <Button onClick={() => updatePack(pack._id)} color="secondary" size="small"
                                                     startIcon={<BorderColorIcon/>}>
                                                 Edit
                                             </Button>
@@ -127,5 +140,4 @@ export const Packs = () => {
                 </div>
             </div>
         </div>
-    );
-}
+    )}

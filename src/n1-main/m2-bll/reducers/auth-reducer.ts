@@ -6,8 +6,6 @@ import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
     isLoggedIn: false,
-    userName: 'name' as string,
-    userAvatar: '' as string,
 }
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {

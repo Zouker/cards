@@ -7,6 +7,8 @@ import {Login} from '../../../n2-features/f1-auth/Login';
 import {Profile} from '../../../n2-features/f3-profile/Profile';
 import {Packs} from '../../../n2-features/packs/Packs';
 import {Error404} from '../common/Error404/Error404';
+import {Cards} from "../../../n2-features/f6-cards/Cards";
+
 
 export const Pages = () => {
 
@@ -23,7 +25,7 @@ export const Pages = () => {
             </Route>
             <Route path={'/test'} element={<div>Test</div>}/>
             <Route path={'/packs'} element={<div><Packs/></div>}/>
-            <Route path={'/cards'} element={<div>Cards</div>}/>
+            <Route path={'/cards/:cardsId'} element={<Cards/>}/>
             <Route path={'/404'} element={<div><Error404/></div>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>
