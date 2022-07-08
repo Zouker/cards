@@ -2,13 +2,13 @@ import axios from 'axios';
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: `http://localhost:7542/2.0`,
-    // baseURL: 'https://neko-back.herokuapp.com/2.0',
+    //baseURL: `http://localhost:7542/2.0`,
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
 })
 
 export const packsAPI = {
-    getPacks(pageCount?:number,page?:number) {
-        return instance.get<ResponseGetPacksType>(`cards/pack/?pageCount=${pageCount}&page=${page}`, )
+    getPacks(pageCount?: number, page?: number) {
+        return instance.get<ResponseGetPacksType>(`cards/pack/?pageCount=${pageCount}&page=${page}`,)
     },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
         return instance.post<PackType>(`/cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})

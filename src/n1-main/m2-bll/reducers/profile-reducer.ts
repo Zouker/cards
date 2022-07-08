@@ -27,7 +27,6 @@ export const updateUserDataTC = (userData: UserDataType): AppThunk => (dispatch)
     profileAPI.updateUserData(userData)
         .then((res) => {
             dispatch(setUserDataAC(res.data))
-            // dispatch(setUserAvatarAC(res.data.updatedUser.avatar))
         })
         .catch((error: AxiosError<{ error: string }>) => {
             errorUtils(error, dispatch)
