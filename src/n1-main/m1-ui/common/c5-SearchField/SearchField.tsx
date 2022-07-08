@@ -6,10 +6,6 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {Button} from '@mui/material';
-import {addPackTC} from '../../../m2-bll/reducers/packs-reducer';
-import {useAppDispatch} from '../../../m2-bll/store';
-
-
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -52,19 +48,27 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
         },
     },
 }));
- type SearchFieldType={
-     title:string
- }
-export const SearchAppBar = (props:SearchFieldType) => {
-    const dispatch = useAppDispatch()
 
-    const addNewCardsPack = () => {
-        dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
-    }
+type SearchFieldType = {
+    title: string
+    addNewItem: () => void
+    goBack: () => void
+}
+export const SearchAppBar = (props: SearchFieldType) => {
+    // const dispatch = useAppDispatch()
+
+    // const addNewCardsPack = () => {
+    //     dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
+    // }
     return (
-        <Box sx={{flexGrow: 1}} >
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
                 <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div>
+                        <Button onClick={props.goBack} variant="contained" color="secondary">
+                            Back
+                        </Button>
+                    </div>
                     <div>
                         <Search>
                             <SearchIconWrapper>
@@ -78,7 +82,7 @@ export const SearchAppBar = (props:SearchFieldType) => {
                         </Search>
                     </div>
                     <div>
-                        <Button onClick={addNewCardsPack} variant="contained" color="secondary">
+                        <Button onClick={props.addNewItem} variant="contained" color="secondary">
                             {props.title}
                         </Button>
                     </div>

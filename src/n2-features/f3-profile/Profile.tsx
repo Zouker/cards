@@ -12,16 +12,18 @@ export const Profile = () => {
     const [avatar, setAvatar] = useState<string>('')
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const userName = useAppSelector(state => state.profile.userName)
-    const userAvatar = useAppSelector(state => state.profile.userAvatar)
+    const userName = useAppSelector(state => state.profile.name)
+    const userAvatar = useAppSelector(state => state.profile.avatar)
+    const userId = useAppSelector(state => state.profile._id)
+    const publicCardPacksCount = useAppSelector(state => state.profile.publicCardPacksCount)
 
     const changeUserName = (title: string) => {
-        dispatch(updateUserDataTC({name: title, avatar: userAvatar}))
+        dispatch(updateUserDataTC({name: title, avatar: userAvatar, _id: userId, publicCardPacksCount}))
     }
 
     const changeUserAvatar = () => {
         if (avatar !== '') {
-            dispatch(updateUserDataTC({name: userName, avatar}))
+            dispatch(updateUserDataTC({name: userName, avatar, _id: userId, publicCardPacksCount}))
         }
         setAvatarEditMode(false)
     }
@@ -33,33 +35,37 @@ export const Profile = () => {
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.form}>
                 <span className={styles.title}>Profile Info</span>
                 <div className={styles.container}>
-                <div className={styles.avatar}>
-                    {
-                        avatarEditMode
-                            ? <input className={styles.avatarInput}
-                                     onChange={(e) => {
-                                         setAvatar(e.currentTarget.value)
-                                     }}
-                                     autoFocus
-                                     placeholder={'Enter url for avatar'}
-                                     onBlur={changeUserAvatar}/>
+                    <div className={styles.avatar}>
+                        {
+                            avatarEditMode
+                                ? <input className={styles.avatarInput}
+                                         onChange={(e) => {
+                                             setAvatar(e.currentTarget.value)
+                                         }}
+                                         autoFocus
+                                         placeholder={'Enter url for avatar'}
+                                         onBlur={changeUserAvatar}/>
 
-                            : <img
-                                onDoubleClick={() => setAvatarEditMode(true)}
-                                src={userAvatar}
-                                alt="avatar"
-                                className={styles.avatar}
-                            />
-                    }
-                </div>
-                <div className={styles.nickname}>
-                    <EditableSpan title={userName} changeTitle={changeUserName}/>
-                </div>
+                                : <img
+                                    onDoubleClick={() => setAvatarEditMode(true)}
+                                    src={userAvatar}
+                                    alt="avatar"
+                                    className={styles.avatar}
+                                />
+                        }
+                    </div>
+                    <div className={styles.nickname}>
+                        <EditableSpan title={userName} changeTitle={changeUserName}/>
+                    </div>
+                    <div className={styles.cardPacksCount}>
+                        Card Packs: {publicCardPacksCount}
+                    </div>
                 </div>
                 <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>
             </div>

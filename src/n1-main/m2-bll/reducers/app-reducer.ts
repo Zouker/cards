@@ -1,7 +1,7 @@
 import {AppThunk} from '../store';
 import {authAPI} from '../../m3-dal/authAPI';
 import {setIsLoggedInAC} from './auth-reducer';
-import {setUserAvatarAC, setUserNameAC} from './profile-reducer';
+import {setUserDataAC} from './profile-reducer';
 
 const initialState = {
     status: 'idle' as RequestStatusType,
@@ -30,8 +30,7 @@ export const authMeTC = (): AppThunk => (dispatch) => {
         .then((res) => {
             dispatch(setInitializedAC(true))
             dispatch(setIsLoggedInAC(true))
-            dispatch(setUserNameAC(res.data.name))
-            dispatch(setUserAvatarAC(res.data.avatar))
+            dispatch(setUserDataAC(res.data))
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))

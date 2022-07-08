@@ -10,7 +10,7 @@ type PropsType = {
 }
 
 export const EditableSpan = React.memo(({title, changeTitle, disabled}: PropsType) => {
-    const userName = useAppSelector(state => state.profile.userName)
+    const userName = useAppSelector(state => state.profile.name)
     const [editMode, setEditMode] = useState<boolean>(false)
     const [localTitle, setLocalTitle] = useState<string>(userName)
 

@@ -20,11 +20,10 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // thunks
-export const getPacksTC = (): AppThunk => (dispatch) => {
+export const getPacksTC = (pageCount?: number,page?:number): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    packsAPI.getPacks()
+    packsAPI.getPacks(pageCount,page)
         .then((res) => {
-
             dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
         })
         .catch((error: AxiosError<{ error: string }>) => {
@@ -41,7 +40,6 @@ export const addPackTC = (name: string, deckCover?: string, isPrivate?: boolean)
         dispatch(setAppStatusAC('loading'))
         packsAPI.addPack(name, deckCover, isPrivate)
             .then(() => {
-                debugger
                 dispatch(getPacksTC())
             })
             .catch((error: AxiosError<{ error: string }>) => {

@@ -8,25 +8,23 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {deletePackTC, getPacksTC, updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
+import {addPackTC, deletePackTC, getPacksTC, updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
 import styles from './Packs.module.css'
 import {Button} from '@mui/material';
 import {RangeSlider} from '../../n1-main/m1-ui/common/c4-RangeSlider/RangeSlider';
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
-import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
-import {CardsSelect} from '../../n1-main/m1-ui/common/c7-Select/CardsSelect';
-import {Navigate, NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Preloader} from "../../n1-main/m1-ui/common/loader/Loader";
+import {PacksPagination} from '../../n1-main/m1-ui/common/c6-Pagination/PacksPagination';
 
 export const Packs = () => {
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const packs = useAppSelector(state => state.packs.cardPacks)
-    const status = useAppSelector(state => state.app.status)
-    const page = useAppSelector(state => state.packs.page)
+    const userId = useAppSelector(state => state.profile._id)
+
 
     const deletePack = (id: string) => {
         dispatch(deletePackTC(id))
@@ -45,22 +43,24 @@ export const Packs = () => {
         dispatch(getPacksTC())
     }, [dispatch])
 
+    const addNewCardsPack = () => {
+        dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
+    }
 
     const allHandler = () => {
         dispatch(getPacksTC())
     };
 
-    // const myHandler=()=>{
-    //     dispatch(setPacksTC())
-    // }
+    const myHandler = (userId: string) => {
+        // dispatch(getPacksTC(userId))
+    }
 
-    if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
+    const returnToProfile = () => {
+        navigate({pathname: '/profile'})
     }
 
     return (
         <div className={styles.wrapper}>
-            {status === 'loading' && <Preloader/>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <div>
@@ -83,7 +83,7 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar  title={'add new pack'}/>
+                    <SearchAppBar title={'add new pack'} addNewItem={addNewCardsPack} goBack={returnToProfile}/>
                     <TableContainer component={Paper} className={styles.cardsTable}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -96,13 +96,13 @@ export const Packs = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {packs.map((pack) => (
+                                {packs?.map((pack) => (
                                     <TableRow
                                         key={pack._id}
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                           <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
+                                            <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>
@@ -128,16 +128,10 @@ export const Packs = () => {
                         </Table>
                     </TableContainer>
                     <div className={styles.paginatorBlock}>
-                        <div>
-                            <CardsPagination/>
-                        </div>
-                        <div className={styles.selector}>
-                            Show
-                            <CardsSelect/>
-                            per Page
-                        </div>
+                        <PacksPagination/>
                     </div>
                 </div>
             </div>
         </div>
-    )}
+    )
+}

@@ -1,33 +1,32 @@
-import {profileAPI, UpdateUserParamsType} from '../../m3-dal/profileAPI';
+import {profileAPI} from '../../m3-dal/profileAPI';
 import {setAppStatusAC} from './app-reducer';
 import {AppThunk} from '../store';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
 
 const initialState = {
-    userName: 'Enter your name',
-    userAvatar: '',
+    _id: '',
+    name: 'Enter your name',
+    avatar: 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
+    publicCardPacksCount: 0,
 }
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case 'profile/SET-USER-NAME': {
-            return {...state, userName: action.userName}
+        case 'profile/SET-USER-DATA': {
+            return {...state, ...action.userData}
         }
-        case 'profile/SET-USER-AVATAR':
-            return {...state, userAvatar: action.userAvatar}
         default:
             return state
     }
 }
 
 // thunks
-export const updateUserDataTC = (userData: UpdateUserParamsType): AppThunk => (dispatch) => {
+export const updateUserDataTC = (userData: UserDataType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     profileAPI.updateUserData(userData)
         .then((res) => {
-            dispatch(setUserNameAC(res.data.updatedUser.name))
-            dispatch(setUserAvatarAC(res.data.updatedUser.avatar))
+            dispatch(setUserDataAC(res.data))
         })
         .catch((error: AxiosError<{ error: string }>) => {
             errorUtils(error, dispatch)
@@ -38,11 +37,25 @@ export const updateUserDataTC = (userData: UpdateUserParamsType): AppThunk => (d
 }
 
 // actions
-export const setUserNameAC = (userName: string) => ({type: 'profile/SET-USER-NAME', userName} as const)
-export const setUserAvatarAC = (userAvatar: string) => ({type: 'profile/SET-USER-AVATAR', userAvatar} as const)
+export const setUserDataAC = (userData: UserDataType) => ({type: 'profile/SET-USER-DATA', userData} as const)
 
 // types
 type InitialStateType = typeof initialState
 
-type ActionType = ReturnType<typeof setUserNameAC>
-    | ReturnType<typeof setUserAvatarAC>
+type ActionType = ReturnType<typeof setUserDataAC>
+
+export type UserDataType = {
+    _id: string
+    email?: string
+    rememberMe?: boolean
+    isAdmin?: boolean
+    name: string
+    verified?: boolean
+    publicCardPacksCount: number
+    created?: Date
+    updated?: Date
+    __v?: number
+    token?: string
+    tokenDeathTime?: number
+    avatar: string
+}
