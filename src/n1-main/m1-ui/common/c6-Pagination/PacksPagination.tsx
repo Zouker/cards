@@ -2,10 +2,10 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import {useAppDispatch, useAppSelector} from "../../../m2-bll/store";
 import {TablePagination} from "@mui/material";
+import {getPacksAC} from "../../../m2-bll/reducers/packs-reducer";
 
 
-
-export const CardsPagination = () => {
+export const PacksPagination = () => {
     const dispatch = useAppDispatch();
     const pageCount = useAppSelector(state => state.packs.pageCount)
     const page = useAppSelector(state => state.packs.page)
@@ -14,12 +14,13 @@ export const CardsPagination = () => {
 
 
     const handleChangePage = () => {
-
+       // dispatch( getPacksAC(page))
     }
 
-    const rowsPerPage =4
-    const handleChangeRowsPerPage = () => {
 
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        debugger
+        //dispatch(getPacksAC(pageCount));
     }
 
     return (
@@ -29,7 +30,8 @@ export const CardsPagination = () => {
                 count={cardPacksTotalCount}
                 page={page-1}
                 onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={pageCount}
+
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Stack>

@@ -7,8 +7,8 @@ const instance = axios.create({
 })
 
 export const packsAPI = {
-    getPacks(params?: RequestGetPacksType) {
-        return instance.get<ResponseGetPacksType>(`cards/pack`, {params})
+    getPacks(pageCount?:number,page?:number) {
+        return instance.get<ResponseGetPacksType>(`cards/pack/?pageCount=${pageCount}&page=${page}`, )
     },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
         return instance.post<PackType>(`/cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})

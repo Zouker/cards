@@ -20,9 +20,9 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // thunks
-export const getPacksTC = (): AppThunk => (dispatch) => {
+export const getPacksTC = (pageCount?: number,page?:number): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    packsAPI.getPacks()
+    packsAPI.getPacks(pageCount,page)
         .then((res) => {
             dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
         })
