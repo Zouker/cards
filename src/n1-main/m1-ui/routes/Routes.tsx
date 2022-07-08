@@ -25,7 +25,7 @@ export const Pages = () => {
             </Route>
             <Route path={'/test'} element={<div>Test</div>}/>
             <Route path={'/packs'} element={<div><Packs/></div>}/>
-            <Route path={'/cards/:cardsId'} element={<Cards/>}/>
+            <Route path={'/cards/:packsId'} element={<Cards/>}/>
             <Route path={'/404'} element={<div><Error404/></div>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>
