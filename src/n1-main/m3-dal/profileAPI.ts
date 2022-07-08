@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {UserDataType} from '../m2-bll/reducers/profile-reducer';
 
 const instance = axios.create({
     withCredentials: true,
@@ -6,8 +7,8 @@ const instance = axios.create({
 })
 
 export const profileAPI = {
-    updateUserData(params: UpdateUserParamsType) {
-        return instance.put<UpdateUserDataResponseType>('auth/me', params)
+    updateUserData(params: UserDataType) {
+        return instance.put<UserDataType>('auth/me', params)
     },
 };
 

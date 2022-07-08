@@ -12,16 +12,18 @@ export const Profile = () => {
     const [avatar, setAvatar] = useState<string>('')
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const userName = useAppSelector(state => state.profile.userName)
-    const userAvatar = useAppSelector(state => state.profile.userAvatar)
+    const userName = useAppSelector(state => state.profile.name)
+    const userAvatar = useAppSelector(state => state.profile.avatar)
+    const userId = useAppSelector(state => state.profile._id)
+    const publicCardPacksCount = useAppSelector(state => state.profile.publicCardPacksCount)
 
     const changeUserName = (title: string) => {
-        dispatch(updateUserDataTC({name: title, avatar: userAvatar}))
+        dispatch(updateUserDataTC({name: title, avatar: userAvatar, _id: userId, publicCardPacksCount}))
     }
 
     const changeUserAvatar = () => {
         if (avatar !== '') {
-            dispatch(updateUserDataTC({name: userName, avatar}))
+            dispatch(updateUserDataTC({name: userName, avatar, _id: userId, publicCardPacksCount}))
         }
         setAvatarEditMode(false)
     }
