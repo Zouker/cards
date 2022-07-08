@@ -63,6 +63,9 @@ export const Profile = () => {
                     <div className={styles.nickname}>
                         <EditableSpan title={userName} changeTitle={changeUserName}/>
                     </div>
+                    <div className={styles.cardPacksCount}>
+                        Card Packs: {publicCardPacksCount}
+                    </div>
                 </div>
                 <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>
             </div>

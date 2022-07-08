@@ -13,19 +13,17 @@ import styles from './Packs.module.css'
 import {Button} from '@mui/material';
 import {RangeSlider} from '../../n1-main/m1-ui/common/c4-RangeSlider/RangeSlider';
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
-import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
-import {CardsSelect} from '../../n1-main/m1-ui/common/c7-Select/CardsSelect';
-import {Navigate, NavLink, useNavigate} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {PacksPagination} from "../../n1-main/m1-ui/common/c6-Pagination/PacksPagination";
+import {PacksPagination} from '../../n1-main/m1-ui/common/c6-Pagination/PacksPagination';
 
 export const Packs = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const packs = useAppSelector(state => state.packs.cardPacks)
+    const userId = useAppSelector(state => state.profile._id)
 
 
     const deletePack = (id: string) => {
@@ -54,13 +52,12 @@ export const Packs = () => {
     };
 
     const myHandler = (userId: string) => {
-        // dispatch(getPacksTC(userId: packs.user_id))
+        // dispatch(getPacksTC(userId))
     }
 
     const returnToProfile = () => {
         navigate({pathname: '/profile'})
     }
-
 
     return (
         <div className={styles.wrapper}>
@@ -131,10 +128,7 @@ export const Packs = () => {
                         </Table>
                     </TableContainer>
                     <div className={styles.paginatorBlock}>
-                        <div>
-                            <PacksPagination/>
-                        </div>
-
+                        <PacksPagination/>
                     </div>
                 </div>
             </div>

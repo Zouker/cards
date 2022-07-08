@@ -2,13 +2,12 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {useAppDispatch, useAppSelector} from "../../../m2-bll/store";
-import {getPacksAC, pageCountAC} from "../../../m2-bll/reducers/packs-reducer";
+import {useAppDispatch, useAppSelector} from '../../../m2-bll/store';
 
 
 export const CardsSelect = () => {
     const dispatch = useAppDispatch();
-    const pageCount=useAppSelector(state => state.packs.pageCount)
+    const pageCount = useAppSelector(state => state.packs.pageCount)
 
 
     const [page, setPage] = React.useState<number>(pageCount);
@@ -16,7 +15,7 @@ export const CardsSelect = () => {
 
     const handleChange = (event: SelectChangeEvent) => {
         setPage(+event.target.value);
-        dispatch(pageCountAC(page))
+        // dispatch(pageCountAC(page))
     };
 
     return (
@@ -28,7 +27,7 @@ export const CardsSelect = () => {
                 onChange={handleChange}
                 displayEmpty
             >
-               {/*// <MenuItem value={} style={{display: 'flex', justifyContent: 'center'}}>*/}
+                {/*// <MenuItem value={} style={{display: 'flex', justifyContent: 'center'}}>*/}
 
                 {/*</MenuItem>*/}
                 <MenuItem style={{display: 'flex', justifyContent: 'center'}} value={10}>10</MenuItem>

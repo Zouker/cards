@@ -3,15 +3,11 @@ import Stack from '@mui/material/Stack';
 import {useAppDispatch, useAppSelector} from "../../../m2-bll/store";
 import {TablePagination} from "@mui/material";
 
-
-
 export const CardsPagination = () => {
     const dispatch = useAppDispatch();
     const pageCount = useAppSelector(state => state.packs.pageCount)
     const page = useAppSelector(state => state.packs.page)
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-
-
 
     const handleChangePage = () => {
 

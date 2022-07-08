@@ -9,7 +9,6 @@ import TableBody from '@mui/material/TableBody';
 import s from './card.module.css'
 import styles from '../f6-packs/Packs.module.css';
 import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
-import {CardsSelect} from '../../n1-main/m1-ui/common/c7-Select/CardsSelect';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
@@ -18,7 +17,6 @@ import {addCardTC, deleteCardTC, getCardsTC} from '../../n1-main/m2-bll/reducers
 import {Preloader} from '../../n1-main/m1-ui/common/loader/Loader';
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
-
 
 export const Cards = () => {
     const navigate = useNavigate()
@@ -100,14 +98,7 @@ export const Cards = () => {
                     </Table>
                 </TableContainer>
                 <div className={styles.paginatorBlock}>
-                    <div>
-                        <CardsPagination/>
-                    </div>
-                    <div className={styles.selector}>
-                        Show
-                        <CardsSelect/>
-                        per Page
-                    </div>
+                    <CardsPagination/>
                 </div>
             </Paper>
         </div>
