@@ -19,6 +19,7 @@ import {Navigate, NavLink} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {PacksPagination} from "../../n1-main/m1-ui/common/c6-Pagination/PacksPagination";
 
 export const Packs = () => {
     const dispatch = useAppDispatch()
@@ -53,9 +54,6 @@ export const Packs = () => {
     //     dispatch(setPacksTC())
     // }
 
-    if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
-    }
 
     return (
         <div className={styles.wrapper}>
@@ -94,7 +92,7 @@ export const Packs = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {packs.map((pack) => (
+                                {packs?.map((pack) => (
                                     <TableRow
                                         key={pack._id}
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -127,13 +125,9 @@ export const Packs = () => {
                     </TableContainer>
                     <div className={styles.paginatorBlock}>
                         <div>
-                            <CardsPagination/>
+                            <PacksPagination/>
                         </div>
-                        <div className={styles.selector}>
-                            Show
-                            <CardsSelect/>
-                            per Page
-                        </div>
+
                     </div>
                 </div>
             </div>
