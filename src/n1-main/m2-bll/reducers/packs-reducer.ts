@@ -2,29 +2,43 @@ import {AppThunk} from '../store';
 import {setAppStatusAC} from './app-reducer';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
-import {packsAPI, PackType} from '../../m3-dal/packsAPI';
+import {packsAPI, PackType, RequestGetPacksType} from '../../m3-dal/packsAPI';
+
+const initialState = {
+    cardPacks: [] as PackType[],
+    page: 1,
+    pageCount: 10,
+    cardPacksTotalCount: 0,
+    minCardsCount: 0,
+    maxCardsCount: 20,
+    token: '',
+    tokenDeathTime: 0,
+}
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case 'packs/SET-PACKS':
-            return {
-                ...state,
-                cardPacks: action.packs,
-                cardPacksTotalCount: action.cardPacksTotalCount,
-                page: action.page,
-                pageCount: action.pageCount
-            }
+            return {...state, cardPacks: action.packs}
+        case 'packs/SET-PAGE':
+            return {...state, page: action.page}
+        case 'packs/SET-PAGE-COUNT':
+            return {...state, pageCount: action.pageCount}
+        case 'packs/SET-CARD-PACKS-TOTAL-COUNT':
+            return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
         default:
             return state
     }
 }
 
 // thunks
-export const getPacksTC = (pageCount?: number,page?:number): AppThunk => (dispatch) => {
+export const getPacksTC = (data?: RequestGetPacksType): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    packsAPI.getPacks(pageCount,page)
+    packsAPI.getPacks(data)
         .then((res) => {
-            dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
+            dispatch(getPacksAC(res.data.cardPacks))
+            dispatch(setPageAC(res.data.page))
+            dispatch(setPageCountAC(res.data.pageCount))
+            dispatch(setCardPacksTotalCountAC(res.data.cardPacksTotalCount))
         })
         .catch((error: AxiosError<{ error: string }>) => {
             errorUtils(error, dispatch)
@@ -33,7 +47,6 @@ export const getPacksTC = (pageCount?: number,page?:number): AppThunk => (dispat
             dispatch(setAppStatusAC('succeeded'))
         })
 }
-
 
 export const addPackTC = (name: string, deckCover?: string, isPrivate?: boolean): AppThunk => {
     return (dispatch) => {
@@ -84,12 +97,12 @@ export const updatePackTC = (id: string, name: string): AppThunk => {
 }
 
 // actions
-export const getPacksAC = (packs: PackType[], cardPacksTotalCount: number, page: number, pageCount: number) => ({
-    type: 'packs/SET-PACKS',
-    packs,
-    cardPacksTotalCount,
-    page,
-    pageCount
+export const getPacksAC = (packs: PackType[]) => ({type: 'packs/SET-PACKS', packs} as const)
+export const setPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as const)
+export const setPageCountAC = (pageCount: number) => ({type: 'packs/SET-PAGE-COUNT', pageCount} as const)
+export const setCardPacksTotalCountAC = (cardPacksTotalCount: number) => ({
+    type: 'packs/SET-CARD-PACKS-TOTAL-COUNT',
+    cardPacksTotalCount
 } as const)
 
 export const addPackAC = (cardsPack: { name: string, deckCover: string | null, isPrivate: boolean }) => ({
@@ -100,40 +113,13 @@ export const deletePackAC = (id: string) => ({type: 'packs/DELETE-PACK', id} as 
 export const updatePackAC = (id: string, name: string) => ({type: 'packs/UPDATE-PACK', id, name} as const)
 
 // types
-const initialState = {
-    cardPacks: [
-        {
-            _id: '',
-            user_id: '',
-            user_name: '',
-            private: false,
-            name: '',
-            path: '',
-            grade: 0,
-            shots: 0,
-            cardsCount: 0,
-            type: '',
-            rating: 0,
-            created: '',
-            updated: '',
-            more_id: '',
-            __v: 0,
-            deckCover: null
-        }
-    ],
-    page: 1,
-    pageCount: 10,
-    cardPacksTotalCount: 0,
-    minCardsCount: 0,
-    maxCardsCount: 20,
-    token: '',
-    tokenDeathTime: 0,
-}
-
 export type InitialStateType = typeof initialState
 type ActionType =
     ReturnType<typeof getPacksAC>
     | ReturnType<typeof addPackAC>
     | ReturnType<typeof deletePackAC>
     | ReturnType<typeof updatePackAC>
+    | ReturnType<typeof setPageAC>
+    | ReturnType<typeof setPageCountAC>
+    | ReturnType<typeof setCardPacksTotalCountAC>
 

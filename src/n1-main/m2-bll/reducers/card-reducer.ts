@@ -2,10 +2,10 @@ import {AppThunk} from '../store';
 import {setAppStatusAC} from './app-reducer';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
-import {cardsAPI, newCardType} from '../../m3-dal/cardsAPI';
+import {cardsAPI, CardType, NewCardType} from '../../m3-dal/cardsAPI';
 
 const initialState = {
-    cards: [] as Array<cardsType>
+    cards: [] as CardType[]
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -20,7 +20,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // actions
-export const getCardsAC = (cards: Array<cardsType>) => ({
+export const getCardsAC = (cards: CardType[]) => ({
     type: 'cards/GET-CARDS',
     cards,
 } as const)
@@ -42,7 +42,7 @@ export const getCardsTC = (cardsPack_id: string): AppThunk => {
     }
 }
 
-export const addCardTC = (newCard: newCardType): AppThunk => {
+export const addCardTC = (newCard: NewCardType): AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         cardsAPI.addCard(newCard)
@@ -58,12 +58,35 @@ export const addCardTC = (newCard: newCardType): AppThunk => {
     }
 }
 
-export const deleteCardTC = (cardId: string): AppThunk => {
+export const deleteCardTC = (cardId: string, packsId: string): AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         cardsAPI.deleteCard(cardId)
             .then((res) => {
-                dispatch(getCardsTC(cardId))
+                dispatch(getCardsTC(packsId))
+            })
+            .catch((error: AxiosError<{ error: string }>) => {
+                errorUtils(error, dispatch)
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('succeeded'))
+            })
+    }
+}
+
+export const updateCardTC = (id: string, packsId: string): AppThunk => {
+    return (dispatch) => {
+        const question = 'UPDATED_QUESTION222'
+        const answer = 'UPDATED_ANSWER333'
+        const card = {
+            _id: id,
+            question,
+            answer,
+        }
+        dispatch(setAppStatusAC('loading'))
+        cardsAPI.updateCard(card)
+            .then(() => {
+                dispatch(getCardsTC(packsId))
             })
             .catch((error: AxiosError<{ error: string }>) => {
                 errorUtils(error, dispatch)
@@ -75,17 +98,5 @@ export const deleteCardTC = (cardId: string): AppThunk => {
 }
 
 // types
-export type cardsType = {
-    answer: string,
-    question: string
-    cardsPack_id: string
-    grade: number
-    shots: number
-    user_id: string
-    created: Date
-    updated: Date
-    _id: string
-}
-
 export type InitialStateType = typeof initialState;
 type ActionType = ReturnType<typeof getCardsAC>

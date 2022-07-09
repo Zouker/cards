@@ -11,40 +11,42 @@ import styles from '../f6-packs/Packs.module.css';
 import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import {updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {addCardTC, deleteCardTC, getCardsTC} from '../../n1-main/m2-bll/reducers/card-reducer';
-import {Preloader} from '../../n1-main/m1-ui/common/loader/Loader';
+import {addCardTC, deleteCardTC, getCardsTC, updateCardTC} from '../../n1-main/m2-bll/reducers/card-reducer';
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
 
 export const Cards = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const status = useAppSelector(state => state.app.status)
     const cards = useAppSelector(state => state.cards.cards)
 
-    const {packsId} = useParams<string>(); //получение id колоды, на которую мы кликнули
+    const {packsId} = useParams(); //получение id колоды, на которую мы кликнули
 
     useEffect(() => {
         if (packsId) {
             dispatch(getCardsTC(packsId))
         }
-    }, []);
+    }, [dispatch, packsId]);
 
     const addNewCard = () => {
-        const question = 'DEFAULT_QUESTION'
-        const answer = 'DEFAULT_ANSWER'
-        packsId && dispatch(addCardTC({cardsPack_id: packsId, question, answer}))
+        if (packsId) {
+            const question = 'DEFAULT_QUESTION'
+            const answer = 'DEFAULT_ANSWER'
+            dispatch(addCardTC({cardsPack_id: packsId, question, answer}))
+        }
     }
 
     const deleteCard = (id: string) => {
-        dispatch(deleteCardTC(id))
+        if (packsId) {
+            dispatch(deleteCardTC(id, packsId))
+        }
     }
 
     const updateCard = (id: string) => {
-        const name = 'UPDATED_CARD_NAME'
-        dispatch(updatePackTC(id, name))
+        if (packsId) {
+            dispatch(updateCardTC(id, packsId))
+        }
     }
 
     const returnToPacks = () => {
@@ -53,7 +55,6 @@ export const Cards = () => {
 
     return (
         <div className={s.tableWrapper}>
-            {status === 'loading' && <Preloader/>}
             <Paper className={s.cards} elevation={3}>
                 <h2>Cards name</h2>
 
