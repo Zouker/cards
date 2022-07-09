@@ -6,34 +6,42 @@ function valuetext(value: number) {
     return `${value}`;
 }
 
-const minDistance = 1;
+// const minDistance = 1;
 
-export const RangeSlider = () => {
-    const [value, setValue] = React.useState<number[]>([0, 100]);
+type RangeSliderPropsType = {
+    value: number[]
+    onChange: (event: Event,
+               newValue: number | number[],
+               activeThumb: number,
+    ) => void
+}
 
-    const handleChange1 = (
-        event: Event,
-        newValue: number | number[],
-        activeThumb: number,
-    ) => {
-        if (!Array.isArray(newValue)) {
-            return;
-        }
-
-        if (activeThumb === 0) {
-            setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
-        } else {
-            setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
-        }
-    };
+export const RangeSlider: React.FC<RangeSliderPropsType> = (props) => {
+    // const [value, setValue] = React.useState<number[]>([0, 100]);
+    //
+    // const handleChange1 = (
+    //     event: Event,
+    //     newValue: number | number[],
+    //     activeThumb: number,
+    // ) => {
+    //     if (!Array.isArray(newValue)) {
+    //         return;
+    //     }
+    //
+    //     if (activeThumb === 0) {
+    //         setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
+    //     } else {
+    //         setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
+    //     }
+    // };
 
     return (
         <Box sx={{width: 200}}>
             <Slider
                 getAriaLabel={() => 'Minimum distance'}
                 color={'secondary'}
-                value={value}
-                onChange={handleChange1}
+                value={props.value}
+                onChange={props.onChange}
                 valueLabelDisplay="on"
                 getAriaValueText={valuetext}
                 disableSwap

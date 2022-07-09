@@ -4,22 +4,25 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {Button, TableCell} from '@mui/material';
+import {Button, TableCell, TablePagination} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import s from './card.module.css'
 import styles from '../f6-packs/Packs.module.css';
-import {CardsPagination} from '../../n1-main/m1-ui/common/c6-Pagination/CardsPagination';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {addCardTC, deleteCardTC, getCardsTC, updateCardTC} from '../../n1-main/m2-bll/reducers/card-reducer';
+import {addCardTC, deleteCardTC, getCardsTC, updateCardTC} from '../../n1-main/m2-bll/reducers/cards-reducer';
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
+import {setPageAC, setPageCountAC} from '../../n1-main/m2-bll/reducers/packs-reducer';
 
 export const Cards = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const cards = useAppSelector(state => state.cards.cards)
+    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
+    const page = useAppSelector(state => state.packs.page)
+    const pageCount = useAppSelector(state => state.packs.pageCount)
 
     const {packsId} = useParams(); //получение id колоды, на которую мы кликнули
 
@@ -49,6 +52,21 @@ export const Cards = () => {
         }
     }
 
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number,
+    ) => {
+        dispatch(setPageAC(newPage + 1))
+    };
+
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+        dispatch(setPageCountAC(parseInt(event.target.value, pageCount)))
+        dispatch(setPageAC(1))
+    };
+
+
     const returnToPacks = () => {
         navigate({pathname: '/packs'})
     }
@@ -65,8 +83,9 @@ export const Cards = () => {
                             <TableRow>
                                 <TableCell>Question</TableCell>
                                 <TableCell align="right">Answer</TableCell>
-                                <TableCell align="right">Update</TableCell>
+                                <TableCell align="right">Rating</TableCell>
                                 <TableCell align="right">Grade</TableCell>
+                                <TableCell align="right">Updated</TableCell>
                                 <TableCell align="right">Actions</TableCell>
                             </TableRow>
                         </TableHead>
@@ -80,8 +99,9 @@ export const Cards = () => {
                                         {card.question}
                                     </TableCell>
                                     <TableCell align="right">{card.answer}</TableCell>
-                                    <TableCell align="right">{card.updated.toString()}</TableCell>
+                                    <TableCell align="right">{card.rating}</TableCell>
                                     <TableCell align="right">{card.grade}</TableCell>
+                                    <TableCell align="right">{card.updated.toString()}</TableCell>
                                     <td className={s.buttonBlock}>
                                         <Button onClick={() => deleteCard(card._id)} color="secondary"
                                                 size="small"
@@ -99,7 +119,8 @@ export const Cards = () => {
                     </Table>
                 </TableContainer>
                 <div className={styles.paginatorBlock}>
-                    <CardsPagination/>
+                    <TablePagination count={cardPacksTotalCount} page={page - 1} onPageChange={handleChangePage}
+                                     rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
                 </div>
             </Paper>
         </div>

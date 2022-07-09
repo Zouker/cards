@@ -5,7 +5,12 @@ import {errorUtils} from '../../../utils/error-utils';
 import {cardsAPI, CardType, NewCardType} from '../../m3-dal/cardsAPI';
 
 const initialState = {
-    cards: [] as CardType[]
+    cards: [] as CardType[],
+    cardsTotalCount: 0,
+    page: 1,
+    pageCount: 5,
+    cardQuestion: '',
+    cardAnswer: ''
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -27,7 +32,8 @@ export const getCardsAC = (cards: CardType[]) => ({
 
 // thunks
 export const getCardsTC = (cardsPack_id: string): AppThunk => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const {cardsTotalCount, page, pageCount, cardQuestion, cardAnswer} = getState().cards
         dispatch(setAppStatusAC('loading'))
         cardsAPI.getCards(cardsPack_id)
             .then((res) => {
@@ -76,8 +82,8 @@ export const deleteCardTC = (cardId: string, packsId: string): AppThunk => {
 
 export const updateCardTC = (id: string, packsId: string): AppThunk => {
     return (dispatch) => {
-        const question = 'UPDATED_QUESTION222'
-        const answer = 'UPDATED_ANSWER333'
+        const question = 'UPDATED_QUESTION'
+        const answer = 'UPDATED_ANSWER'
         const card = {
             _id: id,
             question,
