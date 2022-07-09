@@ -114,16 +114,14 @@ export const Packs = () => {
                 <div className={styles.sidebar}>
                     <div>
                         <p className={styles.title}>Show packs cards</p>
-                        <div className={styles.buttonBlock}>
-                            <Button variant={isMyPack ? 'contained' : 'outlined'} color="secondary"
-                                    onClick={myPacksHandler}>
-                                My
-                            </Button>
-                            <Button variant={!isMyPack ? 'contained' : 'outlined'} color="secondary"
-                                    onClick={allPacksHandler}>
-                                All
-                            </Button>
-                        </div>
+                        <Button variant={isMyPack ? 'contained' : 'outlined'} color="secondary"
+                                onClick={myPacksHandler}>
+                            My
+                        </Button>
+                        <Button variant={!isMyPack ? 'contained' : 'outlined'} color="secondary"
+                                onClick={allPacksHandler}>
+                            All
+                        </Button>
                     </div>
                     <div>
                         <p className={styles.title}>Number of cards</p>

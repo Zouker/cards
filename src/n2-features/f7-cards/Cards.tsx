@@ -103,7 +103,7 @@ export const Cards = () => {
                                     <TableCell align="right">{card.grade}</TableCell>
                                     <TableCell align="right">{card.updated.toString()}</TableCell>
                                     <td className={s.buttonBlock}>
-                                        <Button onClick={() => deleteCard(card._id)} color="secondary"
+                                        <Button onClick={() => deleteCard(card._id)} color="error"
                                                 size="small"
                                                 startIcon={<DeleteIcon/>}>
                                             Delete
