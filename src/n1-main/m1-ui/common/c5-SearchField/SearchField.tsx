@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {Button} from '@mui/material';
+import {ChangeEvent} from 'react';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -53,6 +54,8 @@ type SearchFieldType = {
     title: string
     addNewItem: () => void
     goBack: () => void
+    value: string
+    onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
 }
 export const SearchAppBar = (props: SearchFieldType) => {
     // const dispatch = useAppDispatch()
@@ -78,6 +81,8 @@ export const SearchAppBar = (props: SearchFieldType) => {
                                 placeholder="Search…"
                                 inputProps={{'aria-label': 'search'}}
                                 style={{color: 'white'}}
+                                value={props.value}
+                                onChange={props.onChange}
                             />
                         </Search>
                     </div>

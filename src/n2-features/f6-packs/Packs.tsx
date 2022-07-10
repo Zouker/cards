@@ -13,6 +13,7 @@ import {
     deletePackTC,
     getPacksTC,
     isMyPackAC,
+    searchAC,
     setPageAC,
     setPageCountAC,
     updatePackTC
@@ -25,6 +26,7 @@ import {NavLink, useNavigate} from 'react-router-dom';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useDebounce from '../../hooks/useDebounce';
 
 export const Packs = () => {
     const navigate = useNavigate()
@@ -32,15 +34,18 @@ export const Packs = () => {
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-    const page = useAppSelector(state => state.packs.page)
-    const pageCount = useAppSelector(state => state.packs.pageCount)
+    const page = useAppSelector(state => state.packs.params.page)
+    const pageCount = useAppSelector(state => state.packs.params.pageCount)
     const minCardsCount = useAppSelector(state => state.packs.minCardsCount)
     const maxCardsCount = useAppSelector(state => state.packs.maxCardsCount)
-    const min = useAppSelector(state => state.packs.min)
-    const max = useAppSelector(state => state.packs.max)
+    const min = useAppSelector(state => state.packs.params.min)
+    const max = useAppSelector(state => state.packs.params.max)
     const isMyPack = useAppSelector(state => state.packs.isMyPack)
+    const packName = useAppSelector(state => state.packs.params.packName)
 
     const [value, setValue] = React.useState<number[]>([min, max]);
+
+    const debouncedValue = useDebounce<string>(packName, 1000)
 
     const addNewCardsPack = () => {
         dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
@@ -79,7 +84,7 @@ export const Packs = () => {
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
-        dispatch(setPageCountAC(parseInt(event.target.value, pageCount)))
+        dispatch(setPageCountAC(Number(event.target.value)))
         dispatch(setPageAC(1))
     };
 
@@ -102,7 +107,7 @@ export const Packs = () => {
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [isMyPack, min, max, pageCount, page])
+    }, [debouncedValue, isMyPack, min, max, pageCount, page])
 
     const returnToProfile = () => {
         navigate({pathname: '/profile'})
@@ -132,7 +137,10 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar title={'add new pack'} addNewItem={addNewCardsPack} goBack={returnToProfile}/>
+                    <SearchAppBar title={'add new pack'} addNewItem={addNewCardsPack} goBack={returnToProfile}
+                                  value={packName} onChange={(e) => {
+                        dispatch(searchAC(e.currentTarget.value))
+                    }}/>
                     <TableContainer component={Paper}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -184,7 +192,7 @@ export const Packs = () => {
                         </Table>
                     </TableContainer>
                     <div className={styles.paginatorBlock}>
-                        <TablePagination count={cardPacksTotalCount} page={page - 1} onPageChange={handleChangePage}
+                        <TablePagination count={cardPacksTotalCount} page={page} onPageChange={handleChangePage}
                                          rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
                     </div>
                 </div>

@@ -15,16 +15,20 @@ import {addCardTC, deleteCardTC, getCardsTC, updateCardTC} from '../../n1-main/m
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
 import {setPageAC, setPageCountAC} from '../../n1-main/m2-bll/reducers/packs-reducer';
+import useDebounce from '../../hooks/useDebounce';
 
 export const Cards = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const cards = useAppSelector(state => state.cards.cards)
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-    const page = useAppSelector(state => state.packs.page)
-    const pageCount = useAppSelector(state => state.packs.pageCount)
+    const page = useAppSelector(state => state.packs.params.page)
+    const pageCount = useAppSelector(state => state.packs.params.pageCount)
 
     const {packsId} = useParams(); //получение id колоды, на которую мы кликнули
+
+    const [searchCard, setSearchCard] = React.useState('')
+    const debouncedValue = useDebounce<string>(searchCard, 1000)
 
     useEffect(() => {
         if (packsId) {
@@ -62,7 +66,7 @@ export const Cards = () => {
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
-        dispatch(setPageCountAC(parseInt(event.target.value, pageCount)))
+        dispatch(setPageCountAC(Number(event.target.value)))
         dispatch(setPageAC(1))
     };
 
@@ -76,7 +80,8 @@ export const Cards = () => {
             <Paper className={s.cards} elevation={3}>
                 <h2>Cards name</h2>
 
-                <SearchAppBar title={'add new card'} addNewItem={addNewCard} goBack={returnToPacks}/>
+                <SearchAppBar title={'add new card'} addNewItem={addNewCard} goBack={returnToPacks} value={searchCard}
+                              onChange={(e) => setSearchCard(e.currentTarget.value)}/>
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 500}} aria-label="simple table">
                         <TableHead>
@@ -119,7 +124,7 @@ export const Cards = () => {
                     </Table>
                 </TableContainer>
                 <div className={styles.paginatorBlock}>
-                    <TablePagination count={cardPacksTotalCount} page={page - 1} onPageChange={handleChangePage}
+                    <TablePagination count={cardPacksTotalCount} page={page} onPageChange={handleChangePage}
                                      rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
                 </div>
             </Paper>
