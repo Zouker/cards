@@ -8,7 +8,7 @@ import {appReducer} from './reducers/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {packsReducer} from './reducers/packs-reducer';
 import {profileReducer} from './reducers/profile-reducer';
-import {cardsReducer} from "./reducers/card-reducer";
+import {cardsReducer} from "./reducers/cards-reducer";
 
 const rootReducer = combineReducers({
     app: appReducer,
