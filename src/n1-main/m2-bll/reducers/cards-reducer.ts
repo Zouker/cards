@@ -6,38 +6,54 @@ import {cardsAPI, CardType, NewCardType} from '../../m3-dal/cardsAPI';
 
 const initialState = {
     cards: [] as CardType[],
-    cardsTotalCount: 0,
-    page: 1,
-    pageCount: 5,
-    cardQuestion: '',
-    cardAnswer: ''
+    packUserId: '',
+    params: {
+        page: 1,
+        pageCount: 10,
+        cardsTotalCount: 0,
+        cardQuestion: '',
+        cardAnswer: '',
+    },
+    minGrade: 0,
+    maxGrade: 6,
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case 'cards/GET-CARDS':
-            return {
-                ...state, cards: action.cards
-            }
+            return {...state, cards: action.cards}
+        case 'cards/SET-PAGE':
+            return {...state, params: {...state.params, page: action.page}}
+        case 'cards/SET-PAGE-COUNT':
+            return {...state, params: {...state.params, pageCount: action.pageCount}}
+        case 'cards/SET-CARDS-TOTAL-COUNT':
+            return {...state, params: {...state.params, cardsTotalCount: action.cardsTotalCount}}
         default:
             return state
     }
 }
 
 // actions
-export const getCardsAC = (cards: CardType[]) => ({
-    type: 'cards/GET-CARDS',
-    cards,
+export const getCardsAC = (cards: CardType[]) => ({type: 'cards/GET-CARDS', cards,} as const)
+export const setCardsPageAC = (page: number) => ({type: 'cards/SET-PAGE', page,} as const)
+export const setCardsPageCountAC = (pageCount: number) => ({type: 'cards/SET-PAGE-COUNT', pageCount,} as const)
+export const setCardsTotalCountAC = (cardsTotalCount: number) => ({
+    type: 'cards/SET-CARDS-TOTAL-COUNT',
+    cardsTotalCount,
 } as const)
+
 
 // thunks
 export const getCardsTC = (cardsPack_id: string): AppThunk => {
     return (dispatch, getState) => {
-        const {cardsTotalCount, page, pageCount, cardQuestion, cardAnswer} = getState().cards
+        const {params} = getState().cards
         dispatch(setAppStatusAC('loading'))
-        cardsAPI.getCards(cardsPack_id)
+        cardsAPI.getCards(cardsPack_id, params)
             .then((res) => {
                 dispatch(getCardsAC(res.data.cards))
+                dispatch(setCardsPageAC(res.data.page))
+                dispatch(setCardsPageCountAC(res.data.pageCount))
+                dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
             })
             .catch((error: AxiosError<{ error: string }>) => {
                 errorUtils(error, dispatch)
@@ -105,4 +121,8 @@ export const updateCardTC = (id: string, packsId: string): AppThunk => {
 
 // types
 export type InitialStateType = typeof initialState;
-type ActionType = ReturnType<typeof getCardsAC>
+type ActionType =
+    ReturnType<typeof getCardsAC>
+    | ReturnType<typeof setCardsPageAC>
+    | ReturnType<typeof setCardsPageCountAC>
+    | ReturnType<typeof setCardsTotalCountAC>

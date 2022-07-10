@@ -11,19 +11,25 @@ import styles from '../f6-packs/Packs.module.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {addCardTC, deleteCardTC, getCardsTC, updateCardTC} from '../../n1-main/m2-bll/reducers/cards-reducer';
+import {
+    addCardTC,
+    deleteCardTC,
+    getCardsTC,
+    setCardsPageAC,
+    setCardsPageCountAC,
+    updateCardTC
+} from '../../n1-main/m2-bll/reducers/cards-reducer';
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
-import {setPageAC, setPageCountAC} from '../../n1-main/m2-bll/reducers/packs-reducer';
 import useDebounce from '../../hooks/useDebounce';
 
 export const Cards = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const cards = useAppSelector(state => state.cards.cards)
-    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
-    const page = useAppSelector(state => state.packs.params.page)
-    const pageCount = useAppSelector(state => state.packs.params.pageCount)
+    const cardsTotalCount = useAppSelector(state => state.cards.params.cardsTotalCount)
+    const page = useAppSelector(state => state.cards.params.page)
+    const pageCount = useAppSelector(state => state.cards.params.pageCount)
 
     const {packsId} = useParams(); //получение id колоды, на которую мы кликнули
 
@@ -34,7 +40,7 @@ export const Cards = () => {
         if (packsId) {
             dispatch(getCardsTC(packsId))
         }
-    }, [dispatch, packsId]);
+    }, [dispatch, packsId, page, pageCount]);
 
     const addNewCard = () => {
         if (packsId) {
@@ -60,16 +66,15 @@ export const Cards = () => {
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
-        dispatch(setPageAC(newPage + 1))
+        dispatch(setCardsPageAC(newPage + 1))
     };
 
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
-        dispatch(setPageCountAC(Number(event.target.value)))
-        dispatch(setPageAC(1))
+        dispatch(setCardsPageCountAC(Number(event.target.value)))
+        dispatch(setCardsPageAC(1))
     };
-
 
     const returnToPacks = () => {
         navigate({pathname: '/packs'})
@@ -79,7 +84,6 @@ export const Cards = () => {
         <div className={s.tableWrapper}>
             <Paper className={s.cards} elevation={3}>
                 <h2>Cards name</h2>
-
                 <SearchAppBar title={'add new card'} addNewItem={addNewCard} goBack={returnToPacks} value={searchCard}
                               onChange={(e) => setSearchCard(e.currentTarget.value)}/>
                 <TableContainer component={Paper}>
@@ -107,7 +111,8 @@ export const Cards = () => {
                                     <TableCell align="right">{card.rating}</TableCell>
                                     <TableCell align="right">{card.grade}</TableCell>
                                     <TableCell align="right">{card.updated.toString()}</TableCell>
-                                    <td className={s.buttonBlock}>
+
+                                    <TableCell className={s.buttonBlock}>
                                         <Button onClick={() => deleteCard(card._id)} color="error"
                                                 size="small"
                                                 startIcon={<DeleteIcon/>}>
@@ -117,14 +122,15 @@ export const Cards = () => {
                                                 startIcon={<BorderColorIcon/>}>
                                             Edit
                                         </Button>
-                                    </td>
+                                    </TableCell>
+
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <div className={styles.paginatorBlock}>
-                    <TablePagination count={cardPacksTotalCount} page={page} onPageChange={handleChangePage}
+                    <TablePagination count={cardsTotalCount} page={page - 1} onPageChange={handleChangePage}
                                      rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
                 </div>
             </Paper>

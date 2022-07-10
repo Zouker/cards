@@ -1,15 +1,9 @@
-.tableWrapper{
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 50px;
-}
-
-.cards{
-    padding: 20px;
-}
-
-.buttonBlock {
+.tableWrapper {
     display: flex;
-    justify-content: right;
-    margin: 20px;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.cards {
+    padding: 20px;
 }
