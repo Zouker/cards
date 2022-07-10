@@ -7,13 +7,14 @@
     display: flex;
     justify-content: center;
     margin: 20px 0;
-    background-color: white;
-    width: 60%;
+    background: #FEFEFF;
+    border-radius: 8px;
 }
 
 .sidebar {
     width: 240px;
     background-color: #E5E5E5;
+    border-radius: 8px 0 0 8px;
 }
 
 .title {
@@ -27,11 +28,6 @@
 
 .rangeSlider {
     margin: 20px;
-}
-
-.cardsTable {
-    height: 580px;
-    width: 700px;
 }
 
 .paginatorBlock {
