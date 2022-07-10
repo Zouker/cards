@@ -15,6 +15,7 @@ import {
     addCardTC,
     deleteCardTC,
     getCardsTC,
+    searchQuestionAC,
     setCardsPageAC,
     setCardsPageCountAC,
     updateCardTC
@@ -30,17 +31,17 @@ export const Cards = () => {
     const cardsTotalCount = useAppSelector(state => state.cards.params.cardsTotalCount)
     const page = useAppSelector(state => state.cards.params.page)
     const pageCount = useAppSelector(state => state.cards.params.pageCount)
+    const cardQuestion = useAppSelector(state => state.cards.params.cardQuestion)
 
     const {packsId} = useParams(); //получение id колоды, на которую мы кликнули
 
-    const [searchCard, setSearchCard] = React.useState('')
-    const debouncedValue = useDebounce<string>(searchCard, 1000)
+    const debouncedValueQuestion = useDebounce(cardQuestion, 1000)
 
     useEffect(() => {
         if (packsId) {
             dispatch(getCardsTC(packsId))
         }
-    }, [dispatch, packsId, page, pageCount]);
+    }, [dispatch, packsId, page, pageCount, debouncedValueQuestion]);
 
     const addNewCard = () => {
         if (packsId) {
@@ -84,8 +85,10 @@ export const Cards = () => {
         <div className={s.tableWrapper}>
             <Paper className={s.cards} elevation={3}>
                 <h2>Cards name</h2>
-                <SearchAppBar title={'add new card'} addNewItem={addNewCard} goBack={returnToPacks} value={searchCard}
-                              onChange={(e) => setSearchCard(e.currentTarget.value)}/>
+                <SearchAppBar title={'add new card'} addNewItem={addNewCard} goBack={returnToPacks}
+                              value={cardQuestion}
+                              onChange={(e) => dispatch(searchQuestionAC(e.currentTarget.value))}
+                />
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 500}} aria-label="simple table">
                         <TableHead>
@@ -111,7 +114,6 @@ export const Cards = () => {
                                     <TableCell align="right">{card.rating}</TableCell>
                                     <TableCell align="right">{card.grade}</TableCell>
                                     <TableCell align="right">{card.updated.toString()}</TableCell>
-
                                     <TableCell className={s.buttonBlock}>
                                         <Button onClick={() => deleteCard(card._id)} color="error"
                                                 size="small"
@@ -123,7 +125,6 @@ export const Cards = () => {
                                             Edit
                                         </Button>
                                     </TableCell>
-
                                 </TableRow>
                             ))}
                         </TableBody>

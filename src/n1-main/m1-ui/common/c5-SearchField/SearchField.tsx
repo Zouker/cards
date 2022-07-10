@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ChangeEvent} from 'react';
 import {alpha, styled} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -6,7 +7,6 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {Button} from '@mui/material';
-import {ChangeEvent} from 'react';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -58,11 +58,7 @@ type SearchFieldType = {
     onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
 }
 export const SearchAppBar = (props: SearchFieldType) => {
-    // const dispatch = useAppDispatch()
 
-    // const addNewCardsPack = () => {
-    //     dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
-    // }
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
