@@ -107,7 +107,7 @@ export const Packs = () => {
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [debouncedValue, isMyPack, min, max, pageCount, page])
+    }, [dispatch, debouncedValue, isMyPack, min, max, pageCount, page])
 
     const returnToProfile = () => {
         navigate({pathname: '/profile'})
@@ -168,7 +168,7 @@ export const Packs = () => {
                                         <TableCell align="right">{pack.grade}</TableCell>
                                         <TableCell align="right">{pack.created}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>
-                                        <td className={styles.buttonBlock}>
+                                        <TableCell className={styles.buttonBlock}>
                                             <Button disabled={userId !== pack.user_id}
                                                     onClick={() => deletePack(pack._id)}
                                                     color="error"
@@ -177,7 +177,8 @@ export const Packs = () => {
                                                 Delete
                                             </Button>
                                             <Button disabled={userId !== pack.user_id}
-                                                    onClick={() => updatePack(pack._id)} color="secondary" size="small"
+                                                    onClick={() => updatePack(pack._id)} color="secondary"
+                                                    size="small"
                                                     startIcon={<BorderColorIcon/>}>
                                                 Edit
                                             </Button>
@@ -185,14 +186,14 @@ export const Packs = () => {
                                                     startIcon={<MenuBookIcon/>}>
                                                 Learn
                                             </Button>
-                                        </td>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
                     <div className={styles.paginatorBlock}>
-                        <TablePagination count={cardPacksTotalCount} page={page} onPageChange={handleChangePage}
+                        <TablePagination count={cardPacksTotalCount} page={page - 1} onPageChange={handleChangePage}
                                          rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
                     </div>
                 </div>

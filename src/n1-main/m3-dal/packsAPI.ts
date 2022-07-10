@@ -11,13 +11,13 @@ export const packsAPI = {
         return instance.get<ResponseGetPacksType>('/cards/pack', {params})
     },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
-        return instance.post(`/cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})
+        return instance.post('/cards/pack', {cardsPack: {name, deckCover, private: isPrivate}})
     },
     deletePack(id: string) {
         return instance.delete(`/cards/pack?id=${id}`)
     },
     updatePack(_id: string, name: string) {
-        return instance.put(`/cards/pack`, {cardsPack: {_id, name}})
+        return instance.put('/cards/pack', {cardsPack: {_id, name}})
     }
 };
 
