@@ -6,13 +6,17 @@ import {packsAPI, PackType} from '../../m3-dal/packsAPI';
 
 const initialState = {
     cardPacks: [] as PackType[],
-    page: 1,
-    pageCount: 10,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 100,
-    min: 0,
-    max: 100,
+    params : {
+        page: 1,
+        pageCount: 10,
+        min: 0,
+        max: 100,
+        packName: '',
+        sortPacks: ''
+    },
     isMyPack: false
 }
 
@@ -21,17 +25,19 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
         case 'packs/SET-PACKS':
             return {...state, cardPacks: action.packs}
         case 'packs/SET-PAGE':
-            return {...state, page: action.page}
+            return {...state, params: {...state.params, page: action.page}}
         case 'packs/SET-PAGE-COUNT':
-            return {...state, pageCount: action.pageCount}
+            return {...state, params: {...state.params, pageCount: action.pageCount}}
         case 'packs/SET-CARD-PACKS-TOTAL-COUNT':
             return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
         case 'packs/SET-MIN-MAX-COUNT':
             return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount}
         case 'packs/SET-MIN-MAX':
-            return {...state, min: action.min, max: action.max}
+            return {...state, params: {...state.params, min: action.min, max: action.max}}
         case 'packs/IS-MY-PACK':
             return {...state, isMyPack: action.isMyPack}
+        case 'packs/SEARCH-VALUE':
+            return {...state, params: {...state.params, packName: action.packName} }
         default:
             return state
     }
@@ -39,14 +45,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 // thunks
 export const getPacksTC = (): AppThunk => (dispatch, getState) => {
-    const {isMyPack, min, max, pageCount, page} = getState().packs
+    const {isMyPack, params} = getState().packs
+    const userId = getState().profile._id
     dispatch(setAppStatusAC('loading'))
     packsAPI.getPacks({
-        userId: isMyPack ? getState().profile._id : '',
-        min,
-        max,
-        pageCount,
-        page
+        user_id: isMyPack ? userId : '',
+        ...params
     })
         .then((res) => {
             dispatch(getPacksAC(res.data.cardPacks))
@@ -129,6 +133,10 @@ export const setMinMaxAC = (min: number, max: number) => ({
     min,
     max
 } as const)
+export const searchAC = (packName: string) => ({
+    type: 'packs/SEARCH-VALUE',
+    packName
+} as const)
 export const isMyPackAC = (isMyPack: boolean) => ({
     type: 'packs/IS-MY-PACK',
     isMyPack
@@ -153,5 +161,6 @@ type ActionType =
     | ReturnType<typeof setCardPacksTotalCountAC>
     | ReturnType<typeof setMinMaxCountAC>
     | ReturnType<typeof setMinMaxAC>
+    | ReturnType<typeof searchAC>
     | ReturnType<typeof isMyPackAC>
 
