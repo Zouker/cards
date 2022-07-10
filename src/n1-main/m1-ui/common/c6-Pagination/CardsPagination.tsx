@@ -5,8 +5,8 @@ import {TablePagination} from "@mui/material";
 
 export const CardsPagination = () => {
     const dispatch = useAppDispatch();
-    const pageCount = useAppSelector(state => state.packs.pageCount)
-    const page = useAppSelector(state => state.packs.page)
+    const pageCount = useAppSelector(state => state.packs.params.pageCount)
+    const page = useAppSelector(state => state.packs.params.page)
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
 
     const handleChangePage = () => {

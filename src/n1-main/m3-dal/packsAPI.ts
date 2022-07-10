@@ -7,9 +7,12 @@ const instance = axios.create({
 })
 
 export const packsAPI = {
-    getPacks(pageCount?: number, page?: number) {
-        return instance.get<ResponseGetPacksType>(`cards/pack/?pageCount=${pageCount}&page=${page}`,)
+    getPacks(params: RequestGetPacksType) {
+        return instance.get<ResponseGetPacksType>('cards/pack', {params})
     },
+    // getPacks(params: Partial<GetPacksParamsType>) {
+    //     return instance.get<PacksResponseType>('/cards/pack', {params: {...params}})
+    // },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
         return instance.post<PackType>(`/cards/pack`, {cardsPack: {name, deckCover, private: isPrivate}})
     },
@@ -23,12 +26,12 @@ export const packsAPI = {
 
 // types
 export type RequestGetPacksType = {
-    packName: string
-    min: number
-    max: number
-    sortPacks: string
-    pageCount: number
-    page: number
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    pageCount?: number
+    page?: number
     userId: string | null
 }
 

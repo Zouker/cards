@@ -24,7 +24,8 @@ export const Packs = () => {
     const dispatch = useAppDispatch()
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
-
+    const pageCount = useAppSelector(state => state.packs.params.pageCount)
+    const page = useAppSelector(state => state.packs.params.page)
 
     const deletePack = (id: string) => {
         dispatch(deletePackTC(id))
@@ -41,7 +42,8 @@ export const Packs = () => {
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [dispatch])
+
+    }, [dispatch, page, pageCount])
 
     const addNewCardsPack = () => {
         dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))

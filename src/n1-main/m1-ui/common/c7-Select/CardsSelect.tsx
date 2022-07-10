@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from '../../../m2-bll/store';
 
 export const CardsSelect = () => {
     const dispatch = useAppDispatch();
-    const pageCount = useAppSelector(state => state.packs.pageCount)
+    const pageCount = useAppSelector(state => state.packs.params.pageCount)
 
 
     const [page, setPage] = React.useState<number>(pageCount);

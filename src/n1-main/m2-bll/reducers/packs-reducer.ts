@@ -10,9 +10,24 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return {
                 ...state,
                 cardPacks: action.packs,
-                cardPacksTotalCount: action.cardPacksTotalCount,
-                page: action.page,
-                pageCount: action.pageCount
+            }
+        case 'packs/PAGE':
+            return {
+                ...state,
+                params: {...state.params, page: action.page},
+
+            }
+        case 'packs/TOTAL-COUNT':
+            return {
+                ...state,
+                cardPacksTotalCount: action.value,
+
+            }
+        case 'packs/PAGE-COUNT':
+            return {
+                ...state,
+                params: {...state.params, pageCount: action.value},
+
             }
         default:
             return state
@@ -20,11 +35,15 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 }
 
 // thunks
-export const getPacksTC = (pageCount?: number,page?:number): AppThunk => (dispatch) => {
+export const getPacksTC = (): AppThunk => (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
-    packsAPI.getPacks(pageCount,page)
+    const params = getState().packs.params;
+    packsAPI.getPacks(params)
         .then((res) => {
-            dispatch(getPacksAC(res.data.cardPacks, res.data.cardPacksTotalCount, res.data.page, res.data.pageCount))
+            dispatch(getPacksAC(res.data.cardPacks))
+            dispatch(pageAC(res.data.page))
+            dispatch(cardPacksTotalCountAC(res.data.cardPacksTotalCount))
+            dispatch(pageCountAC(res.data.pageCount))
         })
         .catch((error: AxiosError<{ error: string }>) => {
             errorUtils(error, dispatch)
@@ -84,13 +103,26 @@ export const updatePackTC = (id: string, name: string): AppThunk => {
 }
 
 // actions
-export const getPacksAC = (packs: PackType[], cardPacksTotalCount: number, page: number, pageCount: number) => ({
+export const getPacksAC = (packs: PackType[]) => ({
     type: 'packs/SET-PACKS',
     packs,
-    cardPacksTotalCount,
-    page,
-    pageCount
 } as const)
+
+export const pageAC = (page: number) => ({
+    type: 'packs/PAGE',
+    page,
+} as const)
+
+export const cardPacksTotalCountAC = (value: number) => ({
+    type: 'packs/TOTAL-COUNT',
+    value,
+} as const)
+
+export const pageCountAC = (value: number) => ({
+    type: 'packs/PAGE-COUNT',
+    value,
+} as const)
+
 
 export const addPackAC = (cardsPack: { name: string, deckCover: string | null, isPrivate: boolean }) => ({
     type: 'packs/ADD-PACK',
@@ -121,8 +153,15 @@ const initialState = {
             deckCover: null
         }
     ],
-    page: 1,
-    pageCount: 10,
+    params: {
+        page: 1,
+        pageCount: 10,
+        packName: '',
+        min: 0,
+        max: 0,
+        sortPacks: '',
+        userId: ''
+    },
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 20,
@@ -136,4 +175,7 @@ type ActionType =
     | ReturnType<typeof addPackAC>
     | ReturnType<typeof deletePackAC>
     | ReturnType<typeof updatePackAC>
+    | ReturnType<typeof pageAC>
+    | ReturnType<typeof cardPacksTotalCountAC>
+    | ReturnType<typeof pageCountAC>
 
