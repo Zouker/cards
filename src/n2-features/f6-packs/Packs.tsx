@@ -27,6 +27,8 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useDebounce from '../../hooks/useDebounce';
+import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
+import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
 
 export const Packs = () => {
     const navigate = useNavigate()
@@ -44,11 +46,17 @@ export const Packs = () => {
     const packName = useAppSelector(state => state.packs.params.packName)
 
     const [value, setValue] = React.useState<number[]>([min, max]);
+    const [open, setOpen] = React.useState(false);
+    const [newPackName, setNewPackName] = React.useState('')
+    const [isPrivate, setPrivate] = React.useState(false)
+    const handleOpen = () => setOpen(true);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
 
     const addNewCardsPack = () => {
-        dispatch(addPackTC('DEFAULT_NAME', 'deckCover', false))
+        dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
+        setOpen(false)
+        setNewPackName('')
     }
 
     const deletePack = (id: string) => {
@@ -137,10 +145,18 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar title={'add new pack'} addNewItem={addNewCardsPack} goBack={returnToProfile}
+                    <SearchAppBar title={'add new pack'} addNewItem={handleOpen} goBack={returnToProfile}
                                   value={packName} onChange={(e) => {
                         dispatch(searchAC(e.currentTarget.value))
-                    }}/>
+                    }}
+                    />
+                    <BasicModal open={open} setOpen={setOpen}>
+                        <AddNewItem addNewItem={addNewCardsPack}
+                                    handleClose={() => setOpen(false)}
+                                    value={newPackName}
+                                    onChangeHandler={(e) => setNewPackName(e.currentTarget.value)} checked={isPrivate}
+                                    isPrivateHandler={(e) => setPrivate(e.currentTarget.checked)}/>
+                    </BasicModal>
                     <TableContainer component={Paper}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -169,6 +185,7 @@ export const Packs = () => {
                                         <TableCell align="right">{pack.created}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>
                                         <TableCell className={styles.buttonBlock}>
+
                                             <Button disabled={userId !== pack.user_id}
                                                     onClick={() => deletePack(pack._id)}
                                                     color="error"

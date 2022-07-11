@@ -32,8 +32,8 @@ export const Cards = () => {
     const page = useAppSelector(state => state.cards.params.page)
     const pageCount = useAppSelector(state => state.cards.params.pageCount)
     const cardQuestion = useAppSelector(state => state.cards.params.cardQuestion)
-
-    const {packsId} = useParams(); //получение id колоды, на которую мы кликнули
+    
+    const {packsId} = useParams<'packsId'>();
 
     const debouncedValueQuestion = useDebounce(cardQuestion, 1000)
 
