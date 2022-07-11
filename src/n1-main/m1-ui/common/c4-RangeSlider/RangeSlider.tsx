@@ -16,7 +16,7 @@ type RangeSliderPropsType = {
     ) => void
 }
 
-export const RangeSlider: React.FC<RangeSliderPropsType> = (props) => {
+export const RangeSlider: React.FC<RangeSliderPropsType> = ({value, onChange}) => {
     // const [value, setValue] = React.useState<number[]>([0, 100]);
     //
     // const handleChange1 = (
@@ -40,8 +40,8 @@ export const RangeSlider: React.FC<RangeSliderPropsType> = (props) => {
             <Slider
                 getAriaLabel={() => 'Minimum distance'}
                 color={'secondary'}
-                value={props.value}
-                onChange={props.onChange}
+                value={value}
+                onChange={onChange}
                 valueLabelDisplay="on"
                 getAriaValueText={valuetext}
                 disableSwap

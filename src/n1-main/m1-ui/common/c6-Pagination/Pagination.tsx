@@ -10,32 +10,22 @@ type PaginationPropsType = {
     onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 }
 
-export const Pagination: React.FC<PaginationPropsType> = (props) => {
-    // const [page, setPage] = React.useState(2);
-    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    //
-    // const handleChangePage = (
-    //     event: React.MouseEvent<HTMLButtonElement> | null,
-    //     newPage: number,
-    // ) => {
-    //     setPage(newPage);
-    // };
-    //
-    // const handleChangeRowsPerPage = (
-    //     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    // ) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
+export const Pagination: React.FC<PaginationPropsType> = ({
+                                                              count,
+                                                              page,
+                                                              onPageChange,
+                                                              rowsPerPage,
+                                                              onRowsPerPageChange
+                                                          }) => {
 
     return (
         <TablePagination
             component="div"
-            count={100}
-            page={props.page}
-            onPageChange={props.onPageChange}
-            rowsPerPage={props.rowsPerPage}
-            onRowsPerPageChange={props.onRowsPerPageChange}
+            count={count}
+            page={page}
+            onPageChange={onPageChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={onRowsPerPageChange}
         />
     );
 }

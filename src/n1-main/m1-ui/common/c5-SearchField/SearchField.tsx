@@ -57,14 +57,14 @@ type SearchFieldType = {
     value: string
     onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
 }
-export const SearchAppBar = (props: SearchFieldType) => {
+export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value, title, addNewItem}) => {
 
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
                 <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
-                        <Button onClick={props.goBack} variant="contained" color="secondary">
+                        <Button onClick={goBack} variant="contained" color="secondary">
                             Back
                         </Button>
                     </div>
@@ -77,14 +77,14 @@ export const SearchAppBar = (props: SearchFieldType) => {
                                 placeholder="Search…"
                                 inputProps={{'aria-label': 'search'}}
                                 style={{color: 'white'}}
-                                value={props.value}
-                                onChange={props.onChange}
+                                value={value}
+                                onChange={onChange}
                             />
                         </Search>
                     </div>
                     <div>
-                        <Button onClick={props.addNewItem} variant="contained" color="secondary">
-                            {props.title}
+                        <Button onClick={addNewItem} variant="contained" color="secondary">
+                            {title}
                         </Button>
                     </div>
                 </Toolbar>

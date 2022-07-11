@@ -27,7 +27,6 @@ password recovery link: <a href='https://zouker.github.io/cards/#/set-new-passwo
                 <div className={styles.title}>Forgot your password?</div>
                 <TextField
                     type="email"
-                    className={styles.input}
                     id="standard-basic"
                     label="Email"
                     variant="standard"
