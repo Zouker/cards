@@ -8,12 +8,12 @@ const initialState = {
     cardPacks: [] as PackType[],
     cardPacksTotalCount: 0,
     minCardsCount: 0,
-    maxCardsCount: 100,
-    params : {
+    maxCardsCount: 110,
+    params: {
         page: 1,
         pageCount: 10,
         min: 0,
-        max: 100,
+        max: 110,
         packName: '',
         sortPacks: ''
     },
@@ -37,7 +37,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
         case 'packs/IS-MY-PACK':
             return {...state, isMyPack: action.isMyPack}
         case 'packs/SEARCH-VALUE':
-            return {...state, params: {...state.params, packName: action.packName} }
+            return {...state, params: {...state.params, packName: action.packName}}
         default:
             return state
     }
