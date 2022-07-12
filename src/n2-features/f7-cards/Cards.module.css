@@ -1,0 +1,20 @@
+.tableWrapper {
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.container {
+    margin: 20px 0;
+    border-radius: 8px;
+    width: 1008px;
+    overflow: auto;
+    height: 100%;
+
+}
+
+.paginatorBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

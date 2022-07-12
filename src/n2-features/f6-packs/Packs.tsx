@@ -14,6 +14,7 @@ import {
     getPacksTC,
     isMyPackAC,
     searchAC,
+    setMinMaxAC,
     setPageAC,
     setPageCountAC,
     updatePackTC
@@ -45,13 +46,15 @@ export const Packs = () => {
     const isMyPack = useAppSelector(state => state.packs.isMyPack)
     const packName = useAppSelector(state => state.packs.params.packName)
 
-    const [value, setValue] = React.useState<number[]>([min, max]);
+    const [value, setValue] = React.useState<number | number[]>([min, max]);
     const [open, setOpen] = React.useState(false);
     const [newPackName, setNewPackName] = React.useState('')
     const [isPrivate, setPrivate] = React.useState(false)
     const handleOpen = () => setOpen(true);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
+    const debouncedMinValue = useDebounce<number>(min, 1000)
+    const debouncedMaxValue = useDebounce<number>(max, 1000)
 
     const addNewCardsPack = () => {
         dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
@@ -72,7 +75,7 @@ export const Packs = () => {
         console.log('LEARN')
     }
 
-    // ALL Packs and My Packs
+    // All Packs and My Packs
     const allPacksHandler = () => {
         dispatch(isMyPackAC(false))
     };
@@ -96,26 +99,17 @@ export const Packs = () => {
         dispatch(setPageAC(1))
     };
 
-    // Min and Max Selector
-    const handleChangeMinMax = (
-        event: Event,
-        newValue: number | number[],
-        activeThumb: number,
-    ) => {
-        if (!Array.isArray(newValue)) {
-            return;
-        }
-
-        if (activeThumb === 0) {
-            setValue([Math.min(newValue[0], value[1] - 1), value[1]]);
-        } else {
-            setValue([value[0], Math.max(newValue[1], value[0] + 1)]);
+    // Min and Max scale of cards in pack
+    const handleChangeMinMax = (event: Event, newValue: number | number[]) => {
+        if (Array.isArray(newValue)) {
+            dispatch(setMinMaxAC(newValue[0], newValue[1]));
+            setValue([newValue[0], newValue[1]])
         }
     };
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [dispatch, debouncedValue, isMyPack, min, max, pageCount, page])
+    }, [dispatch, debouncedValue, isMyPack, debouncedMinValue, debouncedMaxValue, pageCount, page])
 
     const returnToProfile = () => {
         navigate({pathname: '/profile'})
@@ -127,11 +121,13 @@ export const Packs = () => {
                 <div className={styles.sidebar}>
                     <div>
                         <p className={styles.title}>Show packs cards</p>
-                        <Button variant={isMyPack ? 'contained' : 'outlined'} color="secondary"
+                        <Button variant={isMyPack ? 'contained' : 'outlined'}
+                                color="secondary"
                                 onClick={myPacksHandler}>
                             My
                         </Button>
-                        <Button variant={!isMyPack ? 'contained' : 'outlined'} color="secondary"
+                        <Button variant={!isMyPack ? 'contained' : 'outlined'}
+                                color="secondary"
                                 onClick={allPacksHandler}>
                             All
                         </Button>
@@ -139,13 +135,20 @@ export const Packs = () => {
                     <div>
                         <p className={styles.title}>Number of cards</p>
                         <div className={styles.rangeSlider}>
-                            <RangeSlider value={value} onChange={handleChangeMinMax}/>
+                            <RangeSlider
+                                min={minCardsCount}
+                                max={maxCardsCount}
+                                value={value}
+                                onChange={handleChangeMinMax}
+                            />
                         </div>
                     </div>
                 </div>
                 <div>
                     <h1>Packs List</h1>
-                    <SearchAppBar title={'add new pack'} addNewItem={handleOpen} goBack={returnToProfile}
+                    <SearchAppBar title={'add new pack'}
+                                  addNewItem={handleOpen}
+                                  goBack={returnToProfile}
                                   value={packName} onChange={(e) => {
                         dispatch(searchAC(e.currentTarget.value))
                     }}
@@ -154,7 +157,8 @@ export const Packs = () => {
                         <AddNewItem addNewItem={addNewCardsPack}
                                     handleClose={() => setOpen(false)}
                                     value={newPackName}
-                                    onChangeHandler={(e) => setNewPackName(e.currentTarget.value)} checked={isPrivate}
+                                    onChangeHandler={(e) => setNewPackName(e.currentTarget.value)}
+                                    checked={isPrivate}
                                     isPrivateHandler={(e) => setPrivate(e.currentTarget.checked)}/>
                     </BasicModal>
                     <TableContainer component={Paper}>
@@ -185,7 +189,6 @@ export const Packs = () => {
                                         <TableCell align="right">{pack.created}</TableCell>
                                         <TableCell align="right">{pack.updated}</TableCell>
                                         <TableCell className={styles.buttonBlock}>
-
                                             <Button disabled={userId !== pack.user_id}
                                                     onClick={() => deletePack(pack._id)}
                                                     color="error"

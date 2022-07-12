@@ -6,8 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {Button, TableCell, TablePagination} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
-import s from './card.module.css'
-import styles from '../f6-packs/Packs.module.css';
+import styles from './Cards.module.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
@@ -32,7 +31,7 @@ export const Cards = () => {
     const page = useAppSelector(state => state.cards.params.page)
     const pageCount = useAppSelector(state => state.cards.params.pageCount)
     const cardQuestion = useAppSelector(state => state.cards.params.cardQuestion)
-    
+
     const {packsId} = useParams<'packsId'>();
 
     const debouncedValueQuestion = useDebounce(cardQuestion, 1000)
@@ -82,10 +81,11 @@ export const Cards = () => {
     }
 
     return (
-        <div className={s.tableWrapper}>
-            <Paper className={s.cards} elevation={3}>
+        <div className={styles.tableWrapper}>
+            <Paper className={styles.container} elevation={3}>
                 <h2>Cards name</h2>
-                <SearchAppBar title={'add new card'} addNewItem={addNewCard} goBack={returnToPacks}
+                <SearchAppBar title={'add new card'} addNewItem={addNewCard}
+                              goBack={returnToPacks}
                               value={cardQuestion}
                               onChange={(e) => dispatch(searchQuestionAC(e.currentTarget.value))}
                 />
@@ -114,13 +114,14 @@ export const Cards = () => {
                                     <TableCell align="right">{card.rating}</TableCell>
                                     <TableCell align="right">{card.grade}</TableCell>
                                     <TableCell align="right">{card.updated.toString()}</TableCell>
-                                    <TableCell className={s.buttonBlock}>
+                                    <TableCell className={styles.buttonBlock}>
                                         <Button onClick={() => deleteCard(card._id)} color="error"
                                                 size="small"
                                                 startIcon={<DeleteIcon/>}>
                                             Delete
                                         </Button>
-                                        <Button onClick={() => updateCard(card._id)} color="secondary" size="small"
+                                        <Button onClick={() => updateCard(card._id)}
+                                                color="secondary" size="small"
                                                 startIcon={<BorderColorIcon/>}>
                                             Edit
                                         </Button>
