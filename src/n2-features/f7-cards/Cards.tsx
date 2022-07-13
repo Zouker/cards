@@ -22,6 +22,8 @@ import {
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
+import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
+import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
 
 export const Cards = () => {
     const navigate = useNavigate()
@@ -36,6 +38,12 @@ export const Cards = () => {
 
     const debouncedValueQuestion = useDebounce(cardQuestion, 1000)
 
+    const [open, setOpen] = React.useState(false);
+    const [newCardQuestion, setNewCardQuestion] = React.useState('')
+    const [newCardAnswer, setNewCardAnswer] = React.useState('')
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false);
+
     useEffect(() => {
         if (packsId) {
             dispatch(getCardsTC(packsId))
@@ -44,9 +52,10 @@ export const Cards = () => {
 
     const addNewCard = () => {
         if (packsId) {
-            const question = 'DEFAULT_QUESTION'
-            const answer = 'DEFAULT_ANSWER'
-            dispatch(addCardTC({cardsPack_id: packsId, question, answer}))
+            dispatch(addCardTC({cardsPack_id: packsId, question: newCardQuestion, answer: newCardAnswer}))
+            setOpen(false)
+            setNewCardQuestion('')
+            setNewCardAnswer('')
         }
     }
 
@@ -84,11 +93,23 @@ export const Cards = () => {
         <div className={styles.tableWrapper}>
             <div className={styles.container}>
                 <h2>Cards name</h2>
-                <SearchAppBar title={'add new card'} addNewItem={addNewCard}
+                <SearchAppBar title={'add new card'}
+                              addNewItem={handleOpen}
                               goBack={returnToPacks}
                               value={cardQuestion}
                               onChange={(e) => dispatch(searchQuestionAC(e.currentTarget.value))}
                 />
+                <BasicModal open={open} setOpen={setOpen}>
+                    <AddNewItem
+                        title={'Card Info'}
+                        handleClose={handleClose}
+                        addNewItem={addNewCard}
+                        value={newCardQuestion}
+                        value2={newCardAnswer}
+                        onChangeHandler={(e) => setNewCardQuestion(e.currentTarget.value)}
+                        onChangeHandler2={(e) => setNewCardAnswer(e.currentTarget.value)}
+                    />
+                </BasicModal>
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 500}} aria-label="simple table">
                         <TableHead>
