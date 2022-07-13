@@ -82,7 +82,7 @@ export const Cards = () => {
 
     return (
         <div className={styles.tableWrapper}>
-            <Paper className={styles.container} elevation={3}>
+            <div className={styles.container}>
                 <h2>Cards name</h2>
                 <SearchAppBar title={'add new card'} addNewItem={addNewCard}
                               goBack={returnToPacks}
@@ -135,7 +135,7 @@ export const Cards = () => {
                     <TablePagination count={cardsTotalCount} page={page - 1} onPageChange={handleChangePage}
                                      rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
                 </div>
-            </Paper>
+            </div>
         </div>
     )
 };
