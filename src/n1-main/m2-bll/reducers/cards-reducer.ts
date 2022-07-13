@@ -33,6 +33,9 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
                 ...state,
                 params: {...state.params, cardQuestion: action.cardQuestion}
             }
+        case 'cards/SET-PACK-USER-ID':
+            return {...state, packUserId: action.packUserId}
+
         default:
             return state
     }
@@ -40,6 +43,7 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
 
 // actions
 export const getCardsAC = (cards: CardType[]) => ({type: 'cards/GET-CARDS', cards,} as const)
+export const setPackUserIdAC = (packUserId: string) => ({type: 'cards/SET-PACK-USER-ID', packUserId,} as const)
 export const setCardsPageAC = (page: number) => ({type: 'cards/SET-PAGE', page,} as const)
 export const setCardsPageCountAC = (pageCount: number) => ({type: 'cards/SET-PAGE-COUNT', pageCount,} as const)
 export const setCardsTotalCountAC = (cardsTotalCount: number) => ({
@@ -59,6 +63,7 @@ export const getCardsTC = (cardsPack_id: string): AppThunk => {
         cardsAPI.getCards(cardsPack_id, params)
             .then((res) => {
                 dispatch(getCardsAC(res.data.cards))
+                dispatch(setPackUserIdAC(res.data.packUserId))
                 dispatch(setCardsPageAC(res.data.page))
                 dispatch(setCardsPageCountAC(res.data.pageCount))
                 dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
@@ -131,6 +136,7 @@ export const updateCardTC = (id: string, packsId: string): AppThunk => {
 export type InitialStateType = typeof initialState;
 type ActionType =
     ReturnType<typeof getCardsAC>
+    | ReturnType<typeof setPackUserIdAC>
     | ReturnType<typeof setCardsPageAC>
     | ReturnType<typeof setCardsPageCountAC>
     | ReturnType<typeof setCardsTotalCountAC>

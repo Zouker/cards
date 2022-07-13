@@ -33,6 +33,8 @@ export const Cards = () => {
     const page = useAppSelector(state => state.cards.params.page)
     const pageCount = useAppSelector(state => state.cards.params.pageCount)
     const cardQuestion = useAppSelector(state => state.cards.params.cardQuestion)
+    const userId = useAppSelector(state => state.profile._id)
+    const packUserId = useAppSelector(state => state.cards.packUserId)
 
     const {packsId} = useParams<'packsId'>();
 
@@ -92,16 +94,18 @@ export const Cards = () => {
     return (
         <div className={styles.tableWrapper}>
             <div className={styles.container}>
-                <h2>Cards name</h2>
-                <SearchAppBar title={'add new card'}
-                              addNewItem={handleOpen}
-                              goBack={returnToPacks}
-                              value={cardQuestion}
-                              onChange={(e) => dispatch(searchQuestionAC(e.currentTarget.value))}
+                <h1>Cards name</h1>
+                <SearchAppBar
+                    disabled={packUserId !== userId}  // packUserId и user_id одно и то же, userId - id юзера при логине
+                    title={'add new card'}
+                    addNewItem={handleOpen}
+                    goBack={returnToPacks}
+                    value={cardQuestion}
+                    onChange={(e) => dispatch(searchQuestionAC(e.currentTarget.value))}
                 />
                 <BasicModal open={open} setOpen={setOpen}>
                     <AddNewItem
-                        title={'Card Info'}
+                        title={'Add new card'}
                         handleClose={handleClose}
                         addNewItem={addNewCard}
                         value={newCardQuestion}
@@ -136,14 +140,18 @@ export const Cards = () => {
                                     <TableCell align="right">{card.grade}</TableCell>
                                     <TableCell align="right">{card.updated.toString()}</TableCell>
                                     <TableCell className={styles.buttonBlock}>
-                                        <Button onClick={() => deleteCard(card._id)} color="error"
-                                                size="small"
-                                                startIcon={<DeleteIcon/>}>
+                                        <Button
+                                            disabled={userId !== card.user_id}
+                                            onClick={() => deleteCard(card._id)} color="error"
+                                            size="small"
+                                            startIcon={<DeleteIcon/>}>
                                             Delete
                                         </Button>
-                                        <Button onClick={() => updateCard(card._id)}
-                                                color="secondary" size="small"
-                                                startIcon={<BorderColorIcon/>}>
+                                        <Button
+                                            disabled={userId !== card.user_id}
+                                            onClick={() => updateCard(card._id)}
+                                            color="secondary" size="small"
+                                            startIcon={<BorderColorIcon/>}>
                                             Edit
                                         </Button>
                                     </TableCell>
@@ -153,8 +161,12 @@ export const Cards = () => {
                     </Table>
                 </TableContainer>
                 <div className={styles.paginatorBlock}>
-                    <TablePagination count={cardsTotalCount} page={page - 1} onPageChange={handleChangePage}
-                                     rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
+                    <TablePagination
+                        count={cardsTotalCount}
+                        page={page - 1}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={pageCount}
+                        onRowsPerPageChange={handleChangeRowsPerPage}/>
                 </div>
             </div>
         </div>

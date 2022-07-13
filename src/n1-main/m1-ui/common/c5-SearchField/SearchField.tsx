@@ -56,8 +56,9 @@ type SearchFieldType = {
     goBack: () => void
     value: string
     onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+    disabled?: boolean
 }
-export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value, title, addNewItem}) => {
+export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value, title, addNewItem, disabled}) => {
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -83,7 +84,7 @@ export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value
                         </Search>
                     </div>
                     <div>
-                        <Button onClick={addNewItem} variant="contained" color="secondary">
+                        <Button onClick={addNewItem} variant="contained" color="secondary" disabled={disabled}>
                             {title}
                         </Button>
                     </div>
