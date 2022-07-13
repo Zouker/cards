@@ -51,6 +51,7 @@ export const Packs = () => {
     const [newPackName, setNewPackName] = React.useState('')
     const [isPrivate, setPrivate] = React.useState(false)
     const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
     const debouncedMinValue = useDebounce<number>(min, 1000)
@@ -154,8 +155,9 @@ export const Packs = () => {
                     }}
                     />
                     <BasicModal open={open} setOpen={setOpen}>
-                        <AddNewItem addNewItem={addNewCardsPack}
-                                    handleClose={() => setOpen(false)}
+                        <AddNewItem title={'Add new pack'}
+                                    addNewItem={addNewCardsPack}
+                                    handleClose={handleClose}
                                     value={newPackName}
                                     onChangeHandler={(e) => setNewPackName(e.currentTarget.value)}
                                     checked={isPrivate}

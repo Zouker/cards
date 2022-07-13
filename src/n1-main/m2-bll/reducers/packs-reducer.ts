@@ -141,21 +141,21 @@ export const isMyPackAC = (isMyPack: boolean) => ({
     type: 'packs/IS-MY-PACK',
     isMyPack
 } as const)
-
-export const addPackAC = (cardsPack: { name: string, deckCover: string | null, isPrivate: boolean }) => ({
-    type: 'packs/ADD-PACK',
-    cardsPack
-} as const)
-export const deletePackAC = (id: string) => ({type: 'packs/DELETE-PACK', id} as const)
-export const updatePackAC = (id: string, name: string) => ({type: 'packs/UPDATE-PACK', id, name} as const)
+//
+// export const addPackAC = (cardsPack: { name: string, deckCover: string | null, isPrivate: boolean }) => ({
+//     type: 'packs/ADD-PACK',
+//     cardsPack
+// } as const)
+// export const deletePackAC = (id: string) => ({type: 'packs/DELETE-PACK', id} as const)
+// export const updatePackAC = (id: string, name: string) => ({type: 'packs/UPDATE-PACK', id, name} as const)
 
 // types
 export type InitialStateType = typeof initialState
 type ActionType =
     ReturnType<typeof getPacksAC>
-    | ReturnType<typeof addPackAC>
-    | ReturnType<typeof deletePackAC>
-    | ReturnType<typeof updatePackAC>
+    // | ReturnType<typeof addPackAC>
+    // | ReturnType<typeof deletePackAC>
+    // | ReturnType<typeof updatePackAC>
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setCardPacksTotalCountAC>
