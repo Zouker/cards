@@ -50,6 +50,7 @@ export const EditableSpan = React.memo(({title, changeTitle, disabled}: PropsTyp
                 onKeyDown={onKeyPressHandler}
                 onBlur={activateViewMode}
                 autoFocus
+                color={'secondary'}
             />
         </Box>
         : <Box sx={{display: 'flex', alignItems: 'flex-end'}}>

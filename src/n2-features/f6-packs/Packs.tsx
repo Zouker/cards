@@ -183,7 +183,7 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                            <NavLink to={'/cards/' + pack._id}> {pack.name}</NavLink>
+                                            <NavLink to={'/cards/' + pack._id}>{pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.cardsCount}</TableCell>
@@ -204,8 +204,10 @@ export const Packs = () => {
                                                     startIcon={<BorderColorIcon/>}>
                                                 Edit
                                             </Button>
-                                            <Button onClick={learnPack} color="secondary" size="small"
-                                                    startIcon={<MenuBookIcon/>}>
+                                            <Button
+                                                disabled={pack.cardsCount === 0}
+                                                onClick={learnPack} color="secondary" size="small"
+                                                startIcon={<MenuBookIcon/>}>
                                                 Learn
                                             </Button>
                                         </TableCell>
@@ -215,8 +217,12 @@ export const Packs = () => {
                         </Table>
                     </TableContainer>
                     <div className={styles.paginatorBlock}>
-                        <TablePagination count={cardPacksTotalCount} page={page - 1} onPageChange={handleChangePage}
-                                         rowsPerPage={pageCount} onRowsPerPageChange={handleChangeRowsPerPage}/>
+                        <TablePagination
+                            count={cardPacksTotalCount}
+                            page={page - 1}
+                            onPageChange={handleChangePage}
+                            rowsPerPage={pageCount}
+                            onRowsPerPageChange={handleChangeRowsPerPage}/>
                     </div>
                 </div>
             </div>
