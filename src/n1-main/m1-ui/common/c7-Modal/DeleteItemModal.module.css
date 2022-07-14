@@ -1,0 +1,22 @@
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.deleteItemField {
+    width: 100%;
+}
+
+.private {
+    margin: 10px 0 0;
+}
+
+.buttonsBlock {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
