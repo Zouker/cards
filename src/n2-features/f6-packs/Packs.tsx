@@ -30,6 +30,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import useDebounce from '../../hooks/useDebounce';
 import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
 import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
+import {DeleteItem} from "../../n1-main/m1-ui/common/c7-Modal/DeleteItemModal";
+
 
 export const Packs = () => {
     const navigate = useNavigate()
@@ -48,6 +50,9 @@ export const Packs = () => {
 
     const [value, setValue] = React.useState<number | number[]>([min, max]);
     const [open, setOpen] = React.useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+    const [deleteId, setDeleteId] = React.useState<string | null>(null)
+    const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
     const [newPackName, setNewPackName] = React.useState('')
     const [isPrivate, setPrivate] = React.useState(false)
     const handleOpen = () => setOpen(true);
@@ -65,6 +70,8 @@ export const Packs = () => {
 
     const deletePack = (id: string) => {
         dispatch(deletePackTC(id))
+        setOpenDeleteModal(false)
+        setDeleteId(null)
     }
 
     const updatePack = (id: string) => {
@@ -192,12 +199,38 @@ export const Packs = () => {
                                         <TableCell align="right">{pack.updated}</TableCell>
                                         <TableCell className={styles.buttonBlock}>
                                             <Button disabled={userId !== pack.user_id}
-                                                    onClick={() => deletePack(pack._id)}
+                                                    onClick={() => {
+                                                        setOpenDeleteModal(true)
+                                                        setDeleteId(pack._id)
+                                                    }}
                                                     color="error"
                                                     size="small"
                                                     startIcon={<DeleteIcon/>}>
                                                 Delete
                                             </Button>
+                                            {openDeleteModal && deleteId ?
+                                                <BasicModal open={openDeleteModal} setOpen={setOpenDeleteModal}>
+                                                    <DeleteItem title={'Do you really want to delete this pack?'}
+                                                                id={deleteId}
+                                                                handleDelete={deletePack}
+                                                                handleClose={handleClose}
+                                                                handleOpen={handleOpen}
+                                                    />
+
+                                                </BasicModal> : null}
+                                            {/*  {openUpdateModal
+                                                ?
+                                                <BasicModal open={openUpdateModal} setOpen={setOpenUpdateModal}>
+                                                <UpdateItem title={'Add new title'}
+                                                            //id={deleteId}
+                                                            updateItem={updatePack}
+                                                            handleClose={handleClose}
+                                                            handleOpen={handleOpen}
+                                                />
+
+                                            </BasicModal>
+                                                : null}*/}
+
                                             <Button disabled={userId !== pack.user_id}
                                                     onClick={() => updatePack(pack._id)} color="secondary"
                                                     size="small"
