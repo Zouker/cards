@@ -30,7 +30,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import useDebounce from '../../hooks/useDebounce';
 import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
 import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
-import {DeleteItem} from "../../n1-main/m1-ui/common/c7-Modal/DeleteItemModal";
+import {DeleteItem} from '../../n1-main/m1-ui/common/c7-Modal/DeleteItemModal';
+import {LearnPage} from '../f8-learn/LearnPage';
 
 
 export const Packs = () => {
@@ -49,14 +50,18 @@ export const Packs = () => {
     const packName = useAppSelector(state => state.packs.params.packName)
 
     const [value, setValue] = React.useState<number | number[]>([min, max]);
-    const [open, setOpen] = React.useState(false);
+    const [openAddNewItemModal, setOpenAddNewItemModal] = React.useState(false);
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+    const [openLearnModal, setOpenLearnModal] = React.useState(false);
+    const [learnId, setLearnId] = React.useState<string | null>(null)
     const [deleteId, setDeleteId] = React.useState<string | null>(null)
     const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
     const [newPackName, setNewPackName] = React.useState('')
     const [isPrivate, setPrivate] = React.useState(false)
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => setOpenAddNewItemModal(true);
+    const handleClose = () => setOpenAddNewItemModal(false);
+
+    const handleCloseLearnModal = () => setOpenLearnModal(false);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
     const debouncedMinValue = useDebounce<number>(min, 1000)
@@ -64,7 +69,7 @@ export const Packs = () => {
 
     const addNewCardsPack = () => {
         dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
-        setOpen(false)
+        setOpenAddNewItemModal(false)
         setNewPackName('')
     }
 
@@ -125,6 +130,9 @@ export const Packs = () => {
 
     return (
         <div className={styles.wrapper}>
+            {openLearnModal && learnId && <BasicModal open={openLearnModal} setOpen={setOpenLearnModal}>
+                <LearnPage id={learnId} handleClose={handleCloseLearnModal}/>
+            </BasicModal>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <div>
@@ -161,7 +169,7 @@ export const Packs = () => {
                         dispatch(searchAC(e.currentTarget.value))
                     }}
                     />
-                    <BasicModal open={open} setOpen={setOpen}>
+                    {openAddNewItemModal && <BasicModal open={openAddNewItemModal} setOpen={setOpenAddNewItemModal}>
                         <AddNewItem title={'Add new pack'}
                                     addNewItem={addNewCardsPack}
                                     handleClose={handleClose}
@@ -169,7 +177,7 @@ export const Packs = () => {
                                     onChangeHandler={(e) => setNewPackName(e.currentTarget.value)}
                                     checked={isPrivate}
                                     isPrivateHandler={(e) => setPrivate(e.currentTarget.checked)}/>
-                    </BasicModal>
+                    </BasicModal>}
                     <TableContainer component={Paper}>
                         <Table sx={{minWidth: 400}} aria-label="simple table">
                             <TableHead>
@@ -239,7 +247,10 @@ export const Packs = () => {
                                             </Button>
                                             <Button
                                                 disabled={pack.cardsCount === 0}
-                                                onClick={learnPack} color="secondary" size="small"
+                                                onClick={() => {
+                                                    setOpenLearnModal(true)
+                                                    setLearnId(pack._id)
+                                                }} color="secondary" size="small"
                                                 startIcon={<MenuBookIcon/>}>
                                                 Learn
                                             </Button>

@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {Button, TableCell, TablePagination} from '@mui/material';
+import {Button, Rating, TableCell, TablePagination} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import styles from './Cards.module.css'
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -96,7 +96,7 @@ export const Cards = () => {
             <div className={styles.container}>
                 <h1>Cards name</h1>
                 <SearchAppBar
-                    disabled={packUserId !== userId}  // packUserId и user_id одно и то же, userId - id юзера при логине
+                    disabled={packUserId !== userId}
                     title={'add new card'}
                     addNewItem={handleOpen}
                     goBack={returnToPacks}
@@ -137,7 +137,8 @@ export const Cards = () => {
                                     </TableCell>
                                     <TableCell align="right">{card.answer}</TableCell>
                                     <TableCell align="right">{card.rating}</TableCell>
-                                    <TableCell align="right">{card.grade}</TableCell>
+                                    <TableCell align="right"><Rating name="read-only" value={card.grade} readOnly/>
+                                    </TableCell>
                                     <TableCell align="right">{card.updated.toString()}</TableCell>
                                     <TableCell className={styles.buttonBlock}>
                                         <Button
