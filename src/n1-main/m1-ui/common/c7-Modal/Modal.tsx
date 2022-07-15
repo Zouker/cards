@@ -12,7 +12,7 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #9c27b0',
     borderRadius: '8px',
-    boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+    boxShadow: 24,
     p: 4,
 };
 

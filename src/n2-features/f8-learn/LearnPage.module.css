@@ -1,0 +1,14 @@
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.buttonsBlock {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}

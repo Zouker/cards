@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: `http://localhost:7542/2.0`,
-    // baseURL: 'https://neko-back.herokuapp.com/2.0',
+    // baseURL: `http://localhost:7542/2.0`,
+    baseURL: 'https://neko-back.herokuapp.com/2.0',
 })
 
 export const cardsAPI = {
@@ -48,18 +48,18 @@ export type UpdatedCardType = {
 export type CardType = {
     _id: string
     cardsPack_id: string
-    user_id: string
+    user_id?: string
     answer: string
     question: string
     grade: number
     shots: number
-    comments: string
+    comments?: string
     type: string
     rating: number
-    more_id: number
+    more_id: string
     created: string
     updated: string
-    __v: number
+    __v?: number
 }
 
 export type ResponseGetCardsType = {
