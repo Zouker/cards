@@ -75,7 +75,7 @@ export const SetNewPassword = () => {
             <form className={styles.form} onSubmit={formik.handleSubmit}>
                 <div className={styles.title}>Create new password</div>
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">New password</InputLabel>
+                    <InputLabel color={'secondary'}>New password</InputLabel>
                     <Input
                         id="password"
                         type={valuesPassword.showPassword ? 'text' : 'password'}
@@ -84,11 +84,11 @@ export const SetNewPassword = () => {
                         onChange={formik.handleChange}
                         value={formik.values.password}
                         className={styles.input}
+                        color={'secondary'}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
-                                    aria-label="toggle password visibility"
                                     onClick={handleClickShowPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
@@ -102,7 +102,8 @@ export const SetNewPassword = () => {
                     <div className={error.error}>{formik.errors.password}</div>}
 
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Confirm new password</InputLabel>
+                    <InputLabel color={'secondary'}>Confirm new
+                        password</InputLabel>
                     <Input
                         id="confirmPassword"
                         type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
@@ -111,12 +112,12 @@ export const SetNewPassword = () => {
                         onChange={formik.handleChange}
                         value={formik.values.confirmPassword}
                         className={styles.input}
+                        color={'secondary'}
                         autoComplete="on"
 
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
-                                    aria-label="toggle password visibility"
                                     onClick={handleClickShowConfirmPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
@@ -131,7 +132,7 @@ export const SetNewPassword = () => {
                 <div className={styles.instructions}>Create new password and we will send you further instructions to
                     email
                 </div>
-                <Button variant={'contained'} type="submit">Create new password</Button>
+                <Button color={'secondary'} variant={'contained'} type="submit">Create new password</Button>
             </form>
         </div>
     );

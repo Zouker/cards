@@ -32,11 +32,12 @@ password recovery link: <a href='https://zouker.github.io/cards/#/set-new-passwo
                     variant="standard"
                     value={email}
                     onChange={emailEnter}
+                    color={'secondary'}
                 />
                 <div className={styles.instructions}>Enter your email address and we will send you further
                     instructions
                 </div>
-                <Button variant={'contained'} onClick={emailSend}>Send Instructions</Button>
+                <Button color={'secondary'} variant={'contained'} onClick={emailSend}>Send Instructions</Button>
                 Did you remember your password?
                 <Link to={'/login'}>Try logging in</Link>
             </div>

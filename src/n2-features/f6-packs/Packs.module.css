@@ -18,7 +18,11 @@
     border-radius: 8px 0 0 8px;
 }
 
-.title {
+.sidebarBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
 }
 
@@ -29,6 +33,19 @@
 
 .rangeSlider {
     margin: 35px 20px;
+}
+
+.title {
+    text-align: center;
+}
+
+.pack {
+    text-decoration: none;
+    color: #7b1fa2;
+}
+
+.pack:hover {
+    font-weight: bold;
 }
 
 .paginatorBlock {

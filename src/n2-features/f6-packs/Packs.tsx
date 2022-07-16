@@ -125,7 +125,7 @@ export const Packs = () => {
     }, [dispatch, debouncedValue, isMyPack, debouncedMinValue, debouncedMaxValue, pageCount, page])
 
     const returnToProfile = () => {
-        navigate({pathname: '/profile'})
+        navigate('/profile')
     }
 
     return (
@@ -135,21 +135,23 @@ export const Packs = () => {
             </BasicModal>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
-                    <div>
-                        <p className={styles.title}>Show packs cards</p>
-                        <Button variant={isMyPack ? 'contained' : 'outlined'}
-                                color="secondary"
-                                onClick={myPacksHandler}>
-                            My
-                        </Button>
-                        <Button variant={!isMyPack ? 'contained' : 'outlined'}
-                                color="secondary"
-                                onClick={allPacksHandler}>
-                            All
-                        </Button>
+                    <div className={styles.sidebarBlock}>
+                        <p>Show packs cards</p>
+                        <div>
+                            <Button variant={isMyPack ? 'contained' : 'outlined'}
+                                    color="secondary"
+                                    onClick={myPacksHandler}>
+                                My
+                            </Button>
+                            <Button variant={!isMyPack ? 'contained' : 'outlined'}
+                                    color="secondary"
+                                    onClick={allPacksHandler}>
+                                All
+                            </Button>
+                        </div>
                     </div>
                     <div>
-                        <p className={styles.title}>Number of cards</p>
+                        <p className={styles.sidebarBlock}>Number of cards</p>
                         <div className={styles.rangeSlider}>
                             <RangeSlider
                                 min={minCardsCount}
@@ -161,7 +163,7 @@ export const Packs = () => {
                     </div>
                 </div>
                 <div>
-                    <h1>Packs List</h1>
+                    <h1 className={styles.title}>Packs List</h1>
                     <SearchAppBar title={'add new pack'}
                                   addNewItem={handleOpen}
                                   goBack={returnToProfile}
@@ -198,7 +200,7 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                            <NavLink to={'/cards/' + pack._id}>{pack.name}</NavLink>
+                                            <NavLink className={styles.pack} to={'/cards/' + pack._id}>{pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.cardsCount}</TableCell>

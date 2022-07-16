@@ -79,7 +79,7 @@ export const Register = () => {
             <form className={styles.form} onSubmit={formik.handleSubmit}>
                 <div className={styles.title}>Sign Up</div>
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="component-simple">Email</InputLabel>
+                    <InputLabel color={'secondary'} htmlFor="component-simple">Email</InputLabel>
                     <Input
                         id="email"
                         name="email"
@@ -88,14 +88,14 @@ export const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.email}
                         className={styles.input}
-
+                        color={'secondary'}
                     />
                 </FormControl>
                 {formik.errors.email && formik.touched.email &&
                     <div className={error.error}>{formik.errors.email}</div>}
 
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                    <InputLabel color={'secondary'}>Password</InputLabel>
                     <Input
                         id="password"
                         type={valuesPassword.showPassword ? 'text' : 'password'}
@@ -104,11 +104,11 @@ export const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.password}
                         className={styles.input}
+                        color={'secondary'}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
-                                    aria-label="toggle password visibility"
                                     onClick={handleClickShowPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
@@ -122,7 +122,7 @@ export const Register = () => {
                     <div className={error.error}>{formik.errors.password}</div>}
 
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
+                    <InputLabel color={'secondary'}>Confirm password</InputLabel>
                     <Input
                         id="confirmPassword"
                         type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
@@ -131,12 +131,11 @@ export const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.confirmPassword}
                         className={styles.input}
+                        color={'secondary'}
                         autoComplete="on"
-
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
-                                    aria-label="toggle password visibility"
                                     onClick={handleClickShowConfirmPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
@@ -148,7 +147,7 @@ export const Register = () => {
                 </FormControl>
                 {formik.errors.confirmPassword && formik.touched.confirmPassword &&
                     <div className={error.error}>{formik.errors.confirmPassword}</div>}
-                <Button variant={'contained'} type="submit">Register</Button>
+                <Button color={'secondary'} variant={'contained'} type="submit">Register</Button>
                 Already have an account?
                 <Link to={'/login'}>Sign In</Link>
             </form>

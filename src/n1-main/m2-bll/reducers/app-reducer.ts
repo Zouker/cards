@@ -28,11 +28,11 @@ export const authMeTC = (): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.authMe()
         .then((res) => {
-            dispatch(setInitializedAC(true))
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserDataAC(res.data))
         })
         .finally(() => {
+            dispatch(setInitializedAC(true))
             dispatch(setAppStatusAC('succeeded'))
         })
 }

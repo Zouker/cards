@@ -88,13 +88,13 @@ export const Cards = () => {
     };
 
     const returnToPacks = () => {
-        navigate({pathname: '/packs'})
+        navigate('/packs')
     }
 
     return (
         <div className={styles.tableWrapper}>
             <div className={styles.container}>
-                <h1>Cards name</h1>
+                <h1 className={styles.title}>Cards name</h1>
                 <SearchAppBar
                     disabled={packUserId !== userId}
                     title={'add new card'}
