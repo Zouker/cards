@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export const profileAPI = {
     updateUserData(params: UserDataType) {
-        return instance.put<UserDataType>('auth/me', params)
+        return instance.put('auth/me', params)
     },
 };
 
@@ -17,23 +17,4 @@ export const profileAPI = {
 export type UpdateUserParamsType = {
     name: string
     avatar: string
-}
-
-type UpdateUserDataResponseType = {
-    updatedUser: {
-        _id: string,
-        email: string
-        rememberMe: boolean
-        isAdmin: boolean
-        name: string
-        verified: boolean
-        publicCardPacksCount: number
-        created: string
-        updated: string
-        __v: number
-        avatar: string
-    },
-    error?: string
-    token: string,
-    tokenDeathTime: number
 }

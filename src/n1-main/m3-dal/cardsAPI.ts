@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 
 const instance = axios.create({
@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(cardsPack_id: string, params?: RequestGetCardsType) {
-        return instance.get<ResponseGetCardsType>(`/cards/card/?cardsPack_id=${cardsPack_id}`, {params})
+        return instance.get<RequestGetCardsType, AxiosResponse<ResponseGetCardsType>>(`/cards/card/?cardsPack_id=${cardsPack_id}`, {params})
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card/?id=${id}`)

@@ -37,7 +37,6 @@ export const SetNewPassword = () => {
         },
     })
 
-
     const [valuesPassword, setValuesPassword] = React.useState<StatePassword>({
         password: '',
         showPassword: false,
@@ -79,12 +78,10 @@ export const SetNewPassword = () => {
                     <Input
                         id="password"
                         type={valuesPassword.showPassword ? 'text' : 'password'}
-                        name="password"
                         placeholder={'New password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
                         className={styles.input}
                         color={'secondary'}
+                        {...formik.getFieldProps('password')}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">
@@ -107,12 +104,10 @@ export const SetNewPassword = () => {
                     <Input
                         id="confirmPassword"
                         type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
-                        name="confirmPassword"
                         placeholder={'Confirm new password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.confirmPassword}
                         className={styles.input}
                         color={'secondary'}
+                        {...formik.getFieldProps('confirmPassword')}
                         autoComplete="on"
 
                         endAdornment={

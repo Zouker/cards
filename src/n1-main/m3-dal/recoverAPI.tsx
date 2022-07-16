@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 const instance = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
@@ -7,7 +7,7 @@ const instance = axios.create({
 
 export const recoverAPI = {
     sendEmail: (email: string, message: string) => {
-        return instance.post<ResponseType>('/auth/forgot', {email, message})
+        return instance.post<{email: string,message: string}, AxiosResponse<ResponseType>>('/auth/forgot', {email, message})
     }
 }
 

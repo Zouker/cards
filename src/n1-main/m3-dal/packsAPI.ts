@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 const instance = axios.create({
     withCredentials: true,
@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const packsAPI = {
     getPacks(params?: RequestGetPacksType) {
-        return instance.get<ResponseGetPacksType>('/cards/pack', {params})
+        return instance.get<RequestGetPacksType, AxiosResponse<ResponseGetPacksType>>('/cards/pack', {params})
     },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
         return instance.post('/cards/pack', {cardsPack: {name, deckCover, private: isPrivate}})

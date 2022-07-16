@@ -11,7 +11,6 @@ export const RangeSlider: React.FC<SliderProps> = ({...restProps}) => {
                 valueLabelDisplay="on"
                 disableSwap
                 {...restProps}
-
             />
         </Box>
     );

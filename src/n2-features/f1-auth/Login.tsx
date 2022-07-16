@@ -67,13 +67,11 @@ export const Login = () => {
                     <InputLabel color="secondary">Email</InputLabel>
                     <Input
                         id="email"
-                        name="email"
                         type="email"
                         placeholder={'Email'}
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
                         className={styles.input}
                         color="secondary"
+                        {...formik.getFieldProps('email')}
                     />
                 </FormControl>
                 {formik.errors.email && formik.touched.email &&
@@ -84,12 +82,10 @@ export const Login = () => {
                     <Input
                         id="password"
                         type={valuesPassword.showPassword ? 'text' : 'password'}
-                        name="password"
                         placeholder={'Password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
                         className={styles.input}
                         color="secondary"
+                        {...formik.getFieldProps('password')}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">
@@ -106,10 +102,11 @@ export const Login = () => {
                 {formik.errors.password && formik.touched.password &&
                     <div className={error.error}>{formik.errors.password}</div>}
 
-
                 <FormControlLabel label={'Remember me'}
-                                  control={<Checkbox color="secondary"  {...formik.getFieldProps('rememberMe')}
-                                                     checked={formik.values.rememberMe}/>
+                                  control={<Checkbox color="secondary"
+                                                     checked={formik.values.rememberMe}
+                                                     {...formik.getFieldProps('rememberMe')}
+                                  />
                                   }/>
                 <Link className={styles.textLink} to={'/recover-password'}>Forgot Password</Link>
                 <Button color="secondary" variant={'contained'} type="submit">Login</Button>

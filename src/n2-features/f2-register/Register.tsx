@@ -82,13 +82,11 @@ export const Register = () => {
                     <InputLabel color={'secondary'} htmlFor="component-simple">Email</InputLabel>
                     <Input
                         id="email"
-                        name="email"
                         type="email"
                         placeholder={'Email'}
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
                         className={styles.input}
                         color={'secondary'}
+                        {...formik.getFieldProps('email')}
                     />
                 </FormControl>
                 {formik.errors.email && formik.touched.email &&
@@ -99,12 +97,10 @@ export const Register = () => {
                     <Input
                         id="password"
                         type={valuesPassword.showPassword ? 'text' : 'password'}
-                        name="password"
                         placeholder={'Password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
                         className={styles.input}
                         color={'secondary'}
+                        {...formik.getFieldProps('password')}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">
@@ -126,12 +122,10 @@ export const Register = () => {
                     <Input
                         id="confirmPassword"
                         type={valuesConfirmPassword.showConfirmPassword ? 'text' : 'password'}
-                        name="confirmPassword"
                         placeholder={'Confirm password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.confirmPassword}
                         className={styles.input}
                         color={'secondary'}
+                        {...formik.getFieldProps('confirmPassword')}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">

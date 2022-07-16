@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0',
@@ -8,13 +8,13 @@ const instance = axios.create({
 
 export const authAPI = {
     authMe() {
-        return instance.post<ResponseType>('/auth/me')
+        return instance.post<{}, AxiosResponse<ResponseType>>('/auth/me')
     },
     login(data: DataLoginType) {
-        return instance.post<ResponseType>(`/auth/login`, data)
+        return instance.post<DataLoginType, AxiosResponse<ResponseType>>(`/auth/login`, data)
     },
     logout() {
-        return instance.delete<LogoutResponseType>('/auth/me')
+        return instance.delete<ResponseType>('/auth/me')
     }
 }
 
@@ -28,29 +28,15 @@ export type DataLoginType = {
 export type ResponseType = {
     _id: string,
     email: string,
+    rememberMe: boolean,
+    isAdmin: boolean,
     name: string,
-    avatar: string,
+    verified: boolean,
     publicCardPacksCount: number,
     created: Date,
     updated: Date,
-    isAdmin: boolean,
-    verified: boolean,
-    rememberMe: boolean,
-    error?: string
     __v: any,
     token: string,
     tokenDeathTime: number,
-    deviceTokens: TokenType[],
+    avatar: string,
 };
-
-type TokenType = {
-    '_id': string
-    'device': string
-    'token': string
-    'tokenDeathTime': number
-}
-
-type LogoutResponseType = {
-    info: string
-    error: string
-}
