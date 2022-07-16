@@ -34,6 +34,10 @@ import {DeleteItem} from '../../n1-main/m1-ui/common/c7-Modal/DeleteItemModal';
 import {LearnPage} from '../f8-learn/LearnPage';
 
 
+export const formatDate = (date: Date | string | number) => {
+    return new Date(date).toLocaleDateString('ru-RU') + ' ' + new Date(date).toLocaleTimeString()
+}
+
 export const Packs = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -202,8 +206,8 @@ export const Packs = () => {
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.cardsCount}</TableCell>
                                         <TableCell align="right">{pack.grade}</TableCell>
-                                        <TableCell align="right">{pack.created}</TableCell>
-                                        <TableCell align="right">{pack.updated}</TableCell>
+                                        <TableCell align="right">{formatDate(pack.created)}</TableCell>
+                                        <TableCell align="right">{formatDate(pack.updated)}</TableCell>
                                         <TableCell className={styles.buttonBlock}>
                                             <Button disabled={userId !== pack.user_id}
                                                     onClick={() => {

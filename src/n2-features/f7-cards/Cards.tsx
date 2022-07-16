@@ -24,6 +24,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
 import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
 import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
+import {formatDate} from '../f6-packs/Packs';
 
 export const Cards = () => {
     const navigate = useNavigate()
@@ -115,12 +116,11 @@ export const Cards = () => {
                     />
                 </BasicModal>
                 <TableContainer component={Paper}>
-                    <Table sx={{minWidth: 500}} aria-label="simple table">
+                    <Table sx={{minWidth: 400}} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>Question</TableCell>
                                 <TableCell align="right">Answer</TableCell>
-                                <TableCell align="right">Rating</TableCell>
                                 <TableCell align="right">Grade</TableCell>
                                 <TableCell align="right">Updated</TableCell>
                                 <TableCell align="right">Actions</TableCell>
@@ -136,10 +136,9 @@ export const Cards = () => {
                                         {card.question}
                                     </TableCell>
                                     <TableCell align="right">{card.answer}</TableCell>
-                                    <TableCell align="right">{card.rating}</TableCell>
                                     <TableCell align="right"><Rating name="read-only" value={card.grade} readOnly/>
                                     </TableCell>
-                                    <TableCell align="right">{card.updated.toString()}</TableCell>
+                                    <TableCell align="right">{formatDate(card.updated)}</TableCell>
                                     <TableCell className={styles.buttonBlock}>
                                         <Button
                                             disabled={userId !== card.user_id}

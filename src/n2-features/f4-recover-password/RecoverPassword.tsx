@@ -10,7 +10,6 @@ export const RecoverPassword = () => {
     const [email, setEmail] = useState('')
     const navigate = useNavigate()
 
-
     const emailEnter = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value)
     }
