@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 const instance = axios.create({
     withCredentials: true,
-    // baseURL: `http://localhost:7542/2.0`,
-    baseURL: 'https://neko-back.herokuapp.com/2.0',
+    baseURL: `http://localhost:7542/2.0`,
+    // baseURL: 'https://neko-back.herokuapp.com/2.0',
 })
 
 export const packsAPI = {
     getPacks(params?: RequestGetPacksType) {
-        return instance.get<ResponseGetPacksType>('/cards/pack', {params})
+        return instance.get<RequestGetPacksType, AxiosResponse<ResponseGetPacksType>>('/cards/pack', {params})
     },
     addPack(name: string, deckCover?: string, isPrivate?: boolean) {
         return instance.post('/cards/pack', {cardsPack: {name, deckCover, private: isPrivate}})

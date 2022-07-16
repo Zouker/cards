@@ -42,16 +42,13 @@ export const LearnPage: React.FC<LearnPagePropsType> = ({handleClose, id}) => {
     const [card, setCard] = useState<CardType>({
         _id: '',
         cardsPack_id: '',
-
         answer: '',
         question: '',
         grade: 0,
         shots: 0,
-
         type: '',
         rating: 0,
         more_id: '',
-
         created: '',
         updated: '',
     });
@@ -96,10 +93,8 @@ export const LearnPage: React.FC<LearnPagePropsType> = ({handleClose, id}) => {
                     <div><span className={styles.bold}>Answer: </span>{card.answer}</div>
 
                     <FormControl>
-                        <FormLabel id="demo-controlled-radio-buttons-group">Rate yourself</FormLabel>
+                        <FormLabel color="secondary">Rate yourself</FormLabel>
                         <RadioGroup
-                            aria-labelledby="demo-controlled-radio-buttons-group"
-                            name="controlled-radio-buttons-group"
                             value={value}
                             onChange={handleChange}
                         >
@@ -107,7 +102,7 @@ export const LearnPage: React.FC<LearnPagePropsType> = ({handleClose, id}) => {
                                 <FormControlLabel
                                     key={'grade-' + i}
                                     value={g}
-                                    control={<Radio/>}
+                                    control={<Radio color="secondary"/>}
                                     label={g}/>
                             ))}
                         </RadioGroup>

@@ -64,36 +64,32 @@ export const Login = () => {
             <form className={styles.form} onSubmit={formik.handleSubmit}>
                 <div className={styles.title}>Sign In</div>
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="component-simple">Email</InputLabel>
+                    <InputLabel color="secondary">Email</InputLabel>
                     <Input
                         id="email"
-                        name="email"
                         type="email"
                         placeholder={'Email'}
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
                         className={styles.input}
-
+                        color="secondary"
+                        {...formik.getFieldProps('email')}
                     />
                 </FormControl>
                 {formik.errors.email && formik.touched.email &&
                     <div className={error.error}>{formik.errors.email}</div>}
 
                 <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                    <InputLabel color="secondary">Password</InputLabel>
                     <Input
                         id="password"
                         type={valuesPassword.showPassword ? 'text' : 'password'}
-                        name="password"
                         placeholder={'Password'}
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
                         className={styles.input}
+                        color="secondary"
+                        {...formik.getFieldProps('password')}
                         autoComplete="on"
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
-                                    aria-label="toggle password visibility"
                                     onClick={handleClickShowPassword}
                                     onMouseDown={handleMouseDownPassword}
                                 >
@@ -106,14 +102,16 @@ export const Login = () => {
                 {formik.errors.password && formik.touched.password &&
                     <div className={error.error}>{formik.errors.password}</div>}
 
-
                 <FormControlLabel label={'Remember me'}
-                                  control={<Checkbox  {...formik.getFieldProps('rememberMe')}
-                                                      checked={formik.values.rememberMe}/>
+                                  control={<Checkbox color="secondary"
+                                                     checked={formik.values.rememberMe}
+                                                     {...formik.getFieldProps('rememberMe')}
+                                  />
                                   }/>
-                <Button variant={'contained'} type="submit">Login</Button>
+                <Link className={styles.textLink} to={'/recover-password'}>Forgot Password</Link>
+                <Button color="secondary" variant={'contained'} type="submit">Login</Button>
                 Don’t have an account?
-                <Link className={styles.textLink} to={'/register'}>Sign Up</Link>
+                <Link to={'/register'}>Sign Up</Link>
             </form>
         </div>
     );

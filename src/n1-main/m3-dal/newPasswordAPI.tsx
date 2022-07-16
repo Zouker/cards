@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 const instance = axios.create({
     baseURL: 'https://neko-back.herokuapp.com/2.0',
@@ -7,7 +7,7 @@ const instance = axios.create({
 
 export const newPasswordAPI = {
     sendNewPassword: (newPasswordData: newPasswordType) => {
-        return instance.post<ResponseType>('/auth/set-new-password', newPasswordData)
+        return instance.post<newPasswordType, AxiosResponse<ResponseType>>('/auth/set-new-password', newPasswordData)
     }
 }
 

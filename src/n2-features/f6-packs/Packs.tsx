@@ -34,6 +34,10 @@ import {DeleteItem} from '../../n1-main/m1-ui/common/c7-Modal/DeleteItemModal';
 import {LearnPage} from '../f8-learn/LearnPage';
 
 
+export const formatDate = (date: Date | string | number) => {
+    return new Date(date).toLocaleDateString('ru-RU') + ' ' + new Date(date).toLocaleTimeString()
+}
+
 export const Packs = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -64,8 +68,6 @@ export const Packs = () => {
     const handleCloseLearnModal = () => setOpenLearnModal(false);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
-    const debouncedMinValue = useDebounce<number>(min, 1000)
-    const debouncedMaxValue = useDebounce<number>(max, 1000)
 
     const addNewCardsPack = () => {
         dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
@@ -82,10 +84,6 @@ export const Packs = () => {
     const updatePack = (id: string) => {
         const name = 'UPDATED_NAME'
         dispatch(updatePackTC(id, name))
-    }
-
-    const learnPack = () => {
-        console.log('LEARN')
     }
 
     // All Packs and My Packs
@@ -113,19 +111,19 @@ export const Packs = () => {
     };
 
     // Min and Max scale of cards in pack
-    const handleChangeMinMax = (event: Event, newValue: number | number[]) => {
-        if (Array.isArray(newValue)) {
-            dispatch(setMinMaxAC(newValue[0], newValue[1]));
-            setValue([newValue[0], newValue[1]])
+    const handleChangeMinMax = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
+        if (Array.isArray(value)) {
+            dispatch(setMinMaxAC(value[0], value[1]));
+            setValue([value[0], value[1]])
         }
     };
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [dispatch, debouncedValue, isMyPack, debouncedMinValue, debouncedMaxValue, pageCount, page])
+    }, [dispatch, debouncedValue, isMyPack, min, max, pageCount, page])
 
     const returnToProfile = () => {
-        navigate({pathname: '/profile'})
+        navigate('/profile')
     }
 
     return (
@@ -135,39 +133,43 @@ export const Packs = () => {
             </BasicModal>}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
-                    <div>
-                        <p className={styles.title}>Show packs cards</p>
-                        <Button variant={isMyPack ? 'contained' : 'outlined'}
-                                color="secondary"
-                                onClick={myPacksHandler}>
-                            My
-                        </Button>
-                        <Button variant={!isMyPack ? 'contained' : 'outlined'}
-                                color="secondary"
-                                onClick={allPacksHandler}>
-                            All
-                        </Button>
+                    <div className={styles.sidebarBlock}>
+                        <p>Show packs cards</p>
+                        <div>
+                            <Button variant={isMyPack ? 'contained' : 'outlined'}
+                                    color="secondary"
+                                    onClick={myPacksHandler}>
+                                My
+                            </Button>
+                            <Button variant={!isMyPack ? 'contained' : 'outlined'}
+                                    color="secondary"
+                                    onClick={allPacksHandler}>
+                                All
+                            </Button>
+                        </div>
                     </div>
                     <div>
-                        <p className={styles.title}>Number of cards</p>
+                        <p className={styles.sidebarBlock}>Number of cards</p>
                         <div className={styles.rangeSlider}>
                             <RangeSlider
                                 min={minCardsCount}
                                 max={maxCardsCount}
                                 value={value}
-                                onChange={handleChangeMinMax}
+                                onChange={(e, newValue) => setValue(newValue)}
+                                onChangeCommitted={handleChangeMinMax}
                             />
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h1>Packs List</h1>
+                    <h1 className={styles.title}>Packs List</h1>
                     <SearchAppBar title={'add new pack'}
                                   addNewItem={handleOpen}
                                   goBack={returnToProfile}
-                                  value={packName} onChange={(e) => {
-                        dispatch(searchAC(e.currentTarget.value))
-                    }}
+                                  value={packName}
+                                  onChange={(e) => {
+                                      dispatch(searchAC(e.currentTarget.value))
+                                  }}
                     />
                     {openAddNewItemModal && <BasicModal open={openAddNewItemModal} setOpen={setOpenAddNewItemModal}>
                         <AddNewItem title={'Add new pack'}
@@ -198,13 +200,14 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                            <NavLink to={'/cards/' + pack._id}>{pack.name}</NavLink>
+                                            <NavLink className={styles.pack}
+                                                     to={'/cards/' + pack._id}>{pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.cardsCount}</TableCell>
                                         <TableCell align="right">{pack.grade}</TableCell>
-                                        <TableCell align="right">{pack.created}</TableCell>
-                                        <TableCell align="right">{pack.updated}</TableCell>
+                                        <TableCell align="right">{formatDate(pack.created)}</TableCell>
+                                        <TableCell align="right">{formatDate(pack.updated)}</TableCell>
                                         <TableCell className={styles.buttonBlock}>
                                             <Button disabled={userId !== pack.user_id}
                                                     onClick={() => {

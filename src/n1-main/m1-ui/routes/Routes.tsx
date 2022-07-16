@@ -8,7 +8,7 @@ import {Profile} from '../../../n2-features/f3-profile/Profile';
 import {Packs} from '../../../n2-features/f6-packs/Packs';
 import {Error404} from '../common/Error404/Error404';
 import {Cards} from '../../../n2-features/f7-cards/Cards';
-
+import {CheckEmail} from '../../../n2-features/f4-recover-password/CheckEmail';
 
 export const Pages = () => {
 
@@ -19,6 +19,7 @@ export const Pages = () => {
             <Route path={'/register'} element={<div><Register/></div>}/>
             <Route path={'/profile'} element={<Profile/>}/>
             <Route path={'/recover-password'} element={<div><RecoverPassword/></div>}/>
+            <Route path={'/check-email/:email'} element={<div><CheckEmail/></div>}/>
             <Route path={'/set-new-password/'}>
                 <Route index element={<div><SetNewPassword/></div>}/>
                 <Route path={':token'} element={<div><SetNewPassword/></div>}/>
