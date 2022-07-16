@@ -64,8 +64,6 @@ export const Packs = () => {
     const handleCloseLearnModal = () => setOpenLearnModal(false);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
-    const debouncedMinValue = useDebounce<number>(min, 1000)
-    const debouncedMaxValue = useDebounce<number>(max, 1000)
 
     const addNewCardsPack = () => {
         dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
@@ -82,10 +80,6 @@ export const Packs = () => {
     const updatePack = (id: string) => {
         const name = 'UPDATED_NAME'
         dispatch(updatePackTC(id, name))
-    }
-
-    const learnPack = () => {
-        console.log('LEARN')
     }
 
     // All Packs and My Packs
@@ -113,16 +107,16 @@ export const Packs = () => {
     };
 
     // Min and Max scale of cards in pack
-    const handleChangeMinMax = (event: Event, newValue: number | number[]) => {
-        if (Array.isArray(newValue)) {
-            dispatch(setMinMaxAC(newValue[0], newValue[1]));
-            setValue([newValue[0], newValue[1]])
+    const handleChangeMinMax = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
+        if (Array.isArray(value)) {
+            dispatch(setMinMaxAC(value[0], value[1]));
+            setValue([value[0], value[1]])
         }
     };
 
     useEffect(() => {
         dispatch(getPacksTC())
-    }, [dispatch, debouncedValue, isMyPack, debouncedMinValue, debouncedMaxValue, pageCount, page])
+    }, [dispatch, debouncedValue, isMyPack, min, max, pageCount, page])
 
     const returnToProfile = () => {
         navigate('/profile')
@@ -157,7 +151,8 @@ export const Packs = () => {
                                 min={minCardsCount}
                                 max={maxCardsCount}
                                 value={value}
-                                onChange={handleChangeMinMax}
+                                onChange={(e, newValue) => setValue(newValue)}
+                                onChangeCommitted={handleChangeMinMax}
                             />
                         </div>
                     </div>
@@ -167,9 +162,10 @@ export const Packs = () => {
                     <SearchAppBar title={'add new pack'}
                                   addNewItem={handleOpen}
                                   goBack={returnToProfile}
-                                  value={packName} onChange={(e) => {
-                        dispatch(searchAC(e.currentTarget.value))
-                    }}
+                                  value={packName}
+                                  onChange={(e) => {
+                                      dispatch(searchAC(e.currentTarget.value))
+                                  }}
                     />
                     {openAddNewItemModal && <BasicModal open={openAddNewItemModal} setOpen={setOpenAddNewItemModal}>
                         <AddNewItem title={'Add new pack'}
@@ -200,7 +196,8 @@ export const Packs = () => {
                                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                     >
                                         <TableCell component="th" scope="row">
-                                            <NavLink className={styles.pack} to={'/cards/' + pack._id}>{pack.name}</NavLink>
+                                            <NavLink className={styles.pack}
+                                                     to={'/cards/' + pack._id}>{pack.name}</NavLink>
                                         </TableCell>
                                         <TableCell align="right">{pack.user_name}</TableCell>
                                         <TableCell align="right">{pack.cardsCount}</TableCell>
