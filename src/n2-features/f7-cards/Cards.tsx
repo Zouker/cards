@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -14,6 +14,7 @@ import {
     addCardTC,
     deleteCardTC,
     getCardsTC,
+    searchAnswerAC,
     searchQuestionAC,
     setCardsPageAC,
     setCardsPageCountAC,
@@ -34,24 +35,33 @@ export const Cards = () => {
     const page = useAppSelector(state => state.cards.params.page)
     const pageCount = useAppSelector(state => state.cards.params.pageCount)
     const cardQuestion = useAppSelector(state => state.cards.params.cardQuestion)
+    const cardAnswer = useAppSelector(state => state.cards.params.cardAnswer)
     const userId = useAppSelector(state => state.profile._id)
     const packUserId = useAppSelector(state => state.cards.packUserId)
 
     const {packsId} = useParams<'packsId'>();
-
-    const debouncedValueQuestion = useDebounce(cardQuestion, 1000)
 
     const [open, setOpen] = React.useState(false);
     const [newCardQuestion, setNewCardQuestion] = React.useState('')
     const [newCardAnswer, setNewCardAnswer] = React.useState('')
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false);
-
-    useEffect(() => {
-        if (packsId) {
-            dispatch(getCardsTC(packsId))
+    const [searchCardValue, setSearchCardValue] = React.useState('Question');
+    const handleChangeSearchCardValue = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        if (searchCardValue === 'Question') {
+            dispatch(searchQuestionAC(e.currentTarget.value))
+        } else {
+            dispatch(searchAnswerAC(e.currentTarget.value))
         }
-    }, [dispatch, packsId, page, pageCount, debouncedValueQuestion]);
+    };
+
+    const clearValue = (value: string) => {
+        if (searchCardValue === 'Question') dispatch(searchQuestionAC(''))
+        else dispatch(searchAnswerAC(''))
+        setSearchCardValue(value)
+    }
+
+    const debouncedValue = useDebounce((searchCardValue === 'Question') ? cardQuestion : cardAnswer, 1000)
 
     const addNewCard = () => {
         if (packsId) {
@@ -88,6 +98,12 @@ export const Cards = () => {
         dispatch(setCardsPageAC(1))
     };
 
+    useEffect(() => {
+        if (packsId) {
+            dispatch(getCardsTC(packsId))
+        }
+    }, [dispatch, packsId, page, pageCount, debouncedValue]);
+
     const returnToPacks = () => {
         navigate('/packs')
     }
@@ -96,13 +112,14 @@ export const Cards = () => {
         <div className={styles.tableWrapper}>
             <div className={styles.container}>
                 <h1 className={styles.title}>Cards name</h1>
-                <SearchAppBar
-                    disabled={packUserId !== userId}
-                    title={'add new card'}
-                    addNewItem={handleOpen}
-                    goBack={returnToPacks}
-                    value={cardQuestion}
-                    onChange={(e) => dispatch(searchQuestionAC(e.currentTarget.value))}
+                <SearchAppBar radioValue={searchCardValue}
+                              onChangeRadio={clearValue}
+                              disabled={packUserId !== userId}
+                              title={'add new card'}
+                              addNewItem={handleOpen}
+                              goBack={returnToPacks}
+                              value={searchCardValue === 'Question' ? cardQuestion : cardAnswer}
+                              onChange={handleChangeSearchCardValue}
                 />
                 <BasicModal open={open} setOpen={setOpen}>
                     <AddNewItem

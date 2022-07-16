@@ -7,6 +7,8 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {Button} from '@mui/material';
+import {SearchCardRadio} from './SearchCardRadio';
+import {useParams} from 'react-router-dom';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -55,20 +57,27 @@ type SearchFieldType = {
     addNewItem: () => void
     goBack: () => void
     value: string
+    radioValue?: string
     onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+    onChangeRadio?: (value: string) => void
     disabled?: boolean
 }
-export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value, title, addNewItem, disabled}) => {
+export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value, title, addNewItem, disabled,radioValue,onChangeRadio}) => {
+
+    const {packsId} = useParams<'packsId'>();
 
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
                 <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
                     <div>
-                        <Button onClick={goBack} variant="contained" color="secondary">
+                        <Button onClick={goBack}
+                                variant="contained"
+                                color="secondary">
                             Back
                         </Button>
                     </div>
+                    {packsId && <SearchCardRadio radioValue={radioValue} onChangeRadio={onChangeRadio}/>}
                     <div>
                         <Search>
                             <SearchIconWrapper>
@@ -84,7 +93,10 @@ export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value
                         </Search>
                     </div>
                     <div>
-                        <Button onClick={addNewItem} variant="contained" color="secondary" disabled={disabled}>
+                        <Button onClick={addNewItem}
+                                variant="contained"
+                                color="secondary"
+                                disabled={disabled}>
                             {title}
                         </Button>
                     </div>

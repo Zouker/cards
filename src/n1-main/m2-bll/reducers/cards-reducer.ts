@@ -35,7 +35,8 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
             }
         case 'cards/SET-PACK-USER-ID':
             return {...state, packUserId: action.packUserId}
-
+        case 'cards/SEARCH-ANSWER':
+            return {...state, params: {...state.params, cardAnswer: action.cardAnswer}}
         default:
             return state
     }
@@ -53,6 +54,10 @@ export const setCardsTotalCountAC = (cardsTotalCount: number) => ({
 export const searchQuestionAC = (cardQuestion: string) => ({
     type: 'cards/SEARCH-QUESTION',
     cardQuestion,
+} as const)
+export const searchAnswerAC = (cardAnswer: string) => ({
+    type: 'cards/SEARCH-ANSWER',
+    cardAnswer,
 } as const)
 
 // thunks
@@ -141,3 +146,4 @@ type ActionType =
     | ReturnType<typeof setCardsPageCountAC>
     | ReturnType<typeof setCardsTotalCountAC>
     | ReturnType<typeof searchQuestionAC>
+    | ReturnType<typeof searchAnswerAC>
