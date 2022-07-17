@@ -27,7 +27,7 @@ const App = () => {
     return (
 
         <div className="App">
-            {status === 'loading' && <Preloader/>}
+            {status === 'loading' && <div className={styles.isInitialized}><Preloader/></div>}
             <HashRouter>
                 <Header/>
                 <Pages/>
