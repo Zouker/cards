@@ -27,6 +27,7 @@ export const Pages = () => {
             <Route path={'/test'} element={<div>Test</div>}/>
             <Route path={'/packs'} element={<div><Packs/></div>}/>
             <Route path={'/cards/:packsId'} element={<Cards/>}/>
+            <Route path={'/learn/:packsId'} element={<Cards/>}/>
             <Route path={'/404'} element={<div><Error404/></div>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>

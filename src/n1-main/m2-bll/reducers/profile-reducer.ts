@@ -7,14 +7,15 @@ import {errorUtils} from '../../../utils/error-utils';
 const initialState = {
     _id: '',
     name: 'Enter your name',
-    avatar: 'https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png',
+    avatar: '',
     publicCardPacksCount: 0,
 }
 
-export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+export const profileReducer = (state: UserDataType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case 'profile/SET-USER-DATA': {
             return {...state, ...action.userData}
+            // return {...state, ...action.userData.updatedUser}
         }
         default:
             return state
@@ -27,6 +28,7 @@ export const updateUserDataTC = (userData: UserDataType): AppThunk => (dispatch)
     profileAPI.updateUserData(userData)
         .then((res) => {
             dispatch(setUserDataAC(res.data))
+            console.log(res.data)
         })
         .catch((error: AxiosError<{ error: string }>) => {
             errorUtils(error, dispatch)
@@ -43,6 +45,12 @@ export const setUserDataAC = (userData: UserDataType) => ({type: 'profile/SET-US
 type InitialStateType = typeof initialState
 
 type ActionType = ReturnType<typeof setUserDataAC>
+
+export type UpdateResponseType = {
+    updatedUser: UserDataType
+    token: string
+    tokenDeathTime: string
+}
 
 export type UserDataType = {
     _id: string
