@@ -14,6 +14,7 @@
 }
 
 .title {
+    text-align: center;
     font-size: 50px;
 }
 
@@ -25,9 +26,9 @@
 }
 
 .avatar {
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*flex-wrap: nowrap;*/
     border-radius: 20%;
     border: 1px solid #7b1fa2;
     width: 120px;
@@ -39,6 +40,8 @@
 }
 
 .nickname {
+    display: flex;
+    align-items: center;
     margin: 20px 0;
 }
 
