@@ -3,7 +3,6 @@ import {TablePagination} from '@mui/material';
 import styles from './Cards.module.css'
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {
-    addCardTC,
     getCardsTC,
     searchAnswerAC,
     searchQuestionAC,
@@ -13,8 +12,6 @@ import {
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
-import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
-import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
 import {CardsTable} from './CardsTable';
 
 export const Cards = () => {
@@ -28,13 +25,8 @@ export const Cards = () => {
     const cardAnswer = useAppSelector(state => state.cards.params.cardAnswer)
     const packUserId = useAppSelector(state => state.cards.packUserId)
 
-    const {packsId} = useParams<'packsId'>();
+    const {packId} = useParams<'packId'>();
 
-    const [open, setOpen] = React.useState(false);
-    const [newCardQuestion, setNewCardQuestion] = React.useState('')
-    const [newCardAnswer, setNewCardAnswer] = React.useState('')
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false);
     const [searchCardValue, setSearchCardValue] = React.useState('Question');
     const handleChangeSearchCardValue = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         if (searchCardValue === 'Question') {
@@ -52,15 +44,6 @@ export const Cards = () => {
 
     const debouncedValue = useDebounce((searchCardValue === 'Question') ? cardQuestion : cardAnswer, 1000)
 
-    const addNewCard = () => {
-        if (packsId) {
-            dispatch(addCardTC({cardsPack_id: packsId, question: newCardQuestion, answer: newCardAnswer}))
-            setOpen(false)
-            setNewCardQuestion('')
-            setNewCardAnswer('')
-        }
-    }
-
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
@@ -76,10 +59,10 @@ export const Cards = () => {
     };
 
     useEffect(() => {
-        if (packsId) {
-            dispatch(getCardsTC(packsId))
+        if (packId) {
+            dispatch(getCardsTC(packId))
         }
-    }, [dispatch, packsId, page, pageCount, debouncedValue]);
+    }, [dispatch, packId, page, pageCount, debouncedValue]);
 
     const returnToPacks = () => {
         navigate('/packs')
@@ -92,23 +75,11 @@ export const Cards = () => {
                 <SearchAppBar radioValue={searchCardValue}
                               onChangeRadio={clearValue}
                               disabled={packUserId !== userId}
-                              title={'add new card'}
-                              addNewItem={handleOpen}
+                              title={'Add new card'}
                               goBack={returnToPacks}
                               value={searchCardValue === 'Question' ? cardQuestion : cardAnswer}
                               onChange={handleChangeSearchCardValue}
                 />
-                <BasicModal open={open} setOpen={setOpen}>
-                    <AddNewItem
-                        title={'Add new card'}
-                        handleClose={handleClose}
-                        addNewItem={addNewCard}
-                        value={newCardQuestion}
-                        value2={newCardAnswer}
-                        onChangeHandler={(e) => setNewCardQuestion(e.currentTarget.value)}
-                        onChangeHandler2={(e) => setNewCardAnswer(e.currentTarget.value)}
-                    />
-                </BasicModal>
                 <CardsTable/>
                 <div className={styles.paginatorBlock}>
                     <TablePagination

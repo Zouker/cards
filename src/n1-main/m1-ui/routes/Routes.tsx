@@ -9,6 +9,7 @@ import {Packs} from '../../../n2-features/f6-packs/Packs';
 import {Error404} from '../common/Error404/Error404';
 import {Cards} from '../../../n2-features/f7-cards/Cards';
 import {CheckEmail} from '../../../n2-features/f4-recover-password/CheckEmail';
+import {LearnPage} from '../../../n2-features/f8-learn/LearnPage';
 
 export const Pages = () => {
 
@@ -26,8 +27,8 @@ export const Pages = () => {
             </Route>
             <Route path={'/test'} element={<div>Test</div>}/>
             <Route path={'/packs'} element={<div><Packs/></div>}/>
-            <Route path={'/cards/:packsId'} element={<Cards/>}/>
-            <Route path={'/learn/:packsId'} element={<Cards/>}/>
+            <Route path={'/cards/:packId'} element={<Cards/>}/>
+            <Route path={'/learn/:packId'} element={<LearnPage/>}/>
             <Route path={'/404'} element={<div><Error404/></div>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>

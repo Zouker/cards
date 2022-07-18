@@ -6,7 +6,7 @@ import {logoutTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
 import {Button, IconButton} from '@mui/material';
 import {updateUserDataTC} from '../../n1-main/m2-bll/reducers/profile-reducer';
 import {EditableSpan} from './EditableSpan';
-import {InputTypeFile} from '../../utils/InputTypeFile';
+import {InputTypeFile} from './InputTypeFile';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export const Profile = () => {
@@ -19,6 +19,10 @@ export const Profile = () => {
 
     const changeUserName = (name: string) => {
         dispatch(updateUserDataTC({name: name, avatar: userAvatar, _id: userId, publicCardPacksCount}))
+    }
+
+    const changeUser = () => {
+
     }
 
     const changeUserAvatar = (avatar: string) => {
@@ -38,15 +42,11 @@ export const Profile = () => {
             <div className={styles.form}>
                 <span className={styles.title}>Profile Info</span>
                 <div className={styles.container}>
-                    {/*<div className={styles.avatar}>*/}
-
                     <InputTypeFile userAvatar={userAvatar} changeUserAvatar={changeUserAvatar}/>
-
-                    {/*</div>*/}
                     <div className={styles.nickname}>
                         <EditableSpan title={userName} changeTitle={changeUserName}/>
                         <IconButton color={'secondary'}>
-                            <BorderColorIcon/>
+                            <BorderColorIcon onClick={changeUser}/>
                         </IconButton>
                     </div>
 

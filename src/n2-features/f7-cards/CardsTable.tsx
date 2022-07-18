@@ -11,26 +11,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import TableContainer from '@mui/material/TableContainer';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {deleteCardTC, updateCardTC} from '../../n1-main/m2-bll/reducers/cards-reducer';
+import {updateCardTC} from '../../n1-main/m2-bll/reducers/cards-reducer';
 import {useParams} from 'react-router-dom';
+import {DeleteCardModal} from './Modals/DeleteCardModal';
 
 export const CardsTable = () => {
     const userId = useAppSelector(state => state.profile._id)
     const cards = useAppSelector(state => state.cards.cards)
 
-
     const dispatch = useAppDispatch()
-    const {packsId} = useParams<'packsId'>();
-
-    const deleteCard = (id: string) => {
-        if (packsId) {
-            dispatch(deleteCardTC(id, packsId))
-        }
-    }
+    const {packId} = useParams<'packId'>();
 
     const updateCard = (id: string) => {
-        if (packsId) {
-            dispatch(updateCardTC(id, packsId))
+        if (packId) {
+            dispatch(updateCardTC(id, packId))
         }
     }
 
@@ -60,13 +54,20 @@ export const CardsTable = () => {
                             </TableCell>
                             <TableCell align="right">{formatDate(card.updated)}</TableCell>
                             <TableCell className={styles.buttonBlock}>
-                                <Button
-                                    disabled={userId !== card.user_id}
-                                    onClick={() => deleteCard(card._id)} color="error"
-                                    size="small"
-                                    startIcon={<DeleteIcon/>}>
-                                    Delete
-                                </Button>
+                                <DeleteCardModal
+                                    cardId={card._id}
+                                    packId={card.cardsPack_id}
+                                    cardQuestion={card.question}
+                                    deleteCardPackButton={
+                                        <Button
+                                            disabled={userId !== card.user_id}
+                                            color="error"
+                                            size="small"
+                                            startIcon={<DeleteIcon/>}>
+                                            Delete
+                                        </Button>
+                                    }/>
+
                                 <Button
                                     disabled={userId !== card.user_id}
                                     onClick={() => updateCard(card._id)}

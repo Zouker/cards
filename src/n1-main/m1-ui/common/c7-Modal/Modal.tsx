@@ -2,6 +2,9 @@ import * as React from 'react';
 import {ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import styles from './Modal.module.css';
+import {Button, IconButton} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -17,17 +20,34 @@ const style = {
 };
 
 type ModalPropsType = {
-    open: boolean
-    setOpen: (value: boolean) => void
+    operationTitle: string
+    buttonName: string
+    handleOperation: () => void
+    openModalButton?: ReactNode
     children: ReactNode
 }
 
-export const BasicModal: React.FC<ModalPropsType> = ({open, setOpen, children}) => {
+export const BasicModal: React.FC<ModalPropsType> = ({
+                                                         operationTitle,
+                                                         buttonName,
+                                                         handleOperation,
+                                                         openModalButton,
+                                                         children
+                                                     }) => {
 
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+
+    const onClickHandler = () => {
+        handleOperation()
+        handleClose()
+    }
 
     return (
         <div>
+            <div onClick={handleOpen}>{openModalButton}</div>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -35,7 +55,17 @@ export const BasicModal: React.FC<ModalPropsType> = ({open, setOpen, children}) 
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    <div className={styles.title}>
+                        {operationTitle}
+                        <IconButton onClick={handleClose}>
+                            <CloseIcon/>
+                        </IconButton>
+                    </div>
                     {children}
+                    <div className={styles.buttonsBlock}>
+                        <Button onClick={handleClose} color="secondary" variant="contained">Cancel</Button>
+                        <Button onClick={onClickHandler} color="secondary" variant="contained">{buttonName}</Button>
+                    </div>
                 </Box>
             </Modal>
         </div>

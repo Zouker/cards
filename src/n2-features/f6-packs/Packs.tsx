@@ -2,8 +2,6 @@ import * as React from 'react';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {
-    addPackTC,
-    deletePackTC,
     getPacksTC,
     isMyPackAC,
     searchAC,
@@ -17,10 +15,6 @@ import {RangeSlider} from '../../n1-main/m1-ui/common/c4-RangeSlider/RangeSlider
 import {SearchAppBar} from '../../n1-main/m1-ui/common/c5-SearchField/SearchField';
 import {Navigate, useNavigate} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
-import {BasicModal} from '../../n1-main/m1-ui/common/c7-Modal/Modal';
-import {AddNewItem} from '../../n1-main/m1-ui/common/c7-Modal/AddNewItem';
-import {DeleteItem} from '../../n1-main/m1-ui/common/c7-Modal/DeleteItemModal';
-import {LearnPage} from '../f8-learn/LearnPage';
 import {PacksTable} from './PacksTable';
 
 
@@ -43,32 +37,8 @@ export const Packs = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     const [value, setValue] = React.useState<number | number[]>([min, max]);
-    const [openAddNewItemModal, setOpenAddNewItemModal] = React.useState(false);
-    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    const [openLearnModal, setOpenLearnModal] = React.useState(false);
-    const [learnId, setLearnId] = React.useState<string | null>(null)
-    const [deleteId, setDeleteId] = React.useState<string | null>(null)
-    const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
-    const [newPackName, setNewPackName] = React.useState('')
-    const [isPrivate, setPrivate] = React.useState(false)
-    const handleOpen = () => setOpenAddNewItemModal(true);
-    const handleClose = () => setOpenAddNewItemModal(false);
-
-    const handleCloseLearnModal = () => setOpenLearnModal(false);
 
     const debouncedValue = useDebounce<string>(packName, 1000)
-
-    const addNewCardsPack = () => {
-        dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
-        setOpenAddNewItemModal(false)
-        setNewPackName('')
-    }
-
-    const deletePack = (id: string) => {
-        dispatch(deletePackTC(id))
-        setOpenDeleteModal(false)
-        setDeleteId(null)
-    }
 
     // All Packs and My Packs
     const allPacksHandler = () => {
@@ -116,41 +86,6 @@ export const Packs = () => {
 
     return (
         <div className={styles.wrapper}>
-            {openAddNewItemModal && <BasicModal open={openAddNewItemModal} setOpen={setOpenAddNewItemModal}>
-                <AddNewItem title={'Add new pack'}
-                            addNewItem={addNewCardsPack}
-                            handleClose={handleClose}
-                            value={newPackName}
-                            onChangeHandler={(e) => setNewPackName(e.currentTarget.value)}
-                            checked={isPrivate}
-                            isPrivateHandler={(e) => setPrivate(e.currentTarget.checked)}/>
-            </BasicModal>}
-            {openLearnModal && learnId &&
-                <BasicModal open={openLearnModal} setOpen={setOpenLearnModal}>
-                    <LearnPage id={learnId} handleClose={handleCloseLearnModal}/>
-                </BasicModal>}
-            {/*  {openUpdateModal
-                                                ?
-                                                <BasicModal open={openUpdateModal} setOpen={setOpenUpdateModal}>
-                                                <UpdateItem title={'Add new title'}
-                                                            //id={deleteId}
-                                                            updateItem={updatePack}
-                                                            handleClose={handleClose}
-                                                            handleOpen={handleOpen}
-                                                />
-
-                                            </BasicModal>
-                                                : null}*/}
-            {openDeleteModal && deleteId ?
-                <BasicModal open={openDeleteModal} setOpen={setOpenDeleteModal}>
-                    <DeleteItem title={'Do you really want to delete this pack?'}
-                                id={deleteId}
-                                handleDelete={deletePack}
-                                handleClose={handleClose}
-                                handleOpen={handleOpen}
-                    />
-
-                </BasicModal> : null}
             <div className={styles.container}>
                 <div className={styles.sidebar}>
                     <div className={styles.sidebarBlock}>
@@ -183,19 +118,14 @@ export const Packs = () => {
                 </div>
                 <div>
                     <h1 className={styles.title}>Packs List</h1>
-                    <SearchAppBar title={'add new pack'}
-                                  addNewItem={handleOpen}
+                    <SearchAppBar title={'Add new pack'}
                                   goBack={returnToProfile}
                                   value={packName}
                                   onChange={(e) => {
                                       dispatch(searchAC(e.currentTarget.value))
                                   }}
                     />
-                    <PacksTable
-                        setLearnId={setLearnId}
-                        setOpenLearnModal={setOpenLearnModal}
-                        setDeleteId={setDeleteId}
-                        setOpenDeleteModal={setOpenDeleteModal}/>
+                    <PacksTable/>
                     <div className={styles.paginatorBlock}>
                         <TablePagination
                             count={cardPacksTotalCount}
