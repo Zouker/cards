@@ -2,10 +2,11 @@ import {AppThunk} from '../store';
 import {setAppStatusAC} from './app-reducer';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
-import {cardsAPI, CardType, NewCardType} from '../../m3-dal/cardsAPI';
+import {cardsAPI, CardType, NewCardType, UpdatedGradeResponseType, UpdateGradeType} from '../../m3-dal/cardsAPI';
 
 const initialState = {
     cards: [] as CardType[],
+    card: {} as CardType,
     packUserId: '',
     params: {
         page: 1,
@@ -37,6 +38,14 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, packUserId: action.packUserId}
         case 'cards/SEARCH-ANSWER':
             return {...state, params: {...state.params, cardAnswer: action.cardAnswer}}
+        case 'cards/UPDATE-CARD-GRADE':
+            return {
+                ...state,
+                cards: state.cards.map(card => card._id === action.data.updatedGrade.card_id ? {
+                    ...card,
+                    grade: action.data.updatedGrade.grade
+                } : card)
+            }
         default:
             return state
     }
@@ -58,6 +67,10 @@ export const searchQuestionAC = (cardQuestion: string) => ({
 export const searchAnswerAC = (cardAnswer: string) => ({
     type: 'cards/SEARCH-ANSWER',
     cardAnswer,
+} as const)
+export const updateCardGradeAC = (data: UpdatedGradeResponseType) => ({
+    type: 'cards/UPDATE-CARD-GRADE',
+    data
 } as const)
 
 // thunks
@@ -137,6 +150,22 @@ export const updateCardTC = (id: string, packsId: string): AppThunk => {
     }
 }
 
+export const setCardGradeTC = (data: UpdateGradeType): AppThunk => {
+    return (dispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        cardsAPI.setCardGrade(data)
+            .then((res) => {
+                dispatch(updateCardGradeAC(res.data))
+            })
+            .catch((error: AxiosError<{ error: string }>) => {
+                errorUtils(error, dispatch)
+            })
+            .finally(() => {
+                dispatch(setAppStatusAC('succeeded'))
+            })
+    }
+}
+
 // types
 export type InitialStateType = typeof initialState;
 type ActionType =
@@ -147,3 +176,4 @@ type ActionType =
     | ReturnType<typeof setCardsTotalCountAC>
     | ReturnType<typeof searchQuestionAC>
     | ReturnType<typeof searchAnswerAC>
+    | ReturnType<typeof updateCardGradeAC>

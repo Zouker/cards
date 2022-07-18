@@ -19,6 +19,9 @@ export const cardsAPI = {
     },
     updateCard(card: UpdatedCardType) {
         return instance.put(`/cards/card`, {card})
+    },
+    setCardGrade(data: UpdateGradeType) {
+        return instance.put<UpdateGradeType, AxiosResponse<UpdatedGradeResponseType>>(`/cards/grade`, data)
     }
 }
 
@@ -72,4 +75,20 @@ export type ResponseGetCardsType = {
     maxGrade: number
     token: string
     tokenDeathTime: number
+}
+
+export type UpdateGradeType = {
+    grade: number
+    card_id: string
+}
+
+export type UpdatedGradeResponseType = {
+    updatedGrade: {
+        _id: string
+        cardsPack_id: string
+        card_id: string
+        user_id: string
+        grade: number
+        shots: number
+    }
 }
