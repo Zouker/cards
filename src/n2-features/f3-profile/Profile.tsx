@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Profile.module.css'
 import {Navigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
@@ -9,24 +9,38 @@ import {EditableSpan} from './EditableSpan';
 import {InputTypeFile} from './InputTypeFile';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
-export const Profile = () => {
+type ProfileType = {
+    title?: string
+    changeTitle?: (title: string) => void
+    disabled?: boolean
+    activateEditMode?: () => void
+}
+
+export const Profile: React.FC<ProfileType> = ({disabled}) => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const userName = useAppSelector(state => state.profile.name)
     const userAvatar = useAppSelector(state => state.profile.avatar)
     const userId = useAppSelector(state => state.profile._id)
+    const email = useAppSelector(state => state.profile.email)
     const publicCardPacksCount = useAppSelector(state => state.profile.publicCardPacksCount)
 
-    const changeUserName = (name: string) => {
-        dispatch(updateUserDataTC({name: name, avatar: userAvatar, _id: userId, publicCardPacksCount}))
+    const [editMode, setEditMode] = useState<boolean>(false)
+
+    const activateEditMode = () => {
+        if (disabled) {
+            return
+        } else {
+            setEditMode(true)
+        }
     }
 
-    const changeUser = () => {
-
+    const changeUserName = (name: string) => {
+        dispatch(updateUserDataTC({name: name, avatar: userAvatar, _id: userId, publicCardPacksCount, email}))
     }
 
     const changeUserAvatar = (avatar: string) => {
-        dispatch(updateUserDataTC({name: userName, avatar, _id: userId, publicCardPacksCount}))
+        dispatch(updateUserDataTC({name: userName, avatar, _id: userId, publicCardPacksCount, email}))
     }
 
     const handleLogout = () => {
@@ -44,14 +58,20 @@ export const Profile = () => {
                 <div className={styles.container}>
                     <InputTypeFile userAvatar={userAvatar} changeUserAvatar={changeUserAvatar}/>
                     <div className={styles.nickname}>
-                        <EditableSpan title={userName} changeTitle={changeUserName}/>
+                        <EditableSpan
+                            title={userName}
+                            changeTitle={changeUserName}
+                            editMode={editMode}
+                            setEditMode={setEditMode}
+                        />
                         <IconButton color={'secondary'}>
-                            <BorderColorIcon onClick={changeUser}/>
+                            <BorderColorIcon onClick={activateEditMode}/>
                         </IconButton>
                     </div>
 
                     <div className={styles.cardPacksCount}>
-                        Card Packs: {publicCardPacksCount}
+                        <div><b>E-mail: </b>{email}</div>
+                        <div><b>Card Packs: </b> {publicCardPacksCount}</div>
                     </div>
                 </div>
                 <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>

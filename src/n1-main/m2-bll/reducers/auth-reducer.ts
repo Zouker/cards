@@ -1,4 +1,4 @@
-import {setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {setAppStatusAC} from './app-reducer';
 import {authAPI, DataLoginType} from '../../m3-dal/authAPI';
 import {AppThunk} from '../store';
 import {AxiosError} from 'axios';
@@ -11,7 +11,6 @@ const initialState = {
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
         default:
@@ -27,10 +26,8 @@ export const loginTC = (data: DataLoginType): AppThunk => (dispatch) => {
             dispatch(setIsLoggedInAC(true))
             dispatch(setUserDataAC(res.data))
         })
-        .catch((error) => {
-            if (error.response) {
-                dispatch(setAppErrorAC(error.response.data.error))
-            }
+        .catch((error: AxiosError<{ error: string }>) => {
+            errorUtils(error, dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('succeeded'))

@@ -1,27 +1,24 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
 import {Box, TextField} from '@mui/material';
-import {useAppSelector} from '../../n1-main/m2-bll/store';
 import {AccountCircle} from '@mui/icons-material';
+import {useAppSelector} from '../../n1-main/m2-bll/store';
 
 type PropsType = {
     title: string
     changeTitle: (title: string) => void
-    disabled?: boolean
+    setEditMode: (editMode: boolean) => void
+    editMode: boolean
 }
 
-export const EditableSpan = React.memo(({title, changeTitle, disabled}: PropsType) => {
-    const userName = useAppSelector(state => state.profile.name)
-    const [editMode, setEditMode] = useState<boolean>(false)
-    const [localTitle, setLocalTitle] = useState<string>(userName)
+export const EditableSpan = React.memo(({
+                                            title,
+                                            changeTitle,
+                                            editMode,
+                                            setEditMode,
+                                        }: PropsType) => {
 
-    const activateEditMode = () => {
-        if (disabled) {
-            return
-        } else {
-            setLocalTitle(title)
-            setEditMode(true)
-        }
-    }
+    const userName = useAppSelector(state => state.profile.name)
+    const [localTitle, setLocalTitle] = useState<string>(userName)
 
     const activateViewMode = useCallback(() => {
         changeTitle(localTitle)
@@ -55,7 +52,6 @@ export const EditableSpan = React.memo(({title, changeTitle, disabled}: PropsTyp
         </Box>
         : <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
             <AccountCircle sx={{color: 'action.active', mr: 1, my: -0.3}}/>
-            <span
-                onClick={activateEditMode}>{title}</span>
+            <span>{title}</span>
         </Box>
 })
