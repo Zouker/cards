@@ -27,8 +27,7 @@ export const updateUserDataTC = (userData: UserDataType): AppThunk => (dispatch)
     dispatch(setAppStatusAC('loading'))
     profileAPI.updateUserData(userData)
         .then((res) => {
-            dispatch(setUserDataAC(res.data))
-            console.log(res.data)
+            dispatch(setUserDataAC(res.data.updatedUser))
         })
         .catch((error: AxiosError<{ error: string }>) => {
             errorUtils(error, dispatch)
