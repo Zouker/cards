@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './Profile.module.css'
+import styles from '../../common/styles/Authorization.module.css'
 import {Navigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {logoutTC} from '../../n1-main/m2-bll/reducers/auth-reducer';
