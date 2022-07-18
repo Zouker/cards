@@ -9,6 +9,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import {Button} from '@mui/material';
 import {SearchCardRadio} from './SearchCardRadio';
 import {useParams} from 'react-router-dom';
+import {AddNewPackModal} from '../../../../n2-features/f6-packs/Modals/AddNewPackModal';
+import {AddNewCardModal} from '../../../../n2-features/f7-cards/Modals/AddNewCardModal';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -54,7 +56,6 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 
 type SearchFieldType = {
     title: string
-    addNewItem: () => void
     goBack: () => void
     value: string
     radioValue?: string
@@ -62,9 +63,15 @@ type SearchFieldType = {
     onChangeRadio?: (value: string) => void
     disabled?: boolean
 }
-export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value, title, addNewItem, disabled,radioValue,onChangeRadio}) => {
+export const SearchAppBar: React.FC<SearchFieldType> = ({
+                                                            goBack,
+                                                            onChange,
+                                                            value,
+                                                            radioValue,
+                                                            onChangeRadio
+                                                        }) => {
 
-    const {packsId} = useParams<'packsId'>();
+    const {packId} = useParams<'packId'>();
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -77,7 +84,7 @@ export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value
                             Back
                         </Button>
                     </div>
-                    {packsId && <SearchCardRadio radioValue={radioValue} onChangeRadio={onChangeRadio}/>}
+                    {packId && <SearchCardRadio radioValue={radioValue} onChangeRadio={onChangeRadio}/>}
                     <div>
                         <Search>
                             <SearchIconWrapper>
@@ -93,12 +100,22 @@ export const SearchAppBar: React.FC<SearchFieldType> = ({goBack, onChange, value
                         </Search>
                     </div>
                     <div>
-                        <Button onClick={addNewItem}
-                                variant="contained"
-                                color="secondary"
-                                disabled={disabled}>
-                            {title}
-                        </Button>
+                        {packId
+                            ? <AddNewCardModal addNewCardButton={
+                                <Button
+                                    color="secondary"
+                                    variant="contained">
+                                    Add new card
+                                </Button>
+                            }/>
+                            : <AddNewPackModal addNewCardPackButton={
+                                <Button
+                                    color="secondary"
+                                    variant="contained">
+                                    Add new Pack
+                                </Button>
+                            }/>
+                        }
                     </div>
                 </Toolbar>
             </AppBar>

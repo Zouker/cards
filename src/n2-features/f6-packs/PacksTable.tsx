@@ -5,7 +5,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import styles from './Packs.module.css';
 import {Button} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,20 +15,11 @@ import TableContainer from '@mui/material/TableContainer';
 import {formatDate} from './Packs';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
+import {DeletePackModal} from './Modals/DeletePackModal';
 
-type PacksTableType = {
-    setLearnId: (value: string) => void
-    setOpenLearnModal: (value: boolean) => void
-    setDeleteId: (value: string) => void
-    setOpenDeleteModal: (value: boolean) => void
-}
+export const PacksTable = () => {
+    const navigate = useNavigate()
 
-export const PacksTable: React.FC<PacksTableType> = ({
-                                                         setLearnId,
-                                                         setOpenLearnModal,
-                                                         setDeleteId,
-                                                         setOpenDeleteModal
-                                                     }) => {
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
     const dispatch = useAppDispatch()
@@ -68,16 +59,14 @@ export const PacksTable: React.FC<PacksTableType> = ({
                             <TableCell align="right">{formatDate(pack.created)}</TableCell>
                             <TableCell align="right">{formatDate(pack.updated)}</TableCell>
                             <TableCell className={styles.buttonBlock}>
-                                <Button disabled={userId !== pack.user_id}
-                                        onClick={() => {
-                                            setOpenDeleteModal(true)
-                                            setDeleteId(pack._id)
-                                        }}
-                                        color="error"
-                                        size="small"
-                                        startIcon={<DeleteIcon/>}>
-                                    Delete
-                                </Button>
+                                <DeletePackModal packName={pack.name} cardPackId={pack._id} deleteCardPackButton={
+                                    <Button disabled={userId !== pack.user_id}
+                                            color="error"
+                                            size="small"
+                                            startIcon={<DeleteIcon/>}>
+                                        Delete
+                                    </Button>
+                                }/>
                                 <Button disabled={userId !== pack.user_id}
                                         onClick={() => updatePack(pack._id)} color="secondary"
                                         size="small"
@@ -87,8 +76,7 @@ export const PacksTable: React.FC<PacksTableType> = ({
                                 <Button
                                     disabled={pack.cardsCount === 0}
                                     onClick={() => {
-                                        setOpenLearnModal(true)
-                                        setLearnId(pack._id)
+                                        navigate(`/learn/${pack._id}`)
                                     }} color="secondary" size="small"
                                     startIcon={<MenuBookIcon/>}>
                                     Learn
