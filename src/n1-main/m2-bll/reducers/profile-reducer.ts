@@ -9,6 +9,7 @@ const initialState = {
     name: 'Enter your name',
     avatar: '',
     publicCardPacksCount: 0,
+    email: ''
 }
 
 export const profileReducer = (state: UserDataType = initialState, action: ActionType): InitialStateType => {
@@ -53,7 +54,7 @@ export type UpdateResponseType = {
 
 export type UserDataType = {
     _id: string
-    email?: string
+    email: string
     rememberMe?: boolean
     isAdmin?: boolean
     name: string

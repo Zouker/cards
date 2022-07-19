@@ -10,23 +10,13 @@ import styles from './Cards.module.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import TableContainer from '@mui/material/TableContainer';
-import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {updateCardTC} from '../../n1-main/m2-bll/reducers/cards-reducer';
-import {useParams} from 'react-router-dom';
+import {useAppSelector} from '../../n1-main/m2-bll/store';
 import {DeleteCardModal} from './Modals/DeleteCardModal';
+import {UpdateCardModal} from './Modals/UpdateCardModal';
 
 export const CardsTable = () => {
     const userId = useAppSelector(state => state.profile._id)
     const cards = useAppSelector(state => state.cards.cards)
-
-    const dispatch = useAppDispatch()
-    const {packId} = useParams<'packId'>();
-
-    const updateCard = (id: string) => {
-        if (packId) {
-            dispatch(updateCardTC(id, packId))
-        }
-    }
 
     return (
         <TableContainer component={Paper}>
@@ -58,7 +48,7 @@ export const CardsTable = () => {
                                     cardId={card._id}
                                     packId={card.cardsPack_id}
                                     cardQuestion={card.question}
-                                    deleteCardPackButton={
+                                    deleteCardButton={
                                         <Button
                                             disabled={userId !== card.user_id}
                                             color="error"
@@ -67,14 +57,18 @@ export const CardsTable = () => {
                                             Delete
                                         </Button>
                                     }/>
-
-                                <Button
-                                    disabled={userId !== card.user_id}
-                                    onClick={() => updateCard(card._id)}
-                                    color="secondary" size="small"
-                                    startIcon={<BorderColorIcon/>}>
-                                    Edit
-                                </Button>
+                                <UpdateCardModal cardId={card._id}
+                                                 packId={card.cardsPack_id}
+                                                 cardQuestion={card.question}
+                                                 cardAnswer={card.answer}
+                                                 updateCardButton={
+                                                     <Button
+                                                         disabled={userId !== card.user_id}
+                                                         color="secondary" size="small"
+                                                         startIcon={<BorderColorIcon/>}>
+                                                         Edit
+                                                     </Button>
+                                                 }/>
                             </TableCell>
                         </TableRow>
                     ))}

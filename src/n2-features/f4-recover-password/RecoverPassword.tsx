@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import styles from '../f4-recover-password/RecoverPassword.module.css';
+import styles from '../../common/styles/Authorization.module.css'
 import {Button, TextField} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import {recoverTC} from '../../n1-main/m2-bll/reducers/recover-password-reducer';

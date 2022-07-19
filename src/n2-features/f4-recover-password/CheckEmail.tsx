@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CheckEmail.module.css';
+import styles from '../../common/styles/Authorization.module.css'
 import {Link, useParams} from 'react-router-dom';
 import Email from '../../assets/image/email.gif'
 

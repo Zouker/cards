@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './EnterNewPassword.module.css'
+import styles from '../../common/styles/Authorization.module.css'
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
 import {useFormik} from 'formik';
 import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from '@mui/material';

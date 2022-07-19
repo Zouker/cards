@@ -92,3 +92,10 @@ export type UpdatedGradeResponseType = {
         shots: number
     }
 }
+
+export type UpdateCardType = {
+    _id: string
+    question?: string
+    comments?: string
+    answer?: string
+}

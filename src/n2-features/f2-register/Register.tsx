@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Register.module.css'
+import styles from '../../common/styles/Authorization.module.css'
 import {Link, Navigate} from 'react-router-dom';
 import {registerTC} from '../../n1-main/m2-bll/reducers/register-reducer';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';

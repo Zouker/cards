@@ -1,5 +1,8 @@
 .wrapper {
-    margin-top: 50px;
+    position: fixed;
+    top: 30%;
+    text-align: center;
+    width: 100%;
 }
 
 .form {
@@ -7,7 +10,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    background: #F9F9FE;
+    background: #FFF;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -16,6 +19,16 @@
 .title {
     text-align: center;
     font-size: 50px;
+}
+
+.textLink {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 20px;
+}
+
+.input {
+    margin-bottom: 15px;
 }
 
 .container {
@@ -39,5 +52,13 @@
     margin-bottom: 20px;
 }
 
+.login {
+    margin-top: 10px;
+}
 
-
+.instructions {
+    text-align: left;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 15px 0;
+}
