@@ -2,7 +2,14 @@ import {AppThunk} from '../store';
 import {setAppStatusAC} from './app-reducer';
 import {AxiosError} from 'axios';
 import {errorUtils} from '../../../utils/error-utils';
-import {cardsAPI, CardType, NewCardType, UpdatedGradeResponseType, UpdateGradeType} from '../../m3-dal/cardsAPI';
+import {
+    cardsAPI,
+    CardType,
+    NewCardType,
+    UpdateCardType,
+    UpdatedGradeResponseType,
+    UpdateGradeType
+} from '../../m3-dal/cardsAPI';
 
 const initialState = {
     cards: [] as CardType[],
@@ -127,19 +134,12 @@ export const deleteCardTC = (cardId: string, packsId: string): AppThunk => {
     }
 }
 
-export const updateCardTC = (id: string, packsId: string): AppThunk => {
+export const updateCardTC = (data: UpdateCardType, packId: string): AppThunk => {
     return (dispatch) => {
-        const question = 'UPDATED_QUESTION'
-        const answer = 'UPDATED_ANSWER'
-        const card = {
-            _id: id,
-            question,
-            answer,
-        }
         dispatch(setAppStatusAC('loading'))
-        cardsAPI.updateCard(card)
+        cardsAPI.updateCard(data)
             .then(() => {
-                dispatch(getCardsTC(packsId))
+                dispatch(getCardsTC(packId))
             })
             .catch((error: AxiosError<{ error: string }>) => {
                 errorUtils(error, dispatch)

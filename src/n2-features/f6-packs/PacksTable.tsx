@@ -13,21 +13,15 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TableContainer from '@mui/material/TableContainer';
 import {formatDate} from './Packs';
-import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
+import {useAppSelector} from '../../n1-main/m2-bll/store';
 import {DeletePackModal} from './Modals/DeletePackModal';
+import {UpdatePackModal} from './Modals/UpdatePackModal';
 
 export const PacksTable = () => {
     const navigate = useNavigate()
 
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
-    const dispatch = useAppDispatch()
-
-    const updatePack = (id: string) => {
-        const name = 'UPDATED_NAME'
-        dispatch(updatePackTC(id, name))
-    }
 
     return (
         <TableContainer component={Paper}>
@@ -67,12 +61,15 @@ export const PacksTable = () => {
                                         Delete
                                     </Button>
                                 }/>
-                                <Button disabled={userId !== pack.user_id}
-                                        onClick={() => updatePack(pack._id)} color="secondary"
-                                        size="small"
-                                        startIcon={<BorderColorIcon/>}>
-                                    Edit
-                                </Button>
+                                <UpdatePackModal packName={pack.name} cardPackId={pack._id} updateCardPackButton={
+                                    <Button disabled={userId !== pack.user_id}
+                                            color="secondary"
+                                            size="small"
+                                            startIcon={<BorderColorIcon/>}>
+                                        Edit
+                                    </Button>
+                                }/>
+
                                 <Button
                                     disabled={pack.cardsCount === 0}
                                     onClick={() => {
