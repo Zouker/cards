@@ -58,3 +58,19 @@
     display: flex;
     align-items: center;
 }
+.sortUp{
+    cursor: pointer;
+    background-image:url(../../assets/image/up-arrow.png);
+    background-repeat: no-repeat;
+    background-position: 100% center;
+    padding-right: 35px!important;
+
+}
+.sortDown{
+    cursor: pointer;
+    background-image:url(../../assets/image/down-arrow.png);
+    background-repeat: no-repeat;
+    background-position: 100% center;
+    padding-right: 35px!important;
+}
+

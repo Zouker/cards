@@ -15,7 +15,7 @@ const initialState = {
         min: 0,
         max: 110,
         packName: '',
-        sortPacks: ''
+        sortPacks: '',
     },
     isMyPack: false
 }
@@ -38,6 +38,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, isMyPack: action.isMyPack}
         case 'packs/SEARCH-VALUE':
             return {...state, params: {...state.params, packName: action.packName}}
+        case 'packs/SORT-PACKS':
+            return {...state, params: {...state.params, sortPacks: action.sortPacks}}
         default:
             return state
     }
@@ -45,6 +47,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 // thunks
 export const getPacksTC = (): AppThunk => (dispatch, getState) => {
+
     const {isMyPack, params} = getState().packs
     const userId = getState().profile._id
     dispatch(setAppStatusAC('loading'))
@@ -66,6 +69,12 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
             dispatch(setAppStatusAC('succeeded'))
         })
 }
+
+export const setParamsSortPack = (sortParams:string):AppThunk => dispatch => {
+    dispatch(sortPackAC(sortParams));
+    dispatch(getPacksTC());
+}
+
 
 export const addPackTC = (name: string, deckCover?: string, isPrivate?: boolean): AppThunk => {
     return (dispatch) => {
@@ -141,6 +150,11 @@ export const isMyPackAC = (isMyPack: boolean) => ({
     type: 'packs/IS-MY-PACK',
     isMyPack
 } as const)
+
+export const sortPackAC = (sortPacks: string) => ({
+    type: 'packs/SORT-PACKS',
+    sortPacks,
+} as const)
 //
 // export const addPackAC = (cardsPack: { name: string, deckCover: string | null, isPrivate: boolean }) => ({
 //     type: 'packs/ADD-PACK',
@@ -163,4 +177,5 @@ type ActionType =
     | ReturnType<typeof setMinMaxAC>
     | ReturnType<typeof searchAC>
     | ReturnType<typeof isMyPackAC>
+    | ReturnType<typeof sortPackAC>
 

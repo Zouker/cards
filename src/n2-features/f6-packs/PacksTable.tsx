@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -14,7 +14,11 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TableContainer from '@mui/material/TableContainer';
 import {formatDate} from './Packs';
 import {useAppDispatch, useAppSelector} from '../../n1-main/m2-bll/store';
-import {updatePackTC} from '../../n1-main/m2-bll/reducers/packs-reducer';
+import {
+    setParamsSortPack,
+    updatePackTC,
+
+} from '../../n1-main/m2-bll/reducers/packs-reducer';
 import {DeletePackModal} from './Modals/DeletePackModal';
 
 export const PacksTable = () => {
@@ -22,7 +26,14 @@ export const PacksTable = () => {
 
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
+    const sort=useAppSelector(state=> state.packs.params.sortPacks)
     const dispatch = useAppDispatch()
+
+
+    const sortUpdate=(sortParams:string)=>{
+         return sort ===`1${sortParams}`? dispatch(setParamsSortPack(`0${sortParams}`)) : dispatch(setParamsSortPack(`1${sortParams}`));
+
+    }
 
     const updatePack = (id: string) => {
         const name = 'UPDATED_NAME'
@@ -36,10 +47,10 @@ export const PacksTable = () => {
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell align="right">Author</TableCell>
-                        <TableCell align="right">Cards Count</TableCell>
+                        <TableCell align="right" onClick={() => sortUpdate('cardsCount')} className={sort==='0cardsCount' ? styles.sortUp : styles.sortDown}>Cards Count</TableCell>
                         <TableCell align="right">Grade</TableCell>
-                        <TableCell align="right">Created By</TableCell>
-                        <TableCell align="right">Last Updated</TableCell>
+                        <TableCell align="right" onClick={() => sortUpdate('created')} className={sort==='0created' ? styles.sortUp : styles.sortDown}>Created By</TableCell>
+                        <TableCell align="right" onClick={() => sortUpdate('updated')} className={sort==='0updated' ? styles.sortUp : styles.sortDown}>Last Updated</TableCell>
                         <TableCell align="right">Actions</TableCell>
                     </TableRow>
                 </TableHead>
@@ -57,7 +68,7 @@ export const PacksTable = () => {
                             <TableCell align="right">{pack.cardsCount}</TableCell>
                             <TableCell align="right">{pack.grade}</TableCell>
                             <TableCell align="right">{formatDate(pack.created)}</TableCell>
-                            <TableCell align="right">{formatDate(pack.updated)}</TableCell>
+                            <TableCell align="right" >{formatDate(pack.updated)}</TableCell>
                             <TableCell className={styles.buttonBlock}>
                                 <DeletePackModal packName={pack.name} cardPackId={pack._id} deleteCardPackButton={
                                     <Button disabled={userId !== pack.user_id}
