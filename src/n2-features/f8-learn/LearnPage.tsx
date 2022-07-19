@@ -109,7 +109,7 @@ export const LearnPage = () => {
                             </RadioGroup>
                         </FormControl>
                         <div className={styles.buttonsBlock}>
-                            <NavLink to={'/packs'}>
+                            <NavLink className={styles.cancelButton} to={'/packs'}>
                                 <Button
                                     color="secondary"
                                     variant="contained">Cancel</Button>
@@ -122,7 +122,7 @@ export const LearnPage = () => {
                     </>
                     : <>
                         <div className={styles.buttonsBlock}>
-                            <NavLink to={'/packs'}>
+                            <NavLink className={styles.cancelButton} to={'/packs'}>
                                 <Button
                                     color="secondary"
                                     variant="contained">Cancel</Button>
