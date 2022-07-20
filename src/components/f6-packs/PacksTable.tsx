@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -16,6 +16,7 @@ import {formatDate} from './Packs';
 import {useAppSelector} from '../../bll/store';
 import {DeletePackModal} from './Modals/DeletePackModal';
 import {UpdatePackModal} from './Modals/UpdatePackModal';
+import {PackType} from '../../api/packsAPI';
 
 export const PacksTable = () => {
     const navigate = useNavigate()
@@ -23,66 +24,93 @@ export const PacksTable = () => {
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
 
+    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+    const [isOpenModalUpdate, setIsOpenModalUpdate] = useState(false)
+    const [deletePackData, setDeletePackData] = useState<PackType | null>(null);
+    const [updatePackData, setUpdatePackData] = useState<PackType | null>(null);
+
+    const openModalDeletePack = (pack: PackType) => {
+        setIsOpenModalDelete(true)
+        setDeletePackData(pack)
+    }
+
+    const openModalUpdatePack = (pack: PackType) => {
+        setIsOpenModalUpdate(true)
+        setUpdatePackData(pack)
+    }
+
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{minWidth: 400}} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Author</TableCell>
-                        <TableCell align="right">Cards Count</TableCell>
-                        <TableCell align="right">Grade</TableCell>
-                        <TableCell align="right">Created By</TableCell>
-                        <TableCell align="right">Last Updated</TableCell>
-                        <TableCell align="right">Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {packs?.map((pack) => (
-                        <TableRow
-                            key={pack._id}
-                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                        >
-                            <TableCell component="th" scope="row">
-                                <NavLink className={styles.pack}
-                                         to={'/cards/' + pack._id}>{pack.name}</NavLink>
-                            </TableCell>
-                            <TableCell align="right">{pack.user_name}</TableCell>
-                            <TableCell align="right">{pack.cardsCount}</TableCell>
-                            <TableCell align="right">{pack.grade}</TableCell>
-                            <TableCell align="right">{formatDate(pack.created)}</TableCell>
-                            <TableCell align="right">{formatDate(pack.updated)}</TableCell>
-                            <TableCell className={styles.buttonBlock}>
-                                <DeletePackModal packName={pack.name} cardPackId={pack._id} deleteCardPackButton={
-                                    <Button disabled={userId !== pack.user_id}
-                                            color="error"
-                                            size="small"
-                                            startIcon={<DeleteIcon/>}>
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 400}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right">Author</TableCell>
+                            <TableCell align="right">Cards Count</TableCell>
+                            <TableCell align="right">Grade</TableCell>
+                            <TableCell align="right">Created By</TableCell>
+                            <TableCell align="right">Last Updated</TableCell>
+                            <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {packs?.map((pack) => (
+                            <TableRow
+                                key={pack._id}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                            >
+                                <TableCell component="th" scope="row">
+                                    <NavLink className={styles.pack}
+                                             to={`/cards/${pack._id}`}>{pack.name}</NavLink>
+                                </TableCell>
+                                <TableCell align="right">{pack.user_name}</TableCell>
+                                <TableCell align="right">{pack.cardsCount}</TableCell>
+                                <TableCell align="right">{pack.grade}</TableCell>
+                                <TableCell align="right">{formatDate(pack.created)}</TableCell>
+                                <TableCell align="right">{formatDate(pack.updated)}</TableCell>
+                                <TableCell className={styles.buttonBlock}>
+                                    <Button
+                                        onClick={() => openModalDeletePack(pack)}
+                                        disabled={userId !== pack.user_id}
+                                        color="error"
+                                        size="small"
+                                        startIcon={<DeleteIcon/>}>
                                         Delete
                                     </Button>
-                                }/>
-                                <UpdatePackModal packName={pack.name} cardPackId={pack._id} updateCardPackButton={
-                                    <Button disabled={userId !== pack.user_id}
-                                            color="secondary"
-                                            size="small"
-                                            startIcon={<BorderColorIcon/>}>
+                                    <Button
+                                        onClick={() => openModalUpdatePack(pack)}
+                                        disabled={userId !== pack.user_id}
+                                        color="secondary"
+                                        size="small"
+                                        startIcon={<BorderColorIcon/>}>
                                         Edit
                                     </Button>
-                                }/>
-
-                                <Button
-                                    disabled={pack.cardsCount === 0}
-                                    onClick={() => {
-                                        navigate(`/learn/${pack._id}`)
-                                    }} color="secondary" size="small"
-                                    startIcon={<MenuBookIcon/>}>
-                                    Learn
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                    <Button
+                                        disabled={pack.cardsCount === 0}
+                                        onClick={() => {
+                                            navigate(`/learn/${pack._id}`)
+                                        }} color="secondary" size="small"
+                                        startIcon={<MenuBookIcon/>}>
+                                        Learn
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {deletePackData && <DeletePackModal
+                isOpenModal={isOpenModalDelete}
+                setIsOpenModal={setIsOpenModalDelete}
+                packName={deletePackData && deletePackData.name}
+                cardPackId={deletePackData && deletePackData._id}
+            />}
+            {updatePackData && <UpdatePackModal
+                isOpenModal={isOpenModalUpdate}
+                setIsOpenModal={setIsOpenModalUpdate}
+                pack={updatePackData}
+            />}
+        </>
     );
 };
