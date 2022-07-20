@@ -13,21 +13,29 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TableContainer from '@mui/material/TableContainer';
 import {formatDate} from './Packs';
-import {useAppSelector} from '../../bll/store';
+import {useAppDispatch, useAppSelector} from '../../bll/store';
 import {DeletePackModal} from './Modals/DeletePackModal';
 import {UpdatePackModal} from './Modals/UpdatePackModal';
 import {PackType} from '../../api/packsAPI';
+import {setParamsSortPack} from "../../bll/reducers/packs-reducer";
 
 export const PacksTable = () => {
     const navigate = useNavigate()
 
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
+    const sort=useAppSelector(state=> state.packs.params.sortPacks)
+    const dispatch = useAppDispatch()
 
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
     const [isOpenModalUpdate, setIsOpenModalUpdate] = useState(false)
     const [deletePackData, setDeletePackData] = useState<PackType | null>(null);
     const [updatePackData, setUpdatePackData] = useState<PackType | null>(null);
+
+    const sortUpdate=(sortParams:string)=>{
+        return sort ===`1${sortParams}`? dispatch(setParamsSortPack(`0${sortParams}`)) : dispatch(setParamsSortPack(`1${sortParams}`));
+
+    }
 
     const openModalDeletePack = (pack: PackType) => {
         setIsOpenModalDelete(true)
@@ -47,10 +55,10 @@ export const PacksTable = () => {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="right">Author</TableCell>
-                            <TableCell align="right">Cards Count</TableCell>
+                            <TableCell align="right" onClick={() => sortUpdate('cardsCount')} className={sort==='0cardsCount' ? styles.sortUp : styles.sortDown}>Cards Count</TableCell>
                             <TableCell align="right">Grade</TableCell>
-                            <TableCell align="right">Created By</TableCell>
-                            <TableCell align="right">Last Updated</TableCell>
+                            <TableCell align="right" onClick={() => sortUpdate('created')} className={sort==='0created' ? styles.sortUp : styles.sortDown}>Created By</TableCell>
+                            <TableCell align="right" onClick={() => sortUpdate('updated')} className={sort==='0updated' ? styles.sortUp : styles.sortDown}>Last Updated</TableCell>
                             <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
