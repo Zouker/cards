@@ -8,6 +8,7 @@ import {updateUserDataTC} from '../../bll/reducers/profile-reducer';
 import {EditableSpan} from './EditableSpan';
 import {InputTypeFile} from './InputTypeFile';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import {Navbar} from '../../navbar/Navbar';
 
 type ProfileType = {
     title?: string
@@ -52,29 +53,31 @@ export const Profile: React.FC<ProfileType> = ({disabled}) => {
     }
 
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.form}>
-                <span className={styles.title}>Profile Info</span>
-                <div className={styles.container}>
-                    <InputTypeFile userAvatar={userAvatar} changeUserAvatar={changeUserAvatar}/>
-                    <div className={styles.nickname}>
-                        <EditableSpan
-                            title={userName}
-                            changeTitle={changeUserName}
-                            editMode={editMode}
-                            setEditMode={setEditMode}
-                        />
-                        <IconButton color={'secondary'}>
-                            <BorderColorIcon onClick={activateEditMode}/>
-                        </IconButton>
+        <div>
+            <Navbar/>
+            <div className={styles.wrapper}>
+                <div className={styles.form}>
+                    <span className={styles.title}>Profile Info</span>
+                    <div className={styles.container}>
+                        <InputTypeFile userAvatar={userAvatar} changeUserAvatar={changeUserAvatar}/>
+                        <div className={styles.nickname}>
+                            <EditableSpan
+                                title={userName}
+                                changeTitle={changeUserName}
+                                editMode={editMode}
+                                setEditMode={setEditMode}
+                            />
+                            <IconButton color={'secondary'}>
+                                <BorderColorIcon onClick={activateEditMode}/>
+                            </IconButton>
+                        </div>
+                        <div className={styles.cardPacksCount}>
+                            <div><b>E-mail: </b>{email}</div>
+                            <div><b>Card Packs: </b> {publicCardPacksCount}</div>
+                        </div>
                     </div>
-
-                    <div className={styles.cardPacksCount}>
-                        <div><b>E-mail: </b>{email}</div>
-                        <div><b>Card Packs: </b> {publicCardPacksCount}</div>
-                    </div>
+                    <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>
                 </div>
-                <Button color={'secondary'} variant={'contained'} onClick={handleLogout}>Logout</Button>
             </div>
         </div>
     )

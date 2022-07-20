@@ -1,4 +1,4 @@
-import React, {ReactNode, useState} from 'react';
+import React, {useState} from 'react';
 import {BasicModal} from '../../../common/c7-Modal/Modal';
 import {useAppDispatch} from '../../../bll/store';
 import {updateCardTC} from '../../../bll/reducers/cards-reducer';
@@ -6,9 +6,10 @@ import {TextField} from '@mui/material';
 import styles from '../../../common/c7-Modal/Modal.module.css';
 
 type UpdateCardType = {
+    isOpenModal: boolean
+    setIsOpenModal: (value: boolean) => void
     cardQuestion: string
     cardAnswer: string
-    updateCardButton: ReactNode
     cardId: string
     packId: string
 }
@@ -18,7 +19,8 @@ export const UpdateCardModal: React.FC<UpdateCardType> = ({
                                                               packId,
                                                               cardQuestion,
                                                               cardAnswer,
-                                                              updateCardButton
+                                                              isOpenModal,
+                                                              setIsOpenModal
                                                           }) => {
 
     const [newCardQuestion, setNewCardQuestion] = useState(cardQuestion)
@@ -33,10 +35,11 @@ export const UpdateCardModal: React.FC<UpdateCardType> = ({
     }
 
     return (
-        <BasicModal operationTitle={'Update Card'}
+        <BasicModal isOpenModal={isOpenModal}
+                    setIsOpenModal={setIsOpenModal}
+                    operationTitle={'Update Card'}
                     buttonName={'Save'}
                     handleOperation={updateCard}
-                    openModalButton={updateCardButton}
         >
             <TextField
                 className={styles.addItemField}

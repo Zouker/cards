@@ -1,20 +1,22 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import {BasicModal} from '../../../common/c7-Modal/Modal';
 import {useAppDispatch} from '../../../bll/store';
 import {deleteCardTC} from '../../../bll/reducers/cards-reducer';
 
 type DeleteCardType = {
     cardQuestion: string
-    deleteCardButton: ReactNode
     cardId: string
     packId: string
+    isOpenModal: boolean
+    setIsOpenModal: (value: boolean) => void
 }
 
 export const DeleteCardModal: React.FC<DeleteCardType> = ({
                                                               cardId,
                                                               packId,
                                                               cardQuestion,
-                                                              deleteCardButton
+                                                              isOpenModal,
+                                                              setIsOpenModal
                                                           }) => {
     const dispatch = useAppDispatch()
 
@@ -23,10 +25,12 @@ export const DeleteCardModal: React.FC<DeleteCardType> = ({
     }
 
     return (
-        <BasicModal operationTitle={'Delete Card'}
-                    buttonName={'Delete'}
-                    handleOperation={deleteCard}
-                    openModalButton={deleteCardButton}
+        <BasicModal
+            operationTitle={'Delete Card'}
+            buttonName={'Delete'}
+            handleOperation={deleteCard}
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
         >
             <div>Do you really want to remove <b>{cardQuestion}</b>?</div>
             <div>The card will be removed.</div>

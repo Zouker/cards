@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     border-radius: 8px;
+    margin-top: 60px;
 }
 
 .container {
@@ -21,5 +22,11 @@
 .paginatorBlock {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.buttonBlock {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }

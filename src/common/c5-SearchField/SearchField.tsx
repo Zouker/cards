@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ChangeEvent} from 'react';
+import {ChangeEvent, useState} from 'react';
 import {alpha, styled} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -70,55 +70,65 @@ export const SearchAppBar: React.FC<SearchFieldType> = ({
                                                             radioValue,
                                                             onChangeRadio
                                                         }) => {
-
     const {packId} = useParams<'packId'>();
+    const [isOpenModalAddNewPack, setIsOpenModalAddNewPack] = useState(false)
+    const [isOpenModalAddNewCard, setIsOpenModalAddNewCard] = useState(false)
 
     return (
-        <Box sx={{flexGrow: 1}}>
-            <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
-                <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <div>
-                        <Button onClick={goBack}
-                                variant="contained"
-                                color="secondary">
-                            Back
-                        </Button>
-                    </div>
-                    {packId && <SearchCardRadio radioValue={radioValue} onChangeRadio={onChangeRadio}/>}
-                    <div>
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon/>
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{'aria-label': 'search'}}
-                                style={{color: 'white'}}
-                                value={value}
-                                onChange={onChange}
-                            />
-                        </Search>
-                    </div>
-                    <div>
-                        {packId
-                            ? <AddNewCardModal addNewCardButton={
-                                <Button
+        <>
+            <Box sx={{flexGrow: 1}}>
+                <AppBar position="static" style={{backgroundColor: '#7b1fa2'}}>
+                    <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <div>
+                            <Button onClick={goBack}
+                                    variant="contained"
+                                    color="secondary">
+                                Back
+                            </Button>
+                        </div>
+                        {packId && <SearchCardRadio radioValue={radioValue} onChangeRadio={onChangeRadio}/>}
+                        <div>
+                            <Search>
+                                <SearchIconWrapper>
+                                    <SearchIcon/>
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                    placeholder="Search…"
+                                    inputProps={{'aria-label': 'search'}}
+                                    style={{color: 'white'}}
+                                    value={value}
+                                    onChange={onChange}
+                                />
+                            </Search>
+                        </div>
+                        <div>
+                            {packId
+                                ? <Button
+                                    onClick={() => setIsOpenModalAddNewCard(true)}
                                     color="secondary"
                                     variant="contained">
                                     Add new card
                                 </Button>
-                            }/>
-                            : <AddNewPackModal addNewCardPackButton={
-                                <Button
+                                : <Button
+                                    onClick={() => setIsOpenModalAddNewPack(true)}
                                     color="secondary"
                                     variant="contained">
                                     Add new Pack
-                                </Button>
-                            }/>
-                        }
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                                </Button>}
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            {packId
+                ? <AddNewCardModal
+                    isOpenModal={isOpenModalAddNewCard}
+                    setIsOpenModal={setIsOpenModalAddNewCard}
+                />
+                : <AddNewPackModal
+                    isOpenModal={isOpenModalAddNewPack}
+                    setIsOpenModal={setIsOpenModalAddNewPack}
+                />
+            }
+        </>
     );
 }

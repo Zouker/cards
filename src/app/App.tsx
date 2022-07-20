@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import './App.module.css';
-import {Header} from './Header';
 import {Pages} from './Routes';
 import {HashRouter} from 'react-router-dom';
 import {ErrorSnackbar} from '../common/ErrorSnackbar/ErrorSnackbar';
@@ -29,7 +28,6 @@ const App = () => {
         <div className="App">
             {status === 'loading' && <div className={styles.isInitialized}><Preloader/></div>}
             <HashRouter>
-                <Header/>
                 <Pages/>
             </HashRouter>
             <ErrorSnackbar/>

@@ -23,51 +23,48 @@ type ModalPropsType = {
     operationTitle: string
     buttonName: string
     handleOperation: () => void
-    openModalButton?: ReactNode
+    isOpenModal: boolean
     children: ReactNode
+    setIsOpenModal: (value: boolean) => void
 }
 
 export const BasicModal: React.FC<ModalPropsType> = ({
                                                          operationTitle,
                                                          buttonName,
                                                          handleOperation,
-                                                         openModalButton,
+                                                         isOpenModal,
+                                                         setIsOpenModal,
                                                          children
                                                      }) => {
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    const handleClose = () => {
+        setIsOpenModal(false);
+    }
 
     const onClickHandler = () => {
         handleOperation()
-        handleClose()
+        setIsOpenModal(false)
     }
 
     return (
-        <div>
-            <div onClick={handleOpen}>{openModalButton}</div>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className={styles.title}>
-                        {operationTitle}
-                        <IconButton onClick={handleClose}>
-                            <CloseIcon/>
-                        </IconButton>
-                    </div>
-                    {children}
-                    <div className={styles.buttonsBlock}>
-                        <Button onClick={handleClose} color="secondary" variant="contained">Cancel</Button>
-                        <Button onClick={onClickHandler} color="secondary" variant="contained">{buttonName}</Button>
-                    </div>
-                </Box>
-            </Modal>
-        </div>
+        <Modal
+            open={isOpenModal}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+                <div className={styles.title}>
+                    {operationTitle}
+                    <IconButton onClick={handleClose}>
+                        <CloseIcon/>
+                    </IconButton>
+                </div>
+                {children}
+                <div className={styles.buttonsBlock}>
+                    <Button onClick={handleClose} color="secondary" variant="contained">Cancel</Button>
+                    <Button onClick={onClickHandler} color="secondary" variant="contained">{buttonName}</Button>
+                </div>
+            </Box>
+        </Modal>
     );
 }
