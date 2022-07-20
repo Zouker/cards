@@ -60,4 +60,5 @@ export type ResponseGetPacksType = {
     cardPacksTotalCount: number,
     minCardsCount: number,
     maxCardsCount: number,
+    sortPacks:string,
 }

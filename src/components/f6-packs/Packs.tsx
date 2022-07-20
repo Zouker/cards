@@ -36,6 +36,7 @@ export const Packs = () => {
     const isMyPack = useAppSelector(state => state.packs.isMyPack)
     const packName = useAppSelector(state => state.packs.params.packName)
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const sort=useAppSelector(state=> state.packs.params.sortPacks)
 
     const [value, setValue] = React.useState<number | number[]>([min, max]);
 
