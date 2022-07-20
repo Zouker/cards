@@ -1,0 +1,48 @@
+.wrapper {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    left: 0;
+    top: 0;
+    background: #EBE0E9
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.itemForm {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 60px;
+    width: 173px;
+    background: #EBE0E9;
+}
+
+.itemForm:hover {
+    background: #DCCCDB;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.packList {
+    width: 36px;
+    height: 36px;
+    margin: 10px;
+}
+
+.profile {
+    width: 15px;
+    height: 16px;
+    margin: 10px;
+}
