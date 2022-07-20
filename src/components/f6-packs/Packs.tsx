@@ -16,6 +16,7 @@ import {SearchAppBar} from '../../common/c5-SearchField/SearchField';
 import {Navigate, useNavigate} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
 import {PacksTable} from './PacksTable';
+import {Navbar} from '../../navbar/Navbar';
 
 
 export const formatDate = (date: Date | string | number) => {
@@ -85,54 +86,57 @@ export const Packs = () => {
     }
 
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.container}>
-                <div className={styles.sidebar}>
-                    <div className={styles.sidebarBlock}>
-                        <p>Show packs cards</p>
+        <div>
+            <Navbar/>
+            <div className={styles.wrapper}>
+                <div className={styles.container}>
+                    <div className={styles.sidebar}>
+                        <div className={styles.sidebarBlock}>
+                            <p>Show packs cards</p>
+                            <div>
+                                <Button variant={isMyPack ? 'contained' : 'outlined'}
+                                        color="secondary"
+                                        onClick={myPacksHandler}>
+                                    My
+                                </Button>
+                                <Button variant={!isMyPack ? 'contained' : 'outlined'}
+                                        color="secondary"
+                                        onClick={allPacksHandler}>
+                                    All
+                                </Button>
+                            </div>
+                        </div>
                         <div>
-                            <Button variant={isMyPack ? 'contained' : 'outlined'}
-                                    color="secondary"
-                                    onClick={myPacksHandler}>
-                                My
-                            </Button>
-                            <Button variant={!isMyPack ? 'contained' : 'outlined'}
-                                    color="secondary"
-                                    onClick={allPacksHandler}>
-                                All
-                            </Button>
+                            <p className={styles.sidebarBlock}>Number of cards</p>
+                            <div className={styles.rangeSlider}>
+                                <RangeSlider
+                                    min={minCardsCount}
+                                    max={maxCardsCount}
+                                    value={value}
+                                    onChange={(e, newValue) => setValue(newValue)}
+                                    onChangeCommitted={handleChangeMinMax}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div>
-                        <p className={styles.sidebarBlock}>Number of cards</p>
-                        <div className={styles.rangeSlider}>
-                            <RangeSlider
-                                min={minCardsCount}
-                                max={maxCardsCount}
-                                value={value}
-                                onChange={(e, newValue) => setValue(newValue)}
-                                onChangeCommitted={handleChangeMinMax}
-                            />
+                        <h1 className={styles.title}>Packs List</h1>
+                        <SearchAppBar title={'Add new pack'}
+                                      goBack={returnToProfile}
+                                      value={packName}
+                                      onChange={(e) => {
+                                          dispatch(searchAC(e.currentTarget.value))
+                                      }}
+                        />
+                        <PacksTable/>
+                        <div className={styles.paginatorBlock}>
+                            <TablePagination
+                                count={cardPacksTotalCount}
+                                page={page - 1}
+                                onPageChange={handleChangePage}
+                                rowsPerPage={pageCount}
+                                onRowsPerPageChange={handleChangeRowsPerPage}/>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <h1 className={styles.title}>Packs List</h1>
-                    <SearchAppBar title={'Add new pack'}
-                                  goBack={returnToProfile}
-                                  value={packName}
-                                  onChange={(e) => {
-                                      dispatch(searchAC(e.currentTarget.value))
-                                  }}
-                    />
-                    <PacksTable/>
-                    <div className={styles.paginatorBlock}>
-                        <TablePagination
-                            count={cardPacksTotalCount}
-                            page={page - 1}
-                            onPageChange={handleChangePage}
-                            rowsPerPage={pageCount}
-                            onRowsPerPageChange={handleChangeRowsPerPage}/>
                     </div>
                 </div>
             </div>

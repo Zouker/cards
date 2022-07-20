@@ -13,6 +13,7 @@ import {SearchAppBar} from '../../common/c5-SearchField/SearchField';
 import {useNavigate, useParams} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
 import {CardsTable} from './CardsTable';
+import {Navbar} from '../../navbar/Navbar';
 
 export const Cards = () => {
     const navigate = useNavigate()
@@ -69,25 +70,28 @@ export const Cards = () => {
     }
 
     return (
-        <div className={styles.tableWrapper}>
-            <div className={styles.container}>
-                <h1 className={styles.title}>Cards name</h1>
-                <SearchAppBar radioValue={searchCardValue}
-                              onChangeRadio={clearValue}
-                              disabled={packUserId !== userId}
-                              title={'Add new card'}
-                              goBack={returnToPacks}
-                              value={searchCardValue === 'Question' ? cardQuestion : cardAnswer}
-                              onChange={handleChangeSearchCardValue}
-                />
-                <CardsTable/>
-                <div className={styles.paginatorBlock}>
-                    <TablePagination
-                        count={cardsTotalCount}
-                        page={page - 1}
-                        onPageChange={handleChangePage}
-                        rowsPerPage={pageCount}
-                        onRowsPerPageChange={handleChangeRowsPerPage}/>
+        <div>
+            <Navbar/>
+            <div className={styles.tableWrapper}>
+                <div className={styles.container}>
+                    <h1 className={styles.title}>Cards name</h1>
+                    <SearchAppBar radioValue={searchCardValue}
+                                  onChangeRadio={clearValue}
+                                  disabled={packUserId !== userId}
+                                  title={'Add new card'}
+                                  goBack={returnToPacks}
+                                  value={searchCardValue === 'Question' ? cardQuestion : cardAnswer}
+                                  onChange={handleChangeSearchCardValue}
+                    />
+                    <CardsTable/>
+                    <div className={styles.paginatorBlock}>
+                        <TablePagination
+                            count={cardsTotalCount}
+                            page={page - 1}
+                            onPageChange={handleChangePage}
+                            rowsPerPage={pageCount}
+                            onRowsPerPageChange={handleChangeRowsPerPage}/>
+                    </div>
                 </div>
             </div>
         </div>
