@@ -12,7 +12,7 @@ export const CheckEmail = () => {
             <div className={styles.form}>
                 <img src={Email} alt={'Email img'}/>
                 <div className={styles.title}>Check Email</div>
-                We've sent an Email with instructions to {email}
+                We've sent an Email with instructions to <b>{email}</b>
                 <div className={styles.login}>
                     <Link to={'/login'}>Sign In</Link>
                 </div>
