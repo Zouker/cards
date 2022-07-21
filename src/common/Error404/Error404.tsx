@@ -1,5 +1,5 @@
 import React from 'react';
-import error404 from '../../assets/image/404.png'
+import error404 from '../../assets/images/404.png'
 import styles from '../../utils/Error.module.css'
 
 export const Error404 = () => {

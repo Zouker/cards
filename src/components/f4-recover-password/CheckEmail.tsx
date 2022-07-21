@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../styles/Authorization.module.css'
 import {Link, useParams} from 'react-router-dom';
-import Email from '../../assets/image/email.gif'
+import Email from '../../assets/images/email.gif'
 
 export const CheckEmail = () => {
 

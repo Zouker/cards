@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {BasicModal} from '../../../common/c7-Modal/Modal';
-import {useAppDispatch, useAppSelector} from '../../../bll/store';
+import {useAppDispatch} from '../../../bll/store';
 import {updatePackTC} from '../../../bll/reducers/packs-reducer';
 import styles from '../../../common/c7-Modal/Modal.module.css';
 import {TextField} from '@mui/material';
@@ -18,8 +18,6 @@ export const UpdatePackModal: React.FC<UpdatePackModalType> = ({
                                                                    isOpenModal,
                                                                    setIsOpenModal,
                                                                }) => {
-    const packName = useAppSelector(state => state.packs.params.packName)
-
     const [newPackName, setNewPackName] = useState<string>(pack ? pack.name : '')
     const dispatch = useAppDispatch()
 
@@ -46,7 +44,7 @@ export const UpdatePackModal: React.FC<UpdatePackModalType> = ({
                        color="secondary"
                        value={newPackName}
                        onChange={(e) => setNewPackName(e.currentTarget.value)}/>
-            <div>Do you really want to change <b>{packName}</b>?</div>
+            <div>Do you really want to change <b>{pack!.name}</b>?</div>
         </BasicModal>
     );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Navbar.module.css'
-import packList from '../assets/image/packsList.png'
-import profile from '../assets/image/profile.png'
+import packList from '../assets/images/packsList.png'
+import profile from '../assets/images/profile.png'
 import {NavLink} from 'react-router-dom';
 
 export const Navbar = () => {

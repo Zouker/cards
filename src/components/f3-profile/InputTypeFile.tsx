@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {IconButton} from '@mui/material';
-import defaultAva from '../../assets/image/defaultAva.png'
+import defaultAva from '../../assets/images/defaultAva.png'
 import {PhotoCamera} from '@mui/icons-material';
 import {useAppDispatch} from '../../bll/store';
 import {setAppErrorAC} from '../../bll/reducers/app-reducer';
@@ -35,7 +35,7 @@ export const InputTypeFile: React.FC<ChangeUserAvatarPropsType> = React.memo(({
 
     const errorHandler = () => {
         setIsAvatarBroken(true)
-        dispatch(setAppErrorAC('Wrong image'))
+        dispatch(setAppErrorAC('Wrong images'))
     }
 
     return (

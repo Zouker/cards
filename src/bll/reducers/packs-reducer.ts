@@ -70,7 +70,7 @@ export const getPacksTC = (): AppThunk => (dispatch, getState) => {
         })
 }
 
-export const setParamsSortPack = (sortParams:string):AppThunk => dispatch => {
+export const setParamsSortPack = (sortParams: string): AppThunk => dispatch => {
     dispatch(sortPackAC(sortParams));
     dispatch(getPacksTC());
 }
@@ -155,21 +155,11 @@ export const sortPackAC = (sortPacks: string) => ({
     type: 'packs/SORT-PACKS',
     sortPacks,
 } as const)
-//
-// export const addPackAC = (cardsPack: { name: string, deckCover: string | null, isPrivate: boolean }) => ({
-//     type: 'packs/ADD-PACK',
-//     cardsPack
-// } as const)
-// export const deletePackAC = (id: string) => ({type: 'packs/DELETE-PACK', id} as const)
-// export const updatePackAC = (id: string, name: string) => ({type: 'packs/UPDATE-PACK', id, name} as const)
 
 // types
 export type InitialStateType = typeof initialState
 type ActionType =
     ReturnType<typeof getPacksAC>
-    // | ReturnType<typeof addPackAC>
-    // | ReturnType<typeof deletePackAC>
-    // | ReturnType<typeof updatePackAC>
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setCardPacksTotalCountAC>

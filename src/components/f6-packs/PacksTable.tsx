@@ -17,14 +17,14 @@ import {useAppDispatch, useAppSelector} from '../../bll/store';
 import {DeletePackModal} from './Modals/DeletePackModal';
 import {UpdatePackModal} from './Modals/UpdatePackModal';
 import {PackType} from '../../api/packsAPI';
-import {setParamsSortPack} from "../../bll/reducers/packs-reducer";
+import {setParamsSortPack} from '../../bll/reducers/packs-reducer';
 
 export const PacksTable = () => {
     const navigate = useNavigate()
 
     const packs = useAppSelector(state => state.packs.cardPacks)
     const userId = useAppSelector(state => state.profile._id)
-    const sort=useAppSelector(state=> state.packs.params.sortPacks)
+    const sort = useAppSelector(state => state.packs.params.sortPacks)
     const dispatch = useAppDispatch()
 
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
@@ -32,8 +32,8 @@ export const PacksTable = () => {
     const [deletePackData, setDeletePackData] = useState<PackType | null>(null);
     const [updatePackData, setUpdatePackData] = useState<PackType | null>(null);
 
-    const sortUpdate=(sortParams:string)=>{
-        return sort ===`1${sortParams}`? dispatch(setParamsSortPack(`0${sortParams}`)) : dispatch(setParamsSortPack(`1${sortParams}`));
+    const sortUpdate = (sortParams: string) => {
+        return sort === `1${sortParams}` ? dispatch(setParamsSortPack(`0${sortParams}`)) : dispatch(setParamsSortPack(`1${sortParams}`));
 
     }
 
@@ -53,12 +53,16 @@ export const PacksTable = () => {
                 <Table sx={{minWidth: 400}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Author</TableCell>
-                            <TableCell align="right" onClick={() => sortUpdate('cardsCount')} className={sort==='0cardsCount' ? styles.sortUp : styles.sortDown}>Cards Count</TableCell>
-                            <TableCell align="right">Grade</TableCell>
-                            <TableCell align="right" onClick={() => sortUpdate('created')} className={sort==='0created' ? styles.sortUp : styles.sortDown}>Created By</TableCell>
-                            <TableCell align="right" onClick={() => sortUpdate('updated')} className={sort==='0updated' ? styles.sortUp : styles.sortDown}>Last Updated</TableCell>
+                            <TableCell onClick={() => sortUpdate('name')}
+                                       className={sort === '0name' ? styles.sortUp : styles.sortDown}>Name</TableCell>
+                            <TableCell align="right" onClick={() => sortUpdate('cardsCount')}
+                                       className={sort === '0cardsCount' ? styles.sortUp : styles.sortDown}>Cards</TableCell>
+                            <TableCell align="right" onClick={() => sortUpdate('user_name')}
+                                       className={sort === '0user_name' ? styles.sortUp : styles.sortDown}>Created
+                                By</TableCell>
+                            <TableCell align="right" onClick={() => sortUpdate('updated')}
+                                       className={sort === '0updated' ? styles.sortUp : styles.sortDown}>Last
+                                Updated</TableCell>
                             <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -72,10 +76,8 @@ export const PacksTable = () => {
                                     <NavLink className={styles.pack}
                                              to={`/cards/${pack._id}`}>{pack.name}</NavLink>
                                 </TableCell>
-                                <TableCell align="right">{pack.user_name}</TableCell>
                                 <TableCell align="right">{pack.cardsCount}</TableCell>
-                                <TableCell align="right">{pack.grade}</TableCell>
-                                <TableCell align="right">{formatDate(pack.created)}</TableCell>
+                                <TableCell align="right">{pack.user_name}</TableCell>
                                 <TableCell align="right">{formatDate(pack.updated)}</TableCell>
                                 <TableCell className={styles.buttonBlock}>
                                     <Button

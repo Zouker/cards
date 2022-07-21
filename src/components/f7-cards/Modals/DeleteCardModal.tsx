@@ -32,7 +32,7 @@ export const DeleteCardModal: React.FC<DeleteCardType> = ({
             isOpenModal={isOpenModal}
             setIsOpenModal={setIsOpenModal}
         >
-            <div>Do you really want to remove <b>{cardQuestion}</b>?</div>
+            <div>Do you really want to remove card with question <b>{cardQuestion}</b>?</div>
             <div>The card will be removed.</div>
         </BasicModal>
     );
