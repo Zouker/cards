@@ -66,6 +66,8 @@ export const Cards = () => {
     }, [dispatch, packId, page, pageCount, debouncedValue]);
 
     const returnToPacks = () => {
+        dispatch(searchQuestionAC(''))
+        dispatch(searchAnswerAC(''))
         navigate('/packs')
     }
 
