@@ -43,21 +43,21 @@ export const InputTypeFile: React.FC<ChangeUserAvatarPropsType> = React.memo(({
             <img
                 src={isAvatarBroken ? defaultAva : avatar}
                 style={{
-                    width: '120px',
-                    height: '120px'
+                    width: '160px',
+                    height: '160px',
+                    borderRadius: '50%',
+                    marginLeft: '40px'
                 }}
                 onError={errorHandler}
                 alt="avatar"
             />
-            <label>
-                <input type="file"
-                       onChange={uploadHandler}
-                       style={{display: 'none'}}
-                />
-                <IconButton component="span" color={'secondary'}>
-                    <PhotoCamera/>
-                </IconButton>
-            </label>
+            <input type="file"
+                   onChange={uploadHandler}
+                   style={{display: 'none'}}
+            />
+            <IconButton component="span" color={'secondary'} sx={{right: '33px', top: '-8px'}}>
+                <PhotoCamera/>
+            </IconButton>
         </div>
     )
 })
