@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styles from '../../styles/Authorization.module.css'
 import {useAppDispatch, useAppSelector} from '../../bll/store';
 import {useFormik} from 'formik';
@@ -8,7 +8,7 @@ import {setInfoTC} from '../../bll/reducers/set-new-password-reducer';
 import {Navigate, useParams} from 'react-router-dom';
 import error from '../../utils/Error.module.css'
 
-export const SetNewPassword = () => {
+export const SetNewPassword = React.memo(() => {
     const dispatch = useAppDispatch()
     const isPassChanged = useAppSelector(state => state.setNewPassword.isPassChanged)
     const {token} = useParams()
@@ -47,19 +47,19 @@ export const SetNewPassword = () => {
         showConfirmPassword: false,
     });
 
-    const handleClickShowPassword = () => {
+    const handleClickShowPassword = useCallback(() => {
         setValuesPassword({
             ...valuesPassword,
             showPassword: !valuesPassword.showPassword,
         });
-    };
+    }, [valuesPassword]);
 
-    const handleClickShowConfirmPassword = () => {
+    const handleClickShowConfirmPassword = useCallback(() => {
         setValuesConfirmPassword({
             ...valuesConfirmPassword,
             showConfirmPassword: !valuesConfirmPassword.showConfirmPassword,
         });
-    };
+    }, [valuesConfirmPassword]);
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -131,7 +131,7 @@ export const SetNewPassword = () => {
             </form>
         </div>
     );
-};
+});
 
 // types
 type FormikErrorType = {

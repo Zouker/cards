@@ -13,11 +13,11 @@ type UpdatePackModalType = {
 }
 
 
-export const UpdatePackModal: React.FC<UpdatePackModalType> = ({
-                                                                   pack,
-                                                                   isOpenModal,
-                                                                   setIsOpenModal,
-                                                               }) => {
+export const UpdatePackModal: React.FC<UpdatePackModalType> = React.memo(({
+                                                                              pack,
+                                                                              isOpenModal,
+                                                                              setIsOpenModal,
+                                                                          }) => {
     const [newPackName, setNewPackName] = useState<string>(pack ? pack.name : '')
     const dispatch = useAppDispatch()
 
@@ -47,4 +47,4 @@ export const UpdatePackModal: React.FC<UpdatePackModalType> = ({
             <div>Do you really want to change <b>{pack!.name}</b>?</div>
         </BasicModal>
     );
-};
+});

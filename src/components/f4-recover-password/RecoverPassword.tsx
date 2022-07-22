@@ -5,7 +5,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {recoverTC} from '../../bll/reducers/recover-password-reducer';
 import {useAppDispatch} from '../../bll/store';
 
-export const RecoverPassword = () => {
+export const RecoverPassword = React.memo(() => {
     const dispatch = useAppDispatch()
     const [email, setEmail] = useState('')
     const navigate = useNavigate()
@@ -45,4 +45,4 @@ password recovery link: <a href='https://zouker.github.io/cards/#/set-new-passwo
             </div>
         </div>
     );
-};
+});

@@ -10,20 +10,21 @@ import {
     setPageCountAC
 } from '../../bll/reducers/packs-reducer';
 import styles from './Packs.module.css'
-import {Button, TablePagination} from '@mui/material';
+import {Button} from '@mui/material';
 import {RangeSlider} from '../../common/c4-RangeSlider/RangeSlider';
 import {SearchAppBar} from '../../common/c5-SearchField/SearchField';
 import {Navigate, useNavigate} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
 import {PacksTable} from './PacksTable';
 import {Navbar} from '../../navbar/Navbar';
+import {Pagination} from '../../common/c6-Pagination/Pagination';
 
 
 export const formatDate = (date: Date | string | number) => {
     return new Date(date).toLocaleDateString('ru-RU') + ' ' + new Date(date).toLocaleTimeString()
 }
 
-export const Packs = () => {
+export const Packs = React.memo(() => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
@@ -130,7 +131,7 @@ export const Packs = () => {
                         />
                         <PacksTable/>
                         <div className={styles.paginatorBlock}>
-                            <TablePagination
+                            <Pagination
                                 count={cardPacksTotalCount}
                                 page={page - 1}
                                 onPageChange={handleChangePage}
@@ -142,4 +143,4 @@ export const Packs = () => {
             </div>
         </div>
     )
-}
+});

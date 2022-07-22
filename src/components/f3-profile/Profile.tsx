@@ -17,7 +17,7 @@ type ProfileType = {
     activateEditMode?: () => void
 }
 
-export const Profile: React.FC<ProfileType> = ({disabled}) => {
+export const Profile: React.FC<ProfileType> = React.memo(({disabled}) => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const userName = useAppSelector(state => state.profile.name)
@@ -81,7 +81,6 @@ export const Profile: React.FC<ProfileType> = ({disabled}) => {
             </div>
         </div>
     )
-}
-export default Profile;
+})
 
 

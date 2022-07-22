@@ -9,7 +9,7 @@ type SearchCardRadioType = {
     onChangeRadio?: (value: string) => void
 }
 
-export const SearchCardRadio: React.FC<SearchCardRadioType> = ({radioValue, onChangeRadio}) => {
+export const SearchCardRadio: React.FC<SearchCardRadioType> = React.memo(({radioValue, onChangeRadio}) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChangeRadio && onChangeRadio((event.target as HTMLInputElement).value);
@@ -26,4 +26,4 @@ export const SearchCardRadio: React.FC<SearchCardRadioType> = ({radioValue, onCh
             </RadioGroup>
         </FormControl>
     );
-}
+});

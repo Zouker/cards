@@ -14,14 +14,14 @@ type UpdateCardType = {
     packId: string
 }
 
-export const UpdateCardModal: React.FC<UpdateCardType> = ({
-                                                              cardId,
-                                                              packId,
-                                                              cardQuestion,
-                                                              cardAnswer,
-                                                              isOpenModal,
-                                                              setIsOpenModal
-                                                          }) => {
+export const UpdateCardModal: React.FC<UpdateCardType> = React.memo(({
+                                                                         cardId,
+                                                                         packId,
+                                                                         cardQuestion,
+                                                                         cardAnswer,
+                                                                         isOpenModal,
+                                                                         setIsOpenModal
+                                                                     }) => {
 
     const [newCardQuestion, setNewCardQuestion] = useState(cardQuestion)
     const [newCardAnswer, setNewCardAnswer] = useState(cardAnswer)
@@ -58,4 +58,4 @@ export const UpdateCardModal: React.FC<UpdateCardType> = ({
             <div>Do you really want to change <b>{cardQuestion}</b> and <b>{cardAnswer}</b>?</div>
         </BasicModal>
     );
-};
+});

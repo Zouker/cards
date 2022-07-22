@@ -11,7 +11,7 @@ type AddNewCardType = {
     setIsOpenModal: (value: boolean) => void
 }
 
-export const AddNewCardModal: React.FC<AddNewCardType> = ({isOpenModal, setIsOpenModal}) => {
+export const AddNewCardModal: React.FC<AddNewCardType> = React.memo(({isOpenModal, setIsOpenModal}) => {
     const [newCardQuestion, setNewCardQuestion] = React.useState('')
     const [newCardAnswer, setNewCardAnswer] = React.useState('')
     const dispatch = useAppDispatch()
@@ -50,4 +50,4 @@ export const AddNewCardModal: React.FC<AddNewCardType> = ({isOpenModal, setIsOpe
             </>
         </BasicModal>
     );
-};
+});

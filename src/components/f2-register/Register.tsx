@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styles from '../../styles/Authorization.module.css'
 import {Link, Navigate} from 'react-router-dom';
 import {registerTC} from '../../bll/reducers/register-reducer';
@@ -8,7 +8,7 @@ import {Button, FormControl, IconButton, Input, InputAdornment, InputLabel} from
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import error from '../../utils/Error.module.css'
 
-export const Register = () => {
+export const Register = React.memo(() => {
     const dispatch = useAppDispatch()
     const isRegistered = useAppSelector(state => state.register.isRegistered)
 
@@ -52,19 +52,19 @@ export const Register = () => {
         showConfirmPassword: false,
     });
 
-    const handleClickShowPassword = () => {
+    const handleClickShowPassword = useCallback(() => {
         setValuesPassword({
             ...valuesPassword,
             showPassword: !valuesPassword.showPassword,
         });
-    };
+    }, [valuesPassword]);
 
-    const handleClickShowConfirmPassword = () => {
+    const handleClickShowConfirmPassword = useCallback(() => {
         setValuesConfirmPassword({
             ...valuesConfirmPassword,
             showConfirmPassword: !valuesConfirmPassword.showConfirmPassword,
         });
-    };
+    }, [valuesConfirmPassword]);
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -147,7 +147,7 @@ export const Register = () => {
             </form>
         </div>
     );
-};
+});
 
 // types
 type FormikErrorType = {

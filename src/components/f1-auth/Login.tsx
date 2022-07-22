@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styles from '../../styles/Authorization.module.css'
 import {Link, Navigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
@@ -10,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import error from '../../utils/Error.module.css'
 
-export const Login = () => {
+export const Login = React.memo(() => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
@@ -44,12 +44,12 @@ export const Login = () => {
         showPassword: false,
     });
 
-    const handleClickShowPassword = () => {
+    const handleClickShowPassword = useCallback(() => {
         setValuesPassword({
             ...valuesPassword,
             showPassword: !valuesPassword.showPassword,
         });
-    };
+    }, [valuesPassword]);
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -115,7 +115,7 @@ export const Login = () => {
             </form>
         </div>
     );
-};
+});
 
 // types
 type FormikErrorType = {

@@ -38,7 +38,6 @@ export const setInfoTC = (newPasswordData: newPasswordType): AppThunk => {
     }
 }
 
-
 // actions
 export const setInfoAC = (info: string) => ({type: 'set-new-password/NEW-PASSWORD-SUCCESS', info} as const)
 export const setPassChangedAC = (isPassChanged: boolean) => ({type: 'set-new-password/IS-PASS-CHANGED', isPassChanged} as const)

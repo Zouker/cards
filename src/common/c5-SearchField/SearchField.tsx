@@ -63,13 +63,13 @@ type SearchFieldType = {
     onChangeRadio?: (value: string) => void
     disabled?: boolean
 }
-export const SearchAppBar: React.FC<SearchFieldType> = ({
-                                                            goBack,
-                                                            onChange,
-                                                            value,
-                                                            radioValue,
-                                                            onChangeRadio
-                                                        }) => {
+export const SearchAppBar: React.FC<SearchFieldType> = React.memo(({
+                                                                       goBack,
+                                                                       onChange,
+                                                                       value,
+                                                                       radioValue,
+                                                                       onChangeRadio
+                                                                   }) => {
     const {packId} = useParams<'packId'>();
     const [isOpenModalAddNewPack, setIsOpenModalAddNewPack] = useState(false)
     const [isOpenModalAddNewCard, setIsOpenModalAddNewCard] = useState(false)
@@ -131,4 +131,4 @@ export const SearchAppBar: React.FC<SearchFieldType> = ({
             }
         </>
     );
-}
+});

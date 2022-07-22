@@ -10,12 +10,12 @@ type DeletePackModalType = {
     cardPackId?: string
 }
 
-export const DeletePackModal: React.FC<DeletePackModalType> = ({
-                                                                   cardPackId,
-                                                                   packName,
-                                                                   isOpenModal,
-                                                                   setIsOpenModal,
-                                                               }) => {
+export const DeletePackModal: React.FC<DeletePackModalType> = React.memo(({
+                                                                              cardPackId,
+                                                                              packName,
+                                                                              isOpenModal,
+                                                                              setIsOpenModal,
+                                                                          }) => {
     const dispatch = useAppDispatch()
 
     const deleteCardPack = () => {
@@ -34,4 +34,4 @@ export const DeletePackModal: React.FC<DeletePackModalType> = ({
             <div>All cards will be excluded from this course.</div>
         </BasicModal>
     );
-};
+});

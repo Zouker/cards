@@ -11,13 +11,13 @@ type DeleteCardType = {
     setIsOpenModal: (value: boolean) => void
 }
 
-export const DeleteCardModal: React.FC<DeleteCardType> = ({
-                                                              cardId,
-                                                              packId,
-                                                              cardQuestion,
-                                                              isOpenModal,
-                                                              setIsOpenModal
-                                                          }) => {
+export const DeleteCardModal: React.FC<DeleteCardType> = React.memo(({
+                                                                         cardId,
+                                                                         packId,
+                                                                         cardQuestion,
+                                                                         isOpenModal,
+                                                                         setIsOpenModal
+                                                                     }) => {
     const dispatch = useAppDispatch()
 
     const deleteCard = () => {
@@ -36,4 +36,4 @@ export const DeleteCardModal: React.FC<DeleteCardType> = ({
             <div>The card will be removed.</div>
         </BasicModal>
     );
-};
+});

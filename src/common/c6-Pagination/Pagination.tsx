@@ -10,13 +10,13 @@ type PaginationPropsType = {
     onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 }
 
-export const Pagination: React.FC<PaginationPropsType> = ({
-                                                              count,
-                                                              page,
-                                                              onPageChange,
-                                                              rowsPerPage,
-                                                              onRowsPerPageChange
-                                                          }) => {
+export const Pagination: React.FC<PaginationPropsType> = React.memo(({
+                                                                         count,
+                                                                         page,
+                                                                         onPageChange,
+                                                                         rowsPerPage,
+                                                                         onRowsPerPageChange
+                                                                     }) => {
 
     return (
         <TablePagination
@@ -28,4 +28,4 @@ export const Pagination: React.FC<PaginationPropsType> = ({
             onRowsPerPageChange={onRowsPerPageChange}
         />
     );
-}
+});

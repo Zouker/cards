@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useEffect} from 'react';
-import {TablePagination} from '@mui/material';
 import styles from './Cards.module.css'
 import {useAppDispatch, useAppSelector} from '../../bll/store';
 import {
@@ -14,8 +13,9 @@ import {useNavigate, useParams} from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
 import {CardsTable} from './CardsTable';
 import {Navbar} from '../../navbar/Navbar';
+import {Pagination} from '../../common/c6-Pagination/Pagination';
 
-export const Cards = () => {
+export const Cards = React.memo(() => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const userId = useAppSelector(state => state.profile._id)
@@ -87,7 +87,7 @@ export const Cards = () => {
                     />
                     <CardsTable/>
                     <div className={styles.paginatorBlock}>
-                        <TablePagination
+                        <Pagination
                             count={cardsTotalCount}
                             page={page - 1}
                             onPageChange={handleChangePage}
@@ -98,5 +98,5 @@ export const Cards = () => {
             </div>
         </div>
     )
-};
+});
 

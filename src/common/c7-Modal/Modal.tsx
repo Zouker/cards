@@ -28,14 +28,14 @@ type ModalPropsType = {
     setIsOpenModal: (value: boolean) => void
 }
 
-export const BasicModal: React.FC<ModalPropsType> = ({
-                                                         operationTitle,
-                                                         buttonName,
-                                                         handleOperation,
-                                                         isOpenModal,
-                                                         setIsOpenModal,
-                                                         children
-                                                     }) => {
+export const BasicModal: React.FC<ModalPropsType> = React.memo(({
+                                                                    operationTitle,
+                                                                    buttonName,
+                                                                    handleOperation,
+                                                                    isOpenModal,
+                                                                    setIsOpenModal,
+                                                                    children
+                                                                }) => {
     const handleClose = () => {
         setIsOpenModal(false);
     }
@@ -67,4 +67,4 @@ export const BasicModal: React.FC<ModalPropsType> = ({
             </Box>
         </Modal>
     );
-}
+});

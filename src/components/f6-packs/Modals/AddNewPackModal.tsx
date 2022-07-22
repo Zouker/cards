@@ -11,7 +11,7 @@ type AddNewPackType = {
     setIsOpenModal: (value: boolean) => void
 }
 
-export const AddNewPackModal: React.FC<AddNewPackType> = ({isOpenModal, setIsOpenModal}) => {
+export const AddNewPackModal: React.FC<AddNewPackType> = React.memo(({isOpenModal, setIsOpenModal}) => {
     const [newPackName, setNewPackName] = useState('')
     const [isPrivate, setPrivate] = React.useState(false)
     const dispatch = useAppDispatch()
@@ -46,4 +46,4 @@ export const AddNewPackModal: React.FC<AddNewPackType> = ({isOpenModal, setIsOpe
             </>
         </BasicModal>
     );
-};
+});
