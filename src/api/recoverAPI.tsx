@@ -7,7 +7,10 @@ const instance = axios.create({
 
 export const recoverAPI = {
     sendEmail: (email: string, message: string) => {
-        return instance.post<{email: string,message: string}, AxiosResponse<ResponseType>>('/auth/forgot', {email, message})
+        return instance.post<{ email: string, message: string }, AxiosResponse<ResponseType>>('/auth/forgot', {
+            email,
+            message
+        })
     }
 }
 
