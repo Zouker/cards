@@ -112,7 +112,7 @@ export const LearnPage = () => {
                             <NavLink className={styles.cancelButton} to={'/packs'}>
                                 <Button
                                     color="secondary"
-                                    variant="contained">Cancel</Button>
+                                    variant="contained">Done</Button>
                             </NavLink>
                             <div><Button
                                 onClick={onNext}
