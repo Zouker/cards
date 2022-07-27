@@ -10,14 +10,14 @@ export const packsAPI = {
     getPacks(params?: RequestGetPacksType) {
         return instance.get<RequestGetPacksType, AxiosResponse<ResponseGetPacksType>>('/cards/pack', {params})
     },
-    addPack(name: string, deckCover?: string, isPrivate?: boolean) {
+    addPack(name: string, deckCover: string, isPrivate?: boolean) {
         return instance.post('/cards/pack', {cardsPack: {name, deckCover, private: isPrivate}})
     },
     deletePack(id: string) {
         return instance.delete(`/cards/pack?id=${id}`)
     },
-    updatePack(_id: string, name: string) {
-        return instance.put('/cards/pack', {cardsPack: {_id, name}})
+    updatePack(_id: string, name: string, deckCover: string) {
+        return instance.put('/cards/pack', {cardsPack: {_id, name, deckCover}})
     }
 };
 
@@ -31,8 +31,6 @@ export type RequestGetPacksType = {
     page?: number
     user_id?: string
 }
-
-// export type PackTypeWithKeys = Record<'_id' | 'user_id' | 'user_name' | 'name' | 'path' | 'type', string>
 
 export type PackType = {
     _id: string,
@@ -50,7 +48,7 @@ export type PackType = {
     updated: string,
     more_id: string,
     __v: number,
-    deckCover: null
+    deckCover: string
 }
 
 export type ResponseGetPacksType = {

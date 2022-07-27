@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Checkbox, TextField} from '@mui/material';
+import {Checkbox, IconButton, TextField} from '@mui/material';
 import styles from '../../../common/c7-Modal/Modal.module.css'
 import {BasicModal} from '../../../common/c7-Modal/Modal';
 import {addPackTC} from '../../../bll/reducers/packs-reducer';
 import {useAppDispatch} from '../../../bll/store';
 import {useNavigate} from 'react-router-dom';
+import {InputTypeFile} from '../../f3-profile/InputTypeFile';
+import {PhotoCamera} from '@mui/icons-material';
 
 type AddNewPackType = {
     isOpenModal: boolean
@@ -13,14 +15,19 @@ type AddNewPackType = {
 
 export const AddNewPackModal: React.FC<AddNewPackType> = React.memo(({isOpenModal, setIsOpenModal}) => {
     const [newPackName, setNewPackName] = useState('')
+    const [newDeckCover, setNewDeckCover] = useState('')
     const [isPrivate, setPrivate] = React.useState(false)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const addNewCardPack = () => {
-        dispatch(addPackTC(newPackName, 'deckCover', isPrivate))
+        dispatch(addPackTC(newPackName, newDeckCover, isPrivate))
         setNewPackName('')
         navigate('/packs')
+    }
+
+    const addDeckCover = (data: string) => {
+        setNewDeckCover(data)
     }
 
     return (
@@ -43,7 +50,23 @@ export const AddNewPackModal: React.FC<AddNewPackType> = React.memo(({isOpenModa
                               color="secondary"/>
                     Private pack
                 </div>
+                <div className={styles.addDeckButton}>
+                    <InputTypeFile uploadImage={addDeckCover}>
+                        {newDeckCover !== '' &&
+                            <img
+                                src={newDeckCover}
+                                style={{
+                                    width: '100px',
+                                }}
+                                alt="Deck cover"
+                            />}
+                        <IconButton component="span" color={'secondary'} sx={{right: '30px', top: '-4px'}}>
+                            <PhotoCamera/>
+                        </IconButton>
+                    </InputTypeFile>
+                </div>
             </>
         </BasicModal>
-    );
+    )
+        ;
 });

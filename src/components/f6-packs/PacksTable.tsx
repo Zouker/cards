@@ -34,7 +34,6 @@ export const PacksTable = () => {
 
     const sortUpdate = (sortParams: string) => {
         return sort === `1${sortParams}` ? dispatch(setParamsSortPack(`0${sortParams}`)) : dispatch(setParamsSortPack(`1${sortParams}`));
-
     }
 
     const openModalDeletePack = (pack: PackType) => {
@@ -53,6 +52,7 @@ export const PacksTable = () => {
                 <Table sx={{minWidth: 400}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell align="right">Cover</TableCell>
                             <TableCell onClick={() => sortUpdate('name')}
                                        className={sort === '0name' ? styles.sortUp : styles.sortDown}>Name</TableCell>
                             <TableCell align="right" onClick={() => sortUpdate('cardsCount')}
@@ -72,6 +72,12 @@ export const PacksTable = () => {
                                 key={pack._id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
+                                <TableCell align="right">{pack.deckCover
+                                    ? <img src={pack.deckCover}
+                                           alt={'cover'}
+                                           style={{width: '100px'}}/>
+                                    : null}
+                                </TableCell>
                                 <TableCell component="th" scope="row">
                                     <NavLink className={styles.pack}
                                              to={`/cards/${pack._id}`}>{pack.name}</NavLink>

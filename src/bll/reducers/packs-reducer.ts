@@ -75,8 +75,7 @@ export const setParamsSortPack = (sortParams: string): AppThunk => dispatch => {
     dispatch(getPacksTC());
 }
 
-
-export const addPackTC = (name: string, deckCover?: string, isPrivate?: boolean): AppThunk => {
+export const addPackTC = (name: string, deckCover: string, isPrivate?: boolean): AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
         packsAPI.addPack(name, deckCover, isPrivate)
@@ -108,10 +107,10 @@ export const deletePackTC = (id: string): AppThunk => {
     }
 }
 
-export const updatePackTC = (id: string, name: string): AppThunk => {
+export const updatePackTC = (id: string, name: string, deckCover: string): AppThunk => {
     return (dispatch) => {
         dispatch(setAppStatusAC('loading'))
-        packsAPI.updatePack(id, name)
+        packsAPI.updatePack(id, name, deckCover)
             .then(() => {
                 dispatch(getPacksTC())
             })
@@ -150,7 +149,6 @@ export const isMyPackAC = (isMyPack: boolean) => ({
     type: 'packs/IS-MY-PACK',
     isMyPack
 } as const)
-
 export const sortPackAC = (sortPacks: string) => ({
     type: 'packs/SORT-PACKS',
     sortPacks,

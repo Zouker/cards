@@ -9,6 +9,9 @@ import {EditableSpan} from './EditableSpan';
 import {InputTypeFile} from './InputTypeFile';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {Navbar} from '../../navbar/Navbar';
+import defaultAva from '../../assets/images/defaultAva.png';
+import {setAppErrorAC} from '../../bll/reducers/app-reducer';
+import {PhotoCamera} from '@mui/icons-material';
 
 type ProfileType = {
     title?: string
@@ -26,6 +29,14 @@ export const Profile: React.FC<ProfileType> = React.memo(({disabled}) => {
     const email = useAppSelector(state => state.profile.email)
     const publicCardPacksCount = useAppSelector(state => state.profile.publicCardPacksCount)
 
+    const [avatar, setAvatar] = useState<string>(userAvatar ? userAvatar : defaultAva)
+    const [isAvatarBroken, setIsAvatarBroken] = useState(false)
+
+    const errorHandler = () => {
+        setIsAvatarBroken(true)
+        dispatch(setAppErrorAC('Wrong images'))
+    }
+
     const [editMode, setEditMode] = useState<boolean>(false)
 
     const activateEditMode = () => {
@@ -41,6 +52,7 @@ export const Profile: React.FC<ProfileType> = React.memo(({disabled}) => {
     }
 
     const changeUserAvatar = (avatar: string) => {
+        setAvatar(avatar)
         dispatch(updateUserDataTC({name: userName, avatar, _id: userId, publicCardPacksCount, email}))
     }
 
@@ -59,7 +71,22 @@ export const Profile: React.FC<ProfileType> = React.memo(({disabled}) => {
                 <div className={styles.form}>
                     <span className={styles.title}>Profile Info</span>
                     <div className={styles.container}>
-                        <InputTypeFile userAvatar={userAvatar} changeUserAvatar={changeUserAvatar}/>
+                        <img
+                            src={isAvatarBroken ? defaultAva : avatar}
+                            style={{
+                                width: '160px',
+                                height: '160px',
+                                borderRadius: '50%',
+                                marginBottom: '-40px',
+                            }}
+                            onError={errorHandler}
+                            alt="avatar"
+                        />
+                        <InputTypeFile uploadImage={changeUserAvatar}>
+                            <IconButton component="span" color={'secondary'} sx={{right: '-68px', top: '10px'}}>
+                                <PhotoCamera/>
+                            </IconButton>
+                        </InputTypeFile>
                         <div className={styles.nickname}>
                             <EditableSpan
                                 title={userName}
