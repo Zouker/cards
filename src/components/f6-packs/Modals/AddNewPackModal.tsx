@@ -33,6 +33,7 @@ export const AddNewPackModal: React.FC<AddNewPackType> = React.memo(({isOpenModa
     return (
         <BasicModal isOpenModal={isOpenModal}
                     setIsOpenModal={setIsOpenModal}
+                    handleCloseOperation={()=>setNewDeckCover('')}
                     operationTitle={'Add new Pack'}
                     buttonName={'Save'}
                     handleOperation={addNewCardPack}>
