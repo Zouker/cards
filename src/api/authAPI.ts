@@ -17,8 +17,6 @@ export const authAPI = {
     }
 }
 
-
-
 // types
 export type DataLoginType = {
     email: string
