@@ -6,7 +6,7 @@ import Email from '../../assets/images/email.gif'
 export const CheckEmail = () => {
 
     const {email} = useParams()
-    console.log(email)
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.form}>
