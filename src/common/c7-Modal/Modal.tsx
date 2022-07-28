@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import styles from './Modal.module.css';
@@ -23,6 +22,7 @@ type ModalPropsType = {
     operationTitle: string
     buttonName: string
     handleOperation: () => void
+    handleCloseOperation?: () => void
     isOpenModal: boolean
     children: ReactNode
     setIsOpenModal: (value: boolean) => void
@@ -32,12 +32,14 @@ export const BasicModal: React.FC<ModalPropsType> = React.memo(({
                                                                     operationTitle,
                                                                     buttonName,
                                                                     handleOperation,
+                                                                    handleCloseOperation,
                                                                     isOpenModal,
                                                                     setIsOpenModal,
                                                                     children
                                                                 }) => {
     const handleClose = () => {
         setIsOpenModal(false);
+        handleCloseOperation && handleCloseOperation()
     }
 
     const onClickHandler = () => {
@@ -49,8 +51,6 @@ export const BasicModal: React.FC<ModalPropsType> = React.memo(({
         <Modal
             open={isOpenModal}
             onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
                 <div className={styles.title}>
