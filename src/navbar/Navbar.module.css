@@ -17,11 +17,6 @@
 }
 
 .itemForm {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    height: 60px;
-    width: 173px;
     background: #EBE0E9;
 }
 
@@ -35,6 +30,19 @@
     align-items: center;
     text-decoration: none;
     color: #9c27b0;
+    height: 60px;
+    width: 173px;
+}
+
+.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #9c27b0;
+    height: 60px;
+    width: 173px;
+    background: #DCCCDB;
 }
 
 .packList {
