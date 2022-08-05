@@ -41,44 +41,47 @@ export const CardsTable = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Question</TableCell>
-                            <TableCell align="right">Answer</TableCell>
-                            <TableCell align="right">Grade</TableCell>
-                            <TableCell align="right">Updated</TableCell>
-                            <TableCell align="right">Actions</TableCell>
+                            <TableCell align="center">Answer</TableCell>
+                            <TableCell align="center">Grade</TableCell>
+                            <TableCell align="center">Updated</TableCell>
+                            <TableCell align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {cards?.map((card) => (
-                            <TableRow
-                                key={card._id}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {card.question}
-                                </TableCell>
-                                <TableCell align="right">{card.answer}</TableCell>
-                                <TableCell align="right"><Rating name="read-only" value={card.grade} readOnly/>
-                                </TableCell>
-                                <TableCell align="right">{formatDate(card.updated)}</TableCell>
-                                <TableCell className={styles.buttonBlock}>
-                                    <Button
-                                        onClick={() => openModalDeleteCard(card)}
-                                        disabled={userId !== card.user_id}
-                                        color="error"
-                                        size="small"
-                                        startIcon={<DeleteIcon/>}>
-                                        Delete
-                                    </Button>
-                                    <Button
-                                        onClick={() => openModalUpdateCard(card)}
-                                        disabled={userId !== card.user_id}
-                                        color="secondary" size="small"
-                                        startIcon={<BorderColorIcon/>}>
-                                        Edit
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {cards.length ? cards?.map((card) => (
+                                <TableRow
+                                    key={card._id}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {card.question}
+                                    </TableCell>
+                                    <TableCell align="center">{card.answer}</TableCell>
+                                    <TableCell align="center"><Rating name="read-only" value={card.grade} readOnly/>
+                                    </TableCell>
+                                    <TableCell align="center">{formatDate(card.updated)}</TableCell>
+                                    <TableCell className={styles.buttonBlock}>
+                                        <Button
+                                            onClick={() => openModalDeleteCard(card)}
+                                            disabled={userId !== card.user_id}
+                                            color="error"
+                                            size="small"
+                                            startIcon={<DeleteIcon/>}>
+                                            Delete
+                                        </Button>
+                                        <Button
+                                            onClick={() => openModalUpdateCard(card)}
+                                            disabled={userId !== card.user_id}
+                                            color="secondary" size="small"
+                                            startIcon={<BorderColorIcon/>}>
+                                            Edit
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                            : <TableRow>
+                                <TableCell>{'NO CARDS FOUND'}</TableCell>
+                            </TableRow>}
                     </TableBody>
                 </Table>
             </TableContainer>
