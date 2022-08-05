@@ -17,19 +17,18 @@ export const Pages = () => {
         <Routes>
             <Route path={'/'} element={<Navigate to={'/profile'}/>}/>
             <Route path={'/login'} element={<Login/>}/>
-            <Route path={'/register'} element={<div><Register/></div>}/>
+            <Route path={'/register'} element={<Register/>}/>
             <Route path={'/profile'} element={<Profile/>}/>
-            <Route path={'/recover-password'} element={<div><RecoverPassword/></div>}/>
-            <Route path={'/check-email/:email'} element={<div><CheckEmail/></div>}/>
+            <Route path={'/recover-password'} element={<RecoverPassword/>}/>
+            <Route path={'/check-email/:email'} element={<CheckEmail/>}/>
             <Route path={'/set-new-password/'}>
-                <Route index element={<div><SetNewPassword/></div>}/>
-                <Route path={':token'} element={<div><SetNewPassword/></div>}/>
+                <Route index element={<SetNewPassword/>}/>
+                <Route path={':token'} element={<SetNewPassword/>}/>
             </Route>
-            <Route path={'/test'} element={<div>Test</div>}/>
-            <Route path={'/packs'} element={<div><Packs/></div>}/>
+            <Route path={'/packs'} element={<Packs/>}/>
             <Route path={'/cards/:packId'} element={<Cards/>}/>
             <Route path={'/learn/:packId'} element={<LearnPage/>}/>
-            <Route path={'/404'} element={<div><Error404/></div>}/>
+            <Route path={'/404'} element={<Error404/>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>
     )

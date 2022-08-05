@@ -52,67 +52,70 @@ export const PacksTable = () => {
                 <Table sx={{minWidth: 400}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="right">Cover</TableCell>
+                            <TableCell align="center">Cover</TableCell>
                             <TableCell onClick={() => sortUpdate('name')}
                                        className={sort === '0name' ? styles.sortUp : styles.sortDown}>Name</TableCell>
-                            <TableCell align="right" onClick={() => sortUpdate('cardsCount')}
+                            <TableCell align="center" onClick={() => sortUpdate('cardsCount')}
                                        className={sort === '0cardsCount' ? styles.sortUp : styles.sortDown}>Cards</TableCell>
-                            <TableCell align="right" onClick={() => sortUpdate('user_name')}
+                            <TableCell align="center" onClick={() => sortUpdate('user_name')}
                                        className={sort === '0user_name' ? styles.sortUp : styles.sortDown}>Created
                                 By</TableCell>
-                            <TableCell align="right" onClick={() => sortUpdate('updated')}
+                            <TableCell align="center" onClick={() => sortUpdate('updated')}
                                        className={sort === '0updated' ? styles.sortUp : styles.sortDown}>Last
                                 Updated</TableCell>
-                            <TableCell align="right">Actions</TableCell>
+                            <TableCell align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {packs?.map((pack) => (
-                            <TableRow
-                                key={pack._id}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell align="right">{pack.deckCover
-                                    ? <img src={pack.deckCover}
-                                           alt={'cover'}
-                                           style={{width: '100px'}}/>
-                                    : null}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    <NavLink className={styles.pack}
-                                             to={`/cards/${pack._id}`}>{pack.name}</NavLink>
-                                </TableCell>
-                                <TableCell align="right">{pack.cardsCount}</TableCell>
-                                <TableCell align="right">{pack.user_name}</TableCell>
-                                <TableCell align="right">{formatDate(pack.updated)}</TableCell>
-                                <TableCell className={styles.buttonBlock}>
-                                    <Button
-                                        onClick={() => openModalDeletePack(pack)}
-                                        disabled={userId !== pack.user_id}
-                                        color="error"
-                                        size="small"
-                                        startIcon={<DeleteIcon/>}>
-                                        Delete
-                                    </Button>
-                                    <Button
-                                        onClick={() => openModalUpdatePack(pack)}
-                                        disabled={userId !== pack.user_id}
-                                        color="secondary"
-                                        size="small"
-                                        startIcon={<BorderColorIcon/>}>
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        disabled={pack.cardsCount === 0}
-                                        onClick={() => {
-                                            navigate(`/learn/${pack._id}`)
-                                        }} color="secondary" size="small"
-                                        startIcon={<MenuBookIcon/>}>
-                                        Learn
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {packs.length ? packs?.map((pack) => (
+                                <TableRow
+                                    key={pack._id}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell align="center">{pack.deckCover
+                                        ? <img src={pack.deckCover}
+                                               alt={'cover'}
+                                               style={{width: '100px'}}/>
+                                        : null}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        <NavLink className={styles.pack}
+                                                 to={`/cards/${pack._id}`}>{pack.name}</NavLink>
+                                    </TableCell>
+                                    <TableCell align="center">{pack.cardsCount}</TableCell>
+                                    <TableCell align="center">{pack.user_name}</TableCell>
+                                    <TableCell align="center">{formatDate(pack.updated)}</TableCell>
+                                    <TableCell className={styles.buttonBlock}>
+                                        <Button
+                                            onClick={() => openModalDeletePack(pack)}
+                                            disabled={userId !== pack.user_id}
+                                            color="error"
+                                            size="small"
+                                            startIcon={<DeleteIcon/>}>
+                                            Delete
+                                        </Button>
+                                        <Button
+                                            onClick={() => openModalUpdatePack(pack)}
+                                            disabled={userId !== pack.user_id}
+                                            color="secondary"
+                                            size="small"
+                                            startIcon={<BorderColorIcon/>}>
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            disabled={pack.cardsCount === 0}
+                                            onClick={() => {
+                                                navigate(`/learn/${pack._id}`)
+                                            }} color="secondary" size="small"
+                                            startIcon={<MenuBookIcon/>}>
+                                            Learn
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                            : <TableRow>
+                                <TableCell>{'NO PACKS FOUND'}</TableCell>
+                            </TableRow>}
                     </TableBody>
                 </Table>
             </TableContainer>
