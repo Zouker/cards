@@ -1,15 +1,15 @@
 import {Navigate, Route, Routes} from 'react-router-dom';
 import React from 'react';
-import {Register} from '../components/f2-register/Register';
-import {RecoverPassword} from '../components/f4-recover-password/RecoverPassword';
-import {SetNewPassword} from '../components/f5-enter-new-password/SetNewPassword';
-import {Login} from '../components/f1-auth/Login';
-import {Profile} from '../components/f3-profile/Profile';
-import {Packs} from '../components/f6-packs/Packs';
+import {Register} from '../feautures/auth/register/Register';
+import {RecoverPassword} from '../feautures/auth/recover-password/RecoverPassword';
+import {SetNewPassword} from '../feautures/auth/enter-new-password/SetNewPassword';
+import {Login} from '../feautures/auth/login/Login';
+import {Profile} from '../feautures/auth/profile/Profile';
+import {Packs} from '../feautures/packs/Packs';
 import {Error404} from '../common/Error404/Error404';
-import {Cards} from '../components/f7-cards/Cards';
-import {CheckEmail} from '../components/f4-recover-password/CheckEmail';
-import {LearnPage} from '../components/f8-learn/LearnPage';
+import {Cards} from '../feautures/cards/Cards';
+import {CheckEmail} from '../feautures/auth/recover-password/CheckEmail';
+import {LearnPage} from '../feautures/learn/LearnPage';
 
 export const Pages = () => {
 
@@ -26,8 +26,8 @@ export const Pages = () => {
                 <Route path={':token'} element={<SetNewPassword/>}/>
             </Route>
             <Route path={'/packs'} element={<Packs/>}/>
-            <Route path={'/cards/:packId'} element={<Cards/>}/>
-            <Route path={'/learn/:packId'} element={<LearnPage/>}/>
+            <Route path={'/cards/:packId/:packName'} element={<Cards/>}/>
+            <Route path={'/learn/:packId/:packName'} element={<LearnPage/>}/>
             <Route path={'/404'} element={<Error404/>}/>
             <Route path={'*'} element={<Navigate to={'404'}/>}/>
         </Routes>

@@ -3,7 +3,7 @@ import './App.module.css';
 import {Pages} from './Routes';
 import {HashRouter} from 'react-router-dom';
 import {ErrorSnackbar} from '../common/ErrorSnackbar/ErrorSnackbar';
-import {Preloader} from '../common/loader/Loader';
+import {Preloader} from '../common/Loader/Loader';
 import {useAppDispatch, useAppSelector} from '../bll/store';
 import {authMeTC} from '../bll/reducers/app-reducer';
 import styles from './App.module.css'
